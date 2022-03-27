@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const coordonateSchema = require('./coordonate.model')
+const coordonateSchema = require('./Coordonate.model')
 
 const playerSchema = new Schema({
   name:{
@@ -9,6 +9,7 @@ const playerSchema = new Schema({
   } ,
   user: {
     type: Schema.Types.ObjectId,
+    ref:'User',
     required: false,
   },
   coordonate:{
