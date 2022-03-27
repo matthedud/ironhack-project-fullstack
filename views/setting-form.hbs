@@ -1,0 +1,98 @@
+
+
+
+        <form action="" id="form" class="modal visible">
+			<h2>Settings</h2>
+			<label for="game-choice">Select Game</label>
+			<select id="game-choice" type="text" required>
+				<option value="1">2 Shooter</option>
+				<option value="2">megaMulti</option>
+				<!-- <option value="3">Tag</option> -->
+			</select>
+			<label for="player1Name">Player 1 Name</label>
+			<input
+				type="text"
+				id="player1Name"
+				class="text-input"
+				value="Bill"
+				required
+			/>
+			<label for="player2Name">Player 2 Name</label>
+			<input
+				type="text"
+				id="player2Name"
+				class="text-input"
+				value="Bob"
+				required
+			/>
+			<label for="map">Select Map</label>
+			<select id="map" type="text" required>
+				<option value="0">Square</option>
+				<option value="1">Map 2</option>
+				<option value="2">Map 3</option>
+				<option value="3">Maze</option>
+				<!-- <option value="2">Map 3</option> -->
+			</select>
+			<label for="resolution">Résolition (max 2000)</label>
+			<input
+				type="number"
+				id="resolution"
+				class="number-input"
+				value="500"
+				required
+			/>
+			<label for="framerate">Frame rate (max 200)</label>
+			<input
+				type="number"
+				id="framerate"
+				class="number-input"
+				value="30"
+				required
+			/>
+			<label for="background">Select background</label>
+			<select id="background" type="text" required>
+				<option value="0">Moutains</option>
+				<option value="1">Blue sky</option>
+				<option value="2">Red and Blue</option>
+				<option value="3">Other Mountains</option>
+				<!-- <option value="2">Map 3</option> -->
+			</select>
+			<label for="wall">Select Wall</label>
+			<select id="wall" type="text" required>
+				<option value="0">Graysone</option>
+				<option value="1">Grey Brick</option>
+				<option value="2">Mossy</option>
+				<option value="3">Brick</option>
+				<option value="4">Real brick</option>
+				<option value="5">Blue</option>
+				<option value="6">Wood</option>
+				<!-- <option value="2">Map 3</option> -->
+			</select>
+			<label for="player">Select Player Avatar</label>
+			<select id="player" type="text" required>
+				<option value="0">Cowboy</option>
+				<option value="1">Gunman</option>
+				<option value="2">shadow</option>
+				<!-- <option value="2">Map 3</option> -->
+			</select>
+			<label for="playerSpeed">Player Move Speed (max 100)</label>
+			<input
+				type="number"
+				id="playerSpeed"
+				class="number-input"
+				value="10"
+				required
+			/>
+			<label for="turnSpeed">Player Turn Speed (max 30)</label>
+			<input
+				type="number"
+				id="turnSpeed"
+				class="number-input"
+				value="10"
+				required
+			/>
+			<button id="btn-start" type="submit" value="Submit">
+				restart game
+			</button>
+			<button id="btn-cl">Cancel</button>
+		</form>

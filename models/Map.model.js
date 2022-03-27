@@ -6,7 +6,6 @@ const mapSchema = new Schema({
     type: [Number],
     unique: true
   },
-
 });
 
 const Map = model("Map", mapSchema);
