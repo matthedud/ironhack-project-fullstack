@@ -21,6 +21,7 @@ const capitalized = (string) =>
 app.locals.title = `${capitalized(projectName)}- Generated with Ironlauncher`;
 
 // 👇 Start handling routes here
+
 const index = require("./routes/index");
 const authRouter = require("./routes/auth.routes");
 app.use("/", index);
@@ -28,5 +29,12 @@ app.use("/auth/", authRouter);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
+
+// ℹ️ Sets the PORT for our app to have access to it. If no env has been set, we hard code it to 3000
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port http://localhost:${PORT}`);
+});
 
 module.exports = app;

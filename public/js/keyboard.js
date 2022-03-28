@@ -1,3 +1,5 @@
+
+// class to keep track of the state of the keyboard input
 class KeyBoard {
   constructor(id) {
     this.id = id
@@ -7,6 +9,7 @@ class KeyBoard {
     this.turnLeft = false
     this.shoot = false
   }
+
   resetKeyboard() {
     this.up = false
     this.down = false
@@ -19,35 +22,33 @@ class KeyBoard {
 document.addEventListener("keydown", keyDownlistener)
 document.addEventListener("keyup", keyUpListener)
 
+
+//event listeners to change de state of the keyboard input(2 ways to move: arrows or ZQSD)
 function keyDownlistener(event) {
   if (game?.gameInterval) {
-    if (event.key === "ArrowRight") keyboards[0].turnRight = true
-    if (event.key === "ArrowLeft") keyboards[0].turnLeft = true
-    if (event.key === "ArrowUp") keyboards[0].up = true
-    if (event.key === "ArrowDown") keyboards[0].down = true
-    if (event.key === ":") keyboards[0].shoot = true
+    if (event.key === "ArrowRight") keyboards.turnRight = true
+    if (event.key === "ArrowLeft") keyboards.turnLeft = true
+    if (event.key === "ArrowUp") keyboards.up = true
+    if (event.key === "ArrowDown") keyboards.down = true
 
-    if (event.key === "d") keyboards[1].turnRight = true
-    if (event.key === "q") keyboards[1].turnLeft = true
-    if (event.key === "z") keyboards[1].up = true
-    if (event.key === "s") keyboards[1].down = true
-    if (event.key === "a") keyboards[1].shoot = true
-
-    //
+    if (event.key === "d") keyboards.turnRight = true
+    if (event.key === "q") keyboards.turnLeft = true
+    if (event.key === "z") keyboards.up = true
+    if (event.key === "s") keyboards.down = true
   }
-  if (event.key === "Escape") form.className.includes("visible") ? hideSettings() : showSettings()
+
+  // this will be use to close setting form
+  // if (event.key === "Escape") form.className.includes("visible") ? hideSettings() : showSettings()
 }
 
 function keyUpListener(event) {
-  if (event.key === "ArrowRight") keyboards[0].turnRight = false
-  if (event.key === "ArrowLeft") keyboards[0].turnLeft = false
-  if (event.key === "ArrowUp") keyboards[0].up = false
-  if (event.key === "ArrowDown") keyboards[0].down = false
-  if (event.key === ":") keyboards[0].shoot = false
+  if (event.key === "ArrowRight") keyboards.turnRight = false
+  if (event.key === "ArrowLeft") keyboards.turnLeft = false
+  if (event.key === "ArrowUp") keyboards.up = false
+  if (event.key === "ArrowDown") keyboards.down = false
 
-  if (event.key === "d") keyboards[1].turnRight = false
-  if (event.key === "q") keyboards[1].turnLeft = false
-  if (event.key === "z") keyboards[1].up = false
-  if (event.key === "s") keyboards[1].down = false
-  if (event.key === "a") keyboards[1].shoot = false
+  if (event.key === "d") keyboards.turnRight = false
+  if (event.key === "q") keyboards.turnLeft = false
+  if (event.key === "z") keyboards.up = false
+  if (event.key === "s") keyboards.down = false
 }
