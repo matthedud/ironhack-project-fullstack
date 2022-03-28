@@ -12,6 +12,7 @@ router.get("/hof", (req, res, next) => {//Hall of Fame
         res.render("hof", {rankings})
     } catch (error) {
         console.error(error)
+        next(error)
     }
 });
 
@@ -27,6 +28,7 @@ router.get("/game", (req, res, next) => {
         res.render("game", {map, historics})
     } catch (error) {
         console.error(error)
+        next(error)
     }
 });
 
@@ -38,7 +40,7 @@ router.post("/game", (req, res, next) => {//END-GAME
         res.redirect('/')
     } catch (error) {
         console.error(error)
-        res.redirect('/')
+        next(error)
     }
 });
 
