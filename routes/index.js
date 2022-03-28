@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const express = require('express');
+const Ranking = require("../models/Historique.model")
+const Map = require("../models/Map.model")
+const Historique = require("../models/Historique.model")
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -43,7 +46,5 @@ router.post("/game", async (req, res, next) => {//END-GAME
         next(error)
     }
 });
-
-//router.use('/hof', require('./movies.routes.js'))
 
 module.exports = router;
