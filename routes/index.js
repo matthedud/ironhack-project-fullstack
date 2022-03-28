@@ -6,7 +6,7 @@ router.get("/", (req, res, next) => {
   res.render("index");
 });
 
-router.get("/hof", (req, res, next) => {//Hall of Fame
+router.get("/hof", async (req, res, next) => {//Hall of Fame
     try {
         const rankings = await Ranking.find()
         res.render("hof", {rankings})
@@ -21,7 +21,7 @@ router.get("/instructions", (req, res, next) => {
 
 });
 
-router.get("/game", (req, res, next) => {
+router.get("/game", async (req, res, next) => {
     try {
         const map = await Map.findOne({ current: true })
         const historics = await Historique.find({map: map._id})
@@ -32,7 +32,7 @@ router.get("/game", (req, res, next) => {
     }
 });
 
-router.post("/game", (req, res, next) => {//END-GAME
+router.post("/game", async (req, res, next) => {//END-GAME
     try {
         console.log("ENDGAME")
         // const gameLogs = req.body// Need to figure out how to pass Historique data   
