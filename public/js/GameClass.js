@@ -3,19 +3,20 @@ const canvasHeight = 500
 const canvasWidth = 1000
 const widthCellNumber = 10
 const heigthCellNumber = 10
-cellWidth = canvasWidth / widthCellNumber
-cellheight = canvasHeight / heigthCellNumber
+const cellWidth = canvasWidth / widthCellNumber
+const cellheight = canvasHeight / heigthCellNumber
 //---------------------------------------------
+const recordInterval = 50
+
+
 
 class Game {
   constructor(grid2D = [], player = {}, historique = []) {
     this.grid2D = grid2D
-    // this.chronometer = new Chronometer()
+    this.chronometer = new Chronometer()
     this.bullets = []
     this.player = player
     this.historique = historique
-    this.gameStart = new Date()
-    this.pauseTime = 0 //to DO
   }
   drawMaze() {
     const xOffset = Math.floor(this.player.position.x + widthCellNumber / 2)
@@ -87,8 +88,7 @@ class Game {
   }
 
   getHistoriqueInd() {
-    const timeLapse = new Date() - this.gameStart + this.pauseTime
-    const index = Math.floor(timeLapse / reccordInterval)
+    const index = Math.round(this.chronometer.currentTime / recordInterval)
     return index
   }
 
