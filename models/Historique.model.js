@@ -2,16 +2,19 @@ const { Schema, model } = require("mongoose");
 
 const coordonateSchema = require('./Coordonate.model')
 
-const PlayerMoveSchema = new Schema({
+const historiqueSchema = new Schema({
   player:{
     type: Schema.Types.ObjectId,
     ref: 'Player'
   },
-  historique: {
+  playerMove: {
+    type: [coordonateSchema],
+  },
+  bulletMove: {
     type: [coordonateSchema],
   },
 });
 
-const PlayerMove = model("PlayerMove", PlayerMoveSchema);
+const Historique = model("Historique", historiqueSchema);
 
-module.exports = PlayerMove;
+module.exports = Historique;
