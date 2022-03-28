@@ -15,6 +15,11 @@ router.get("/hof", (req, res, next) => {//Hall of Fame
     }
 });
 
+router.get("/instructions", (req, res, next) => {
+    res.render("instructions")
+
+});
+
 router.get("/game", (req, res, next) => {
     try {
         const map = await Map.findOne({ current: true })
