@@ -52,7 +52,7 @@ function startGame(event) {
 	const player = new Player("Joe", {x:1, y: 1, direction: 0})
 	game = new Game(map, player)
 	game.runGameLoop()
-	//game.chronometer.start(clockEl)
+  //game.chronometer.start(clockEl)
 }
 
 function randomColor(){
