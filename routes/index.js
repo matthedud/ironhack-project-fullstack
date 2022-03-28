@@ -26,9 +26,9 @@ router.get("/instructions", (req, res, next) => {
 
 router.get("/game", async (req, res, next) => {
     try {
-        const map = await Map.findOne({ current: true })
-        const historics = await Historique.find({map: map._id})
-        res.render("game", {map, historics})
+        //const map = await Map.findOne({ current: true })
+        //const historics = await Historique.find({map: map._id})
+        res.render("game"/*, {map, historics}*/)
     } catch (error) {
         console.error(error)
         next(error)
