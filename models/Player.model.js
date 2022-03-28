@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const coordonateSchema = require('./Coordonate.model')
+const coordonateSchema = require('./Coordinate.model')
 
 const playerSchema = new Schema({
   name:{

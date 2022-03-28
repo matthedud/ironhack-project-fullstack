@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the user model to whatever makes sense in this case
-const coordonateSchema = new Schema({
+const coordinateSchema = new Schema({
   direction: {
     type: String,
     unique: true
@@ -17,4 +17,4 @@ const coordonateSchema = new Schema({
 });
 
 
-module.exports = coordonateSchema;
+module.exports = coordinateSchema;

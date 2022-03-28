@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const express = require('express');
-const Ranking = require("../models/Historique.model")
+const Ranking = require("../models/Historic.model")
 const Map = require("../models/Map.model")
-const Historique = require("../models/Historique.model")
+const Historique = require("../models/Historic.model")
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -34,8 +34,8 @@ router.get("/game", async (req, res, next) => {
         else 
             res.render("game")
         } catch (error) {
-        console.error(error)
-        next(error)
+            console.error(error)
+            next(error)
     }
 });
 
