@@ -52,3 +52,6 @@ function keyUpListener(event) {
   if (event.key === "z") keyboards.up = false
   if (event.key === "s") keyboards.down = false
 }
+
+// window.addEventListener("gamepadconnected", showController)
+// window.addEventListener("gamepaddisconnected", showController)
