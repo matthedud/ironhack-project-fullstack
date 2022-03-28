@@ -37,6 +37,7 @@ class Player {
     // ctx.stroke()
   }
 
+  //get new coordonates with input and time passed
   newCoord() {
 	const timeLapse = new Date() - this.lastTimeMove
 	this.lastTimeMove= new Date()
