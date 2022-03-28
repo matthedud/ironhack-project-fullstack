@@ -10,6 +10,11 @@ const mapSchema = new Schema({
     type: Date,
     default: new Date(),
     require: true,
+  },
+  current:{
+    type: Boolean,
+    require: true,
+    default: true
   }
 });
 
