@@ -53,6 +53,8 @@ class Player {
       if (keyboard.right) newx += moveSpeed * timeLapse
       if (keyboard.left) newx -= moveSpeed * timeLapse
     }
-    this.move(newx, newy)
+    //this.move(newx, newy)
+    this.x=newx
+    this.y=newy
   }
 }
