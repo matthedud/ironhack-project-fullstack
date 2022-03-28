@@ -7,6 +7,8 @@ const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 
 //////// SIGN UP /////////
+router.get("/signup", (req, res) => res.render("auth/signup"));
+
 router.post("/signup", async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
