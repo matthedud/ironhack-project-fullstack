@@ -5,13 +5,20 @@ const coordonateSchema = require('./Coordonate.model')
 const historiqueSchema = new Schema({
   player:{
     type: Schema.Types.ObjectId,
-    ref: 'Player'
+    ref: 'Player',
+    required: true,
+  },
+  map: {
+    type: Schema.Types.ObjectId,
+    ref:'Map',
+    required: true,
   },
   playerMove: {
     type: [coordonateSchema],
   },
   bulletMove: {
     type: [coordonateSchema],
+    required: true,
   },
 });
 
