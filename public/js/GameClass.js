@@ -1,36 +1,20 @@
 class Game {
-  constructor(grid2D = []) {
+  constructor(grid2D = [], player) {
     this.grid2D = grid2D
     this.scale = 0.3
-    this.cellWidth = (this.scale * canvasWidth) / grid2D[0].length
-    this.cellheight = (this.scale * canvasHeight) / grid2D.length
-    this.xOffset = canvasWidth / 2 - (canvasWidth * this.scale) / 2
-    this.gameInterval = null
+
+    this.gameInterval = null // for player movemetn refresh rate
     this.frameRate = 15
     this.chronometer = new Chronometer()
+    this.player = player
   }
-  drawMaze(rays) {
+  drawMaze(){
     this.grid2D.forEach((line, lineInd) => {
       line.forEach((cell, cellInd) => {
         this.drawCell(cell, cellInd, lineInd)
       })
     })
-    if (rays) {
-      rays.forEach((ray) => {
-        ctx.strokeStyle = colors.rays
-        ctx.beginPath()
-        ctx.moveTo(ray.player.xPosition + this.xOffset, ray.player.yPosition)
-        ctx.lineTo(
-          ray.player.xPosition + this.xOffset + Math.cos(ray.angle) * ray.distance,
-          ray.player.yPosition + Math.sin(ray.angle) * ray.distance
-        )
-        ctx.closePath()
-        ctx.stroke()
-      })
-    }
-    this.players.forEach((player) => {
-      player.draw(this.xOffset)
-    })
+    player.draw()
   }
   drawCell(cell, cellInd, lineInd) {
     ctx.fillStyle = cell ? colors.minimapWall : colors.minimapFloor
