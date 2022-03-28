@@ -6,6 +6,11 @@ const mapSchema = new Schema({
     type: [Number],
     unique: true
   },
+  debut:{
+    type: Date,
+    default: new Date(),
+    require: true,
+  }
 });
 
 const Map = model("Map", mapSchema);

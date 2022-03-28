@@ -15,6 +15,7 @@ const historiqueSchema = new Schema({
   },
   playerMove: {
     type: [coordonateSchema],
+    required: true,
   },
   bulletMove: {
     type: [coordonateSchema],

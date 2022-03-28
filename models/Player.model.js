@@ -12,10 +12,6 @@ const playerSchema = new Schema({
     ref:'User',
     required: false,
   },
-  coordonate:{
-    type: coordonateSchema,
-    required: true,
-  },
 });
 
 const Player = model("Player", playerSchema);
