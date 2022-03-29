@@ -104,7 +104,7 @@ class Game {
     }
      //console.log(' this.grid2D[y][x]',  this.grid2D[y][x]);
       return this.grid2D[y][x]
-    }
+  }
 
   runGameLoop() {
     this.gameInterval = setInterval(() => {
@@ -113,6 +113,7 @@ class Game {
       this.player.draw()
       this.player.newCoord()
     }, this.frameRate)
+  }
 
   getHistoriqueInd() {
     const index = Math.round(this.chronometer.currentTime / recordInterval)
