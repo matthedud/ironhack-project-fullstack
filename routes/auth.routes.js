@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Router } = require("express");
 const router = new Router();
-const userModel = require("../models/User.model");
+const User = require("../models/User.model");
 
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
@@ -17,7 +17,11 @@ router.post("/signup", async (req, res, next) => {
       .genSalt(saltRounds)
       .then((salt) => bcryptjs.hash(password, salt))
       .then((hashedPassword) => {
-        console.log(`Password hash: ${hashedPassword}`);
+        return User.create({
+          username,
+          email,
+          passwordHash: hashedPassword,
+        });
       });
 
     // make sure users fill all mandatory fields:
@@ -28,7 +32,7 @@ router.post("/signup", async (req, res, next) => {
       });
       return;
     } else {
-      const userNameExist = await userModel.findOne({ username });
+      const userNameExist = await User.findOne({ username });
       if (userNameExist) {
         res.render("auth/signup", {
           errorMessage: "Oups this name is already taken :(",
@@ -67,7 +71,7 @@ router.post("/login", async (req, res, next) => {
       });
       return;
     } else {
-      const userNameExist = await userModel.findOne({ username });
+      const userNameExist = await User.findOne({ username });
       if (userNameExist) {
         res.render("auth/login", {
           errorMessage: "Oups this name is already taken :(",
