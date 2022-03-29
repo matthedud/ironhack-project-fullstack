@@ -1,30 +1,22 @@
 const mongoose = require("mongoose");
 const { Router } = require("express");
 const router = new Router();
+
 const User = require("../models/User.model");
+
+const isLoggedOut = require("../middleware/isLoggedOut");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 
 //////// SIGN UP /////////
-router.get("/signup", (req, res) => res.render("auth/signup"));
+router.get("/signup", isLoggedOut, (req, res) => res.render("auth/signup"));
 
-router.post("/signup", async (req, res, next) => {
+router.post("/signup", isLoggedOut, async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
 
-    bcryptjs
-      .genSalt(saltRounds)
-      .then((salt) => bcryptjs.hash(password, salt))
-      .then((hashedPassword) => {
-        return User.create({
-          username,
-          email,
-          passwordHash: hashedPassword,
-        });
-      });
-
-    // make sure users fill all mandatory fields:
     if (!username || !email || !password) {
       res.render("auth/signup", {
         errorMessage:
@@ -35,11 +27,22 @@ router.post("/signup", async (req, res, next) => {
       const userNameExist = await User.findOne({ username });
       if (userNameExist) {
         res.render("auth/signup", {
-          errorMessage: "Oups this name is already taken :(",
+          errorMessage: "Oups this username already exists :(",
         });
+      } else {
+        const salt = await bcryptjs.genSalt(saltRounds);
+        const hashedPassword = await bcryptjs.hash(password, salt);
+        await User.create({
+          username,
+          email,
+          password: hashedPassword,
+        });
+        req.session.user = userNameExist;
+        await res.redirect("/auth/userProfile");
       }
     }
-  } catch {
+  } catch (error) {
+    console.log(error);
     if (error instanceof mongoose.Error.ValidationError) {
       res.status(500).render("auth/signup", { errorMessage: error.message });
     } else {
@@ -49,21 +52,11 @@ router.post("/signup", async (req, res, next) => {
 });
 
 //////// LOG IN /////////
+router.get("/login", isLoggedOut, (req, res) => res.render("auth/login"));
 
-// GET route ==> to display the login form to users
-router.get("/login", (req, res) => res.render("auth/login"));
-
-// POST login route ==> to process form data
-router.post("/login", async (req, res, next) => {
+router.post("/login", isLoggedOut, async (req, res, next) => {
   try {
     const { username, password } = req.body;
-
-    bcryptjs
-      .genSalt(saltRounds)
-      .then((salt) => bcryptjs.hash(password, salt))
-      .then((hashedPassword) => {
-        console.log(`Password hash: ${hashedPassword}`);
-      });
 
     if (!username || !password) {
       res.render("auth/login", {
@@ -71,16 +64,41 @@ router.post("/login", async (req, res, next) => {
       });
       return;
     } else {
-      const userNameExist = await User.findOne({ username });
-      if (userNameExist) {
+      const userNameExist = await User.findOne({ username: username });
+      if (!userNameExist) {
         res.render("auth/login", {
-          errorMessage: "Oups this name is already taken :(",
+          errorMessage: "Oups this username doesn't exist :(",
         });
+      } else {
+        const correctPassword = await bcryptjs.compare(
+          password,
+          userNameExist.password
+        );
+        if (correctPassword) {
+          req.session.user = userNameExist;
+          res.redirect("/auth/userProfile");
+        } else {
+          res.render("auth/login", {
+            errorMessage: "Oups wrong password :(",
+          });
+        }
       }
     }
-  } catch {
+  } catch (error) {
     next(error);
   }
+});
+
+router.get("/userProfile", (req, res) => {
+  res.render("users/user-profile", { user: req.session.user });
+});
+
+router.get("/logout", isLoggedIn, (req, res, next) => {
+  console.log("here");
+  req.session.destroy((err) => {
+    if (err) next(err);
+    res.redirect("/");
+  });
 });
 
 module.exports = router;
