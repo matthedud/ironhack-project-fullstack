@@ -10,8 +10,10 @@ router.get("/game", async (req, res, next) => {
       const historics = await Historique.find({ map: map._id })
       res.send({ map, historics })
     } else {
-      const newMap = await Map.create()
-      res.send({ map: newMap, historics: [] })
+      const newGrid = Map.createMap()
+      const newMap = await Map.create({ cells: newGrid })
+      console.log({newMap});
+      res.send({map:newMap, historics:[]})
     }
   } catch (error) {
     console.error(error)

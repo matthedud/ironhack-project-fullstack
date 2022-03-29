@@ -30,8 +30,8 @@ router.get("/game", async (req, res, next) => {
             res.render("game", {map, historics})
         }
         else {
-            const newGrid = Map.createMap()
-            const newMap = await Map.create({cells: newGrid})
+            // const newGrid = Map.createMap()
+            const newMap = await Map.create()
             res.render("game", {map:newMap, historics:[]})
         }
         } catch (error) {
