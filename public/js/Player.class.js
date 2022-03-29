@@ -60,6 +60,7 @@ class Player {
   }
 
   move(x,y){
+    console.log(y, x)
     if (!this.game.isWall(x, y)) {
       this.position.x = x
       this.position.y = y

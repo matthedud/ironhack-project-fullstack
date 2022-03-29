@@ -90,7 +90,9 @@ class Game {
   }
 
   isWall(x, y) {
+
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
+
     return this.grid2D[y][x]
   }
 
