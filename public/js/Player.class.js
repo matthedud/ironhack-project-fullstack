@@ -60,11 +60,28 @@ class Player {
   }
 
   move(x,y){
+    console.log(y, x)
     if (!this.game.isWall(x, y)) {
       this.position.x = x
       this.position.y = y
-    } else {
-      console.log('iswall')
     }
   }
+
+  drawBIG( cellWidth, cellheight) {
+		context.fillStyle = 'red'
+		context.strokeStyle = "green"
+		context.beginPath()
+		context.arc(
+			this.position.x*cellWidth,
+			this.position.y*cellheight,
+			playerSize,
+			0,
+			2 * Math.PI
+		)
+		context.closePath()
+		context.fill()
+	}
+
+
+
 }
