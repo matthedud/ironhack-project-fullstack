@@ -6,7 +6,7 @@ const closeControllerButton = document.getElementById("btn-close")
 const controlerSetup = document.getElementById("controler-setup")
 const clockEl = document.getElementById('clock')
 
-const gameAPI = new APIHandler(process.env.API_URI)
+//const gameAPI = new APIHandler(process.env.API_URI)
 
 let pauseGame = true
 

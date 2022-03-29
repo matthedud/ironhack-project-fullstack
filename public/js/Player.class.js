@@ -1,5 +1,5 @@
 const playerSize = 6
-let moveSpeed = 1
+let moveSpeed = 0.1
 
 class Player {
   constructor(name, position = { x: 0, y: 0, direction: 0 }) {
@@ -9,7 +9,9 @@ class Player {
     this.controller = null //if the player use controller
 	  this.lastTimeMove = new Date()
     this.keyboard = new KeyBoard()
-
+    this.logs = []
+    this.logInterval = null
+  
     //---------FOR UX----------
     // this.score = 0
     // this.canShoot = true
@@ -46,25 +48,34 @@ class Player {
 	// this.lastTimeMove= new Date()
     let newx = this.position.x
     let newy = this.position.y
+    let currentSpeed = moveSpeed
+    
+    if(this.isMovingDiagonal()) currentSpeed = currentSpeed/2 * 1.41
+
     if (this.controller) {
       const gp = navigator.getGamepads()[this.controller?.index]
       newy = moveSpeed * Number(gp.axes[1].toFixed(1))
       newx = moveSpeed * Number(gp.axes[0].toFixed(1))
     } else {
-      if (this.keyboard.up) newy -= moveSpeed
-      if (this.keyboard.down) newy += moveSpeed
-      if (this.keyboard.right) newx += moveSpeed
-      if (this.keyboard.left) newx -= moveSpeed
+      if (this.keyboard.up) newy -= currentSpeed
+      if (this.keyboard.down) newy += currentSpeed
+      if (this.keyboard.right) newx += currentSpeed
+      if (this.keyboard.left) newx -= currentSpeed
     }
     this.move(newx, newy)
   }
 
   move(x,y){
-    console.log(y, x)
     if (!this.game.isWall(x, y)) {
       this.position.x = x
       this.position.y = y
+    }else{
+
     }
+  }
+
+  isMovingDiagonal(){
+    return this.keyboard.up + this.keyboard.down + this.keyboard.right + this.keyboard.left - 1
   }
 
   drawBIG( cellWidth, cellheight) {
@@ -82,6 +93,19 @@ class Player {
 		context.fill()
 	}
 
+  log(){
+    this.logs.push({x:this.position.x,y:this.position.y})
+  }
 
+  startLogs(){
+    this.logInterval = setInterval(()=>{
+      this.log()
+      console.log(this.logs)
+    },1000)
+  }
+
+  stopLogs(){
+    clearInterval(this.logInterval)
+  }
 
 }
