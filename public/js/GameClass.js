@@ -1,6 +1,6 @@
 //--------------------------DIMENTIONS-----------
 const canvasHeight = 1000
-const canvasWidth = 500
+const canvasWidth = 1000
 const viewColumnNum = 10
 const viewLineNum = 10
 const cellWidth = canvasWidth / viewColumnNum
@@ -22,12 +22,12 @@ class Game {
   }
 
   drawMaze() {
-    const xOffset =(this.player.position.x-viewColumnNum /2)
-    const yOffset =(this.player.position.y-viewLineNum /2)
+    const xOffset = this.player.position.x - viewColumnNum / 2
+    const yOffset = this.player.position.y - viewLineNum / 2
     for (let y = 0; y <= viewLineNum; y++) {
       for (let x = 0; x <= viewColumnNum; x++) {
-        const lineInd = y + yOffset
-        const cellInd = x + xOffset
+        const lineInd = Math.floor(y + yOffset)
+        const cellInd = Math.floor(x + xOffset)
         this.drawCell(cellInd, lineInd, x, y)
       }
     }
@@ -44,7 +44,23 @@ class Game {
   }
 
   drawCell(cellInd, lineInd, canvasIndX, canvasIndY) {
-    ctx.fillStyle = this.isWall(cellInd, lineInd) ? colors.wall : colors.floor
+    // console.log({cellInd, lineInd});
+    if (this.isWall(cellInd, lineInd)){
+      ctx.fillStyle = colors.wall
+    }
+    else {
+      switch (this.grid2D[lineInd][cellInd]) {
+        case 1:
+          ctx.fillStyle = colors.floor
+          break
+        case 10:
+          ctx.fillStyle = colors.start
+          break
+        case 11:
+          ctx.fillStyle = colors.end
+          break
+      }
+    }
     const x = canvasIndX * cellWidth + canvasWidth / 2 - canvasWidth / 2
     const y = canvasIndY * cellheight
     ctx.beginPath()
@@ -64,7 +80,20 @@ class Game {
     this.player.drawBIG(cellWidth, cellheight)
   }
   drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight) {
-    context.fillStyle = cell ? colors.wall : colors.floor
+    switch (cell) {
+      case 0:
+        context.fillStyle = colors.wall
+        break
+      case 1:
+        context.fillStyle = colors.floor
+        break
+      case 10:
+        context.fillStyle = colors.start
+        break
+      case 11:
+        context.fillStyle = colors.end
+        break
+    }
     const x = cellInd * cellWidth + canvasWidth / 2 - canvasWidth / 2
     const y = lineInd * cellheight
     context.beginPath()
@@ -91,8 +120,7 @@ class Game {
 
   isWall(x, y) {
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
-
-    return this.grid2D[Math.floor(y)][Math.floor(x)]
+    return (this.grid2D[Math.floor(y)][Math.floor(x)] === 0)
   }
 
   isPlayer(xBullet, yBullet) {
@@ -133,5 +161,14 @@ class Game {
     this.chronometer.stop()
     clearInterval(this.gameInterval)
     this.gameInterval = null
+  }
+
+  placePlayer() {
+    for (let y = 0; y < this.grid2D.length; y++) {
+      let x = this.grid2D[y].indexOf(10)
+      if (x > -1) {
+        this.player.position = { y, x }
+      }
+    }
   }
 }
