@@ -2,9 +2,8 @@ const router = require("express").Router();
 const express = require('express');
 const Ranking = require("../models/Historic.model")
 const Map = require("../models/Map.model")
-const Historique = require("../models/Historic.model")
+const Historic = require("../models/Historic.model")
 
-/* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
 });
@@ -21,18 +20,18 @@ router.get("/hof", async (req, res, next) => {//Hall of Fame
 
 router.get("/instructions", (req, res, next) => {
     res.render("instructions")
-
 });
 
 router.get("/game", async (req, res, next) => {
     try {
         const map = await Map.findOne({ current: true })
         if(map){
-            const historics = await Historique.find({map: map._id})
+            const historics = await Historic.find({map: map._id})
             res.render("game", {map, historics})
         }
         else {
-            const newMap = await Map.create()
+            const newGrid = Map.createMap()
+            const newMap = await Map.create({cells: newGrid})
             res.render("game", {map:newMap, historics:[]})
         }
         } catch (error) {
@@ -43,9 +42,8 @@ router.get("/game", async (req, res, next) => {
 
 router.post("/game", async (req, res, next) => {//END-GAME
     try {
-        console.log("ENDGAME")
-        // const gameLogs = req.body// Need to figure out how to pass Historique data   
-        // await Historique.create(gameLogs)
+        const {playerMove, mapID, playerID} = req.body 
+        await Historic.create({playerMove, map:mapID, player:playerID})
         res.redirect('/')
     } catch (error) {
         console.error(error)

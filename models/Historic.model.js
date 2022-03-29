@@ -17,10 +17,6 @@ const historicSchema = new Schema({
     type: [coordinateSchema],
     required: true,
   },
-  bulletMove: {
-    type: [coordinateSchema],
-    required: true,
-  },
 });
 
 const Historic = model("Historic", historicSchema);
