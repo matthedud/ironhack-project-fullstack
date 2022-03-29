@@ -32,6 +32,7 @@ const colors = {
   start:'yellow',
   end:'green',
 }
+
 const startButton = document.getElementById("start")
 startButton.addEventListener("click", startGame)
 

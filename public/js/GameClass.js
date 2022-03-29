@@ -8,6 +8,14 @@ const cellheight = canvasHeight / viewLineNum
 //---------------------------------------------
 const recordInterval = 50
 
+//--------------------------Ground Values-----------
+const floorValue = 1
+const endValue = 11
+const startValue = 10
+const wallValue = 0
+//---------------------------------------------
+
+
 class Game {
   constructor(grid2D = [], player = {}, historique = []) {
     this.grid2D = grid2D
@@ -50,13 +58,13 @@ class Game {
     }
     else {
       switch (this.grid2D[lineInd][cellInd]) {
-        case 1:
+        case floorValue:
           ctx.fillStyle = colors.floor
           break
-        case 10:
+        case startValue:
           ctx.fillStyle = colors.start
           break
-        case 11:
+        case endValue:
           ctx.fillStyle = colors.end
           break
       }
@@ -81,16 +89,16 @@ class Game {
   }
   drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight) {
     switch (cell) {
-      case 0:
+      case wallValue:
         context.fillStyle = colors.wall
         break
-      case 1:
+      case floorValue:
         context.fillStyle = colors.floor
         break
-      case 10:
+      case startValue:
         context.fillStyle = colors.start
         break
-      case 11:
+      case endValue:
         context.fillStyle = colors.end
         break
     }
@@ -120,7 +128,7 @@ class Game {
 
   isWall(x, y) {
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
-    return (this.grid2D[Math.floor(y)][Math.floor(x)] === 0)
+    return (this.grid2D[Math.floor(y)][Math.floor(x)] === wallValue)
   }
 
   isPlayer(xBullet, yBullet) {
@@ -171,4 +179,16 @@ class Game {
       }
     }
   }
+  checkVictory(player){
+    const isInVictory = this.checkVictory.find(el=>el.id===player.id)
+    const cell = this.grid2D[Math.floor(player.position.y)][Math.floor(player.position.x)]
+    if (cell===endValue){
+      if(!isInVictory) this.checkVictory.push(player)
+    }
+  }
+  // purgeVictory(){
+  //   this.checkVictory.forEach((victor, victorInd)=>{
+  //     this.historique.findIndex(player=>player)
+  //   })
+  // }
 }
