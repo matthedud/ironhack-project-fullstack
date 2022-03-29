@@ -43,8 +43,9 @@ class Game {
     const ind = this.getHistoriqueInd()
     this.historique.forEach((otherPlayer) => {
       if (this.isInView(otherPlayer[ind].x, otherPlayer[ind].y, this.player.position)) {
-        this.drawOtherPlayer(otherPlayer.x + xOffset, otherPlayer.y + yOffset)
+        this.drawOtherPlayer(otherPlayer[ind].x + xOffset, otherPlayer[ind].y + yOffset)
       }
+      this.checkVictory(otherPlayer[ind])
     })
     this.bullets.forEach((bullet) => {
       if (this.isInView(bullet.x, bullet.y, this.player.position)) bullet.draw(xOffset, yOffset)
@@ -180,15 +181,16 @@ class Game {
     }
   }
   checkVictory(player){
-    const isInVictory = this.checkVictory.find(el=>el.id===player.id)
     const cell = this.grid2D[Math.floor(player.position.y)][Math.floor(player.position.x)]
-    if (cell===endValue){
-      if(!isInVictory) this.checkVictory.push(player)
+    const isInVictoryInd = this.playerVistory.findIndex(el=>el.id===player.id)
+    if(isInVictoryInd>-1) {
+      if (cell!==endValue){
+        this.playerVistory.splice(isInVictoryInd, 1)
+      }
+    }else{
+      if (cell===endValue){
+        this.playerVistory.push(player)
+      }
     }
   }
-  // purgeVictory(){
-  //   this.checkVictory.forEach((victor, victorInd)=>{
-  //     this.historique.findIndex(player=>player)
-  //   })
-  // }
 }
