@@ -4,7 +4,6 @@ const Ranking = require("../models/Historic.model")
 const Map = require("../models/Map.model")
 const Historic = require("../models/Historic.model")
 
-/* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
 });
