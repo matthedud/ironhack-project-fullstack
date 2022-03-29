@@ -43,11 +43,9 @@ class Game {
     const ind = this.getHistoricInd()
     this.historic.forEach((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]
-      console.log({ otherPlayer })
-      console.log({ ind })
       if (coord) {
         if (this.isInView(coord.x, coord.y, this.player.position)) {
-          this.drawOtherPlayer(coord.x + xOffset, coord.y + yOffset)
+          this.drawOtherPlayer(coord.x- xOffset   ,coord.y- yOffset  )
         }
         this.checkVictory({ ...otherPlayer, position: coord })
       }
@@ -133,7 +131,8 @@ class Game {
   drawOtherPlayer(x, y) {
     ctx.fillStyle = colors.player
     ctx.beginPath()
-    ctx.arc(x - playerSize, y - playerSize, playerSize, 0, 2 * Math.PI)
+    console.log({x, y});
+    ctx.arc(x*cellWidth - playerSize, y*cellheight - playerSize, playerSize, 0, 2 * Math.PI)
     ctx.closePath()
     ctx.fill()
   }
