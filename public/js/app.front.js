@@ -7,6 +7,8 @@ const closeControllerButton = document.getElementById("btn-close")
 const controlerSetup = document.getElementById("controler-setup")
 const clockEl = document.getElementById('clock')
 
+const gameAPI = new APIHandler(process.env.API_URI)
+
 let pauseGame = true
 
 const canvas = document.createElement("canvas")
@@ -48,6 +50,7 @@ function startGame(event) {
 		[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	]
+	
 	const player = new Player("Joe", {x:5, y: 5, direction: 0})
 	game = new Game(map, player)
 	game.runGameLoop()
