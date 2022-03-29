@@ -4,9 +4,8 @@ const cancelButton = document.getElementById("btn-cl")
 // const startButton = document.getElementById("btn-start")
 const closeControllerButton = document.getElementById("btn-close")
 const controlerSetup = document.getElementById("controler-setup")
-const clockEl = document.getElementById('clock')
+const clockEl = document.getElementById("clock")
 
-const gameAPI = new APIHandler(process.env.API_URI)
 
 let pauseGame = true
 
@@ -25,50 +24,30 @@ const context = canvas2.getContext("2d")
 parentEl2.appendChild(canvas2)
 
 let game = null
+const gameAPI = new APIHandler('http://localhost:3000/API')
+// const gameAPI = new APIHandler(process.env.API_URI)
 
 const colors = {
-	floor: "rgb(126, 126, 126)",
-	wall: "#013aa6",
+  floor: "rgb(126, 126, 126)",
+  wall: "#013aa6",
 }
 const startButton = document.getElementById("start")
 startButton.addEventListener("click", startGame)
 
-function startGame(event) {
-	event.preventDefault()
-	const map = [
-		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		[1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	]
-
-	
-	const player = new Player("Joe", {x:5, y: 5, direction: 0})
-	game = new Game(map, player)
-	game.runGameLoop()
-  //game.chronometer.start(clockEl)
+async function startGame(event) {
+  event.preventDefault()
+  if(!game){
+	  const mapFetch = await gameAPI.getGame()
+	  const player = new Player("Joe", { x: 5, y: 5, direction: 0 })
+	  game = new Game(mapFetch.map.cells, player)
+  }
+  game.runGameLoop()
+  game.chronometer.start(clockEl)
 }
 
-function randomColor(){
-	return "#"+ Math.floor(Math.random()*16777215).toString(16)
+function randomColor() {
+  return "#" + Math.floor(Math.random() * 16777215).toString(16)
 }
-
 
 // settingsButton.addEventListener("click", showSettings)
 // controllerButton.addEventListener("click", showController)
@@ -95,7 +74,7 @@ function randomColor(){
 // 	if (game){
 // 		game.chronometer.start(clockEl)
 // 		game.runGameLoop()
-// 	} 
+// 	}
 // }
 // function hideSettings(e) {
 // 	if(e?.preventDefault) e.preventDefault()
@@ -104,5 +83,5 @@ function randomColor(){
 // 	if (game){
 // 		game.chronometer.start(clockEl)
 // 		game.runGameLoop()
-// 	} 
+// 	}
 // }
