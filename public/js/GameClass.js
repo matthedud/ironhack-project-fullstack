@@ -14,10 +14,14 @@ class Game {
   constructor(grid2D = [], player = {}, historique = []) {
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
+    this.gameInterval = null
+    this.frameRate = 200
     this.bullets = []
     this.player = player
+    this.player.game = this
     this.historique = historique
     this.playerVistory = []
+
   }
   drawMaze() {
     const xOffset = Math.floor(this.player.position.x + widthCellNumber / 2)
@@ -67,6 +71,19 @@ class Game {
     ctx.fill()
   }
 
+	drawCell(cellInd, lineInd, canvasIndX, canvasIndY) {
+		ctx.fillStyle = this.isWall(cellInd, lineInd) ? colors.wall : colors.floor
+		const x =
+    canvasIndX * cellWidth +
+			canvasWidth / 2 -
+			(canvasWidth) / 2
+		const y = canvasIndY * cellheight
+		ctx.beginPath()
+		ctx.fillRect(x, y, cellWidth, cellheight)
+    //console.log({cellInd, lineInd})
+	}
+
+
   isWall(x, y) {
     if (x < 0 || y < 0 || y > this.grid2D.length || x > this.grid2D[0].length) return true
     return this.grid2D[y][x]
@@ -85,20 +102,23 @@ class Game {
       this.historique.splice(deadPlayerInd, 1)
       return true
     }
-    return false
-  }
+     //console.log(' this.grid2D[y][x]',  this.grid2D[y][x]);
+      return this.grid2D[y][x]
+    }
+
+  runGameLoop() {
+    this.gameInterval = setInterval(() => {
+      this.clearCanvas()
+      this.drawMaze()
+      this.player.draw()
+      this.player.newCoord()
+    }, this.frameRate)
 
   getHistoriqueInd() {
     const index = Math.round(this.chronometer.currentTime / recordInterval)
     return index
   }
 
-  runGameLoop() {
-    // this.gameInterval = setInterval(() => {
-    this.clearCanvas()
-    this.drawMaze()
-    // }, this.frameRate)
-  }
 
   clearCanvas() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
