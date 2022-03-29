@@ -6,7 +6,6 @@ const closeControllerButton = document.getElementById("btn-close")
 const controlerSetup = document.getElementById("controler-setup")
 const clockEl = document.getElementById("clock")
 
-
 let pauseGame = true
 
 const parentEl = document.getElementById("game")
