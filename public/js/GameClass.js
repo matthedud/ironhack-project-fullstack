@@ -86,6 +86,7 @@ class Game {
 
   isWall(x, y) {
     if (x < 0 || y < 0 || y > this.grid2D.length || x > this.grid2D[0].length) return true
+    console.log(this.grid2D.length,this.grid2D[0].length,y, x)
     return this.grid2D[y][x]
   }
 
@@ -110,7 +111,6 @@ class Game {
     this.gameInterval = setInterval(() => {
       this.clearCanvas()
       this.drawMaze()
-      this.player.draw()
       this.player.newCoord()
     }, this.frameRate)
   }
