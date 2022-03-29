@@ -62,6 +62,7 @@ function startGame(event) {
 	const player = new Player("Joe", {x:5, y: 5, direction: 0})
 	game = new Game(map, player)
 	game.runGameLoop()
+	//player.startLogs()
   //game.chronometer.start(clockEl)
 }
 

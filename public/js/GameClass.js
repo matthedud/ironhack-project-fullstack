@@ -1,6 +1,6 @@
 //--------------------------DIMENTIONS-----------
 const canvasHeight = 500
-const canvasWidth = 1000
+const canvasWidth = 500
 const viewColumnNum = 10
 const viewLineNum = 10
 const cellWidth = canvasWidth / viewColumnNum
@@ -90,10 +90,9 @@ class Game {
   }
 
   isWall(x, y) {
-
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
 
-    return this.grid2D[y][x]
+    return this.grid2D[Math.floor(y)][Math.floor(x)]
   }
 
   isPlayer(xBullet, yBullet) {
