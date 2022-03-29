@@ -4,12 +4,14 @@ const gameLength = 100*60 //1 minute
 class Chronometer {
   constructor(timeLeft= gameLength) {
     this.timeLeft = timeLeft;
+    this.currentTime = 0;
     this.intervalId = null;
   }
 
   start(clock) {
     this.intervalId = setInterval(() => {
       this.timeLeft--;
+      this.currentTime++
       if (clock) {
         const minutes = this.computeTwoDigitNumber(this.getMinutes());
         const seconds = this.computeTwoDigitNumber(this.getSeconds());

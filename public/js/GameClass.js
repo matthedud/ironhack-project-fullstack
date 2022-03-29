@@ -6,7 +6,7 @@ const viewLineNum = 10
 const cellWidth = canvasWidth / viewColumnNum
 const cellheight = canvasHeight / viewLineNum
 //---------------------------------------------
-const recordInterval = 50
+const recordRate = 500
 
 //--------------------------Ground Values-----------
 const floorValue = 1
@@ -15,9 +15,9 @@ const startValue = 10
 const wallValue = 0
 //---------------------------------------------
 
-
 class Game {
-  constructor(grid2D = [], player = {}, historique = []) {
+  constructor(id, grid2D = [], player = {}, historic = []) {
+    this.id = id
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
     this.gameInterval = null
@@ -25,7 +25,7 @@ class Game {
     this.bullets = []
     this.player = player
     this.player.game = this
-    this.historique = historique
+    this.historic = historic
     this.playerVistory = []
   }
 
@@ -40,12 +40,17 @@ class Game {
       }
     }
     this.player.draw()
-    const ind = this.getHistoriqueInd()
-    this.historique.forEach((otherPlayer) => {
-      if (this.isInView(otherPlayer[ind].x, otherPlayer[ind].y, this.player.position)) {
-        this.drawOtherPlayer(otherPlayer[ind].x + xOffset, otherPlayer[ind].y + yOffset)
+    const ind = this.getHistoricInd()
+    this.historic.forEach((otherPlayer) => {
+      const coord = otherPlayer.playerMove[ind]
+      console.log({ otherPlayer })
+      console.log({ ind })
+      if (coord) {
+        if (this.isInView(coord.x, coord.y, this.player.position)) {
+          this.drawOtherPlayer(coord.x + xOffset, coord.y + yOffset)
+        }
+        this.checkVictory({ ...otherPlayer, position: coord })
       }
-      this.checkVictory(otherPlayer[ind])
     })
     this.bullets.forEach((bullet) => {
       if (this.isInView(bullet.x, bullet.y, this.player.position)) bullet.draw(xOffset, yOffset)
@@ -54,10 +59,9 @@ class Game {
 
   drawCell(cellInd, lineInd, canvasIndX, canvasIndY) {
     // console.log({cellInd, lineInd});
-    if (this.isWall(cellInd, lineInd)){
+    if (this.isWall(cellInd, lineInd)) {
       ctx.fillStyle = colors.wall
-    }
-    else {
+    } else {
       switch (this.grid2D[lineInd][cellInd]) {
         case floorValue:
           ctx.fillStyle = colors.floor
@@ -86,7 +90,14 @@ class Game {
         this.drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight)
       })
     })
-    this.player.drawBIG(cellWidth, cellheight)
+    this.player.drawBIG(this.player.position.x, this.player.position.y, cellWidth, cellheight)
+    const ind = this.getHistoricInd()
+    this.historic.forEach((otherPlayer) => {
+      const coord = otherPlayer.playerMove[ind]
+      if (coord) {
+        this.player.drawBIG(coord.x, coord.y, cellWidth, cellheight)
+      }
+    })
   }
   drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight) {
     switch (cell) {
@@ -120,7 +131,7 @@ class Game {
   }
 
   drawOtherPlayer(x, y) {
-    ctx.fillStyle = color.player
+    ctx.fillStyle = colors.player
     ctx.beginPath()
     ctx.arc(x - playerSize, y - playerSize, playerSize, 0, 2 * Math.PI)
     ctx.closePath()
@@ -129,12 +140,12 @@ class Game {
 
   isWall(x, y) {
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
-    return (this.grid2D[Math.floor(y)][Math.floor(x)] === wallValue)
+    return this.grid2D[Math.floor(y)][Math.floor(x)] === wallValue
   }
 
   isPlayer(xBullet, yBullet) {
-    const ind = this.getHistoriqueInd()
-    const deadPlayerInd = this.historique.findIndex(
+    const ind = this.getHistoricInd()
+    const deadPlayerInd = this.historic.findIndex(
       (el) =>
         xBullet > el[ind].x - playerSize &&
         xBullet < el[ind].x + playerSize &&
@@ -142,23 +153,27 @@ class Game {
         yBullet < el[ind].y + playerSize
     )
     if (deadPlayerInd > -1) {
-      this.historique.splice(deadPlayerInd, 1)
+      this.historic.splice(deadPlayerInd, 1)
       return true
     }
     return this.grid2D[y][x]
   }
 
   runGameLoop() {
+    this.chronometer.start(clockEl)
+    this.player.startLogs(recordRate)
+    this.player.startMove(this)
     this.gameInterval = setInterval(() => {
       this.clearCanvas()
       this.drawMazeBIG()
       this.drawMaze()
       this.player.newCoord()
+      this.checkEndGame()
     }, this.frameRate)
   }
 
-  getHistoriqueInd() {
-    const index = Math.round(this.chronometer.currentTime / recordInterval)
+  getHistoricInd() {
+    const index = Math.floor((this.chronometer.currentTime * 10) / recordRate)
     return index
   }
 
@@ -168,6 +183,8 @@ class Game {
 
   pauseGame() {
     this.chronometer.stop()
+    this.player.stopLogs()
+    this.player.stopMove()
     clearInterval(this.gameInterval)
     this.gameInterval = null
   }
@@ -180,16 +197,34 @@ class Game {
       }
     }
   }
-  checkVictory(player){
+  checkVictory(player) {
     const cell = this.grid2D[Math.floor(player.position.y)][Math.floor(player.position.x)]
-    const isInVictoryInd = this.playerVistory.findIndex(el=>el.id===player.id)
-    if(isInVictoryInd>-1) {
-      if (cell!==endValue){
+    const isInVictoryInd = this.playerVistory.findIndex((el) => el.id === player.id)
+    if (isInVictoryInd > -1) {
+      if (cell !== endValue) {
         this.playerVistory.splice(isInVictoryInd, 1)
       }
-    }else{
-      if (cell===endValue){
+    } else {
+      if (cell === endValue) {
         this.playerVistory.push(player)
+      }
+    }
+  }
+  async checkEndGame() {
+    if (this.chronometer.timeLeft < 0) {
+      this.pauseGame()
+      const historic = {
+        playerIND: this.player.id,
+        user: this.player.userID,
+        playerName: this.player.name,
+        map: this.id,
+        playerMove: this.player.logs,
+      }
+      console.log({ historic })
+      try {
+        await gameAPI.sendGame(historic)
+      } catch (error) {
+        console.log({ error })
       }
     }
   }

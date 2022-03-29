@@ -31,21 +31,36 @@ const colors = {
   wall: "#013aa6",
   start:'yellow',
   end:'green',
+  player:'white'
 }
 
 const startButton = document.getElementById("start")
+const endButton = document.getElementById("end")
 startButton.addEventListener("click", startGame)
+endButton.addEventListener("click", endGame)
 
 async function startGame(event) {
   event.preventDefault()
   if(!game){
-	  const mapFetch = await gameAPI.getGame()
-	  const player = new Player("Joe", { x: 5, y: 5, direction: 0 })
-	  game = new Game(mapFetch.map.cells, player)
+	  const gameFetch = await gameAPI.getGame()
+    console.log({gameFetch});
+    let player
+    if(gameFetch?.user?.userName){
+      player = new Player(gameFetch?.historics?.length, gameFetch.user.userName)
+    } else {
+      const name = window.prompt("Enter Name", 'Joe')
+      player = new Player(gameFetch?.historics?.length, name)
+    }
+	  game = new Game(gameFetch.map._id, gameFetch.map.cells, player,  gameFetch.historics)
     game.placePlayer()
   }
   game.runGameLoop()
-  game.chronometer.start(clockEl)
+}
+
+function endGame(){
+  if(game?.chronometer?.timeLeft){
+    game.chronometer.timeLeft = 0
+  }
 }
 
 function randomColor() {
