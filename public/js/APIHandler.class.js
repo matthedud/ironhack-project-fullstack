@@ -13,5 +13,17 @@ class APIHandler {
         return response.data
       } catch (err) {console.log({err})}
     }
+
+    async sendGame(historic ) {
+      try {
+        const response = await axios({
+          method: "POST",
+          url: "/game",
+          baseURL: this.BASE_URL,
+          data: {historic}
+        })
+        return response.data
+      } catch (err) {console.log({err})}
+    }
   }
   
