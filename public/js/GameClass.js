@@ -17,6 +17,7 @@ class Game {
     this.bullets = []
     this.player = player
     this.historique = historique
+    this.playerVistory = []
   }
   drawMaze() {
     const xOffset = Math.floor(this.player.position.x + widthCellNumber / 2)
