@@ -12,10 +12,11 @@ class Game {
   constructor(grid2D = [], player=null) {
     this.grid2D = grid2D
     this.gameInterval = null // for player movemetn refresh rate
-    this.frameRate = 500
+    this.frameRate = 200
     // this.chronometer = new Chronometer()
     this.bullets = []
     this.player = player
+    this.player.game = this
   }
   drawMaze() {
     const xOffset = Math.floor(this.player.position.x)
@@ -41,7 +42,7 @@ class Game {
 		const y = canvasIndY * cellheight
 		ctx.beginPath()
 		ctx.fillRect(x, y, cellWidth, cellheight)
-    console.log({cellInd, lineInd})
+    //console.log({cellInd, lineInd})
 	}
 
   isWall(x, y) {
@@ -52,15 +53,17 @@ class Game {
       x > this.grid2D[0].length
     )
       return true
-    console.log(' this.grid2D[y][x]',  this.grid2D[y][x]);
+    //console.log(' this.grid2D[y][x]',  this.grid2D[y][x]);
     return this.grid2D[y][x]
   }
 
   runGameLoop() {
-    // this.gameInterval = setInterval(() => {
+    this.gameInterval = setInterval(() => {
       this.clearCanvas()
       this.drawMaze()
-    // }, this.frameRate)
+      this.player.draw()
+      this.player.newCoord()
+    }, this.frameRate)
   }
   clearCanvas(){
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
