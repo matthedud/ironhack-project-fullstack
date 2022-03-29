@@ -1,5 +1,4 @@
 const playerSize = 6
-let turnSpeed = (10 * Math.PI) / 180
 let moveSpeed = 1
 
 class Player {
@@ -7,7 +6,7 @@ class Player {
     this.name = name
     this.position = { x: position.x, y: position.y, direction: position.direction }
     this.controller = null //if the player use controller
-	this.lastTimeMove = new Date()
+	  this.lastTimeMove = new Date()
 
     //---------FOR UX----------
     // this.score = 0
