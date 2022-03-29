@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose")
+const rankingSchema = require("./Ranking.model")
 
 const startValue = 10
 const endValue = 11
@@ -19,6 +20,8 @@ const mapSchema = new Schema({
     require: true,
     default: true,
   },
+  recordRate :Number,
+  ranking:[rankingSchema]
 })
 
 mapSchema.statics.createMap = function (dimensions = 100, maxTunnels = 200, maxLength = 20) {
@@ -99,7 +102,7 @@ function randomFloorPosition(array) {
   let position
   do {
     position = randomPosition(array.length)
-  } while (array[position.y][position.x])
+  } while (array[position.y][position.x]===wallValue)
   return position
 }
 

@@ -6,17 +6,17 @@ const viewLineNum = 10
 const cellWidth = canvasWidth / viewColumnNum
 const cellheight = canvasHeight / viewLineNum
 //---------------------------------------------
-const recordRate = 500
+
 
 //--------------------------Ground Values-----------
 const floorValue = 1
 const endValue = 11
 const startValue = 10
 const wallValue = 0
-//---------------------------------------------
+//--------------------------------------------------
 
 class Game {
-  constructor(id, grid2D = [], player = {}, historic = []) {
+  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 500) {
     this.id = id
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
@@ -26,17 +26,20 @@ class Game {
     this.player = player
     this.player.game = this
     this.historic = historic
-    this.playerVistory = []
+    this.ranking = []
+    this.recordRate = recordRate
   }
 
   drawMaze() {
     const xOffset = this.player.position.x - viewColumnNum / 2
     const yOffset = this.player.position.y - viewLineNum / 2
-    for (let y = 0; y <= viewLineNum; y++) {
-      for (let x = 0; x <= viewColumnNum; x++) {
+    for (let y = 0; y < viewLineNum+1; y++) {
+      for (let x = 0; x < viewColumnNum+1; x++) {
         const lineInd = Math.floor(y + yOffset)
         const cellInd = Math.floor(x + xOffset)
-        this.drawCell(cellInd, lineInd, x, y)
+        const canvasIndX = x - this.player.position.x % 1
+        const canvasIndY= y - this.player.position.y % 1
+        this.drawCell(cellInd, lineInd, canvasIndX, canvasIndY)
       }
     }
     this.player.draw()
@@ -56,7 +59,6 @@ class Game {
   }
 
   drawCell(cellInd, lineInd, canvasIndX, canvasIndY) {
-    // console.log({cellInd, lineInd});
     if (this.isWall(cellInd, lineInd)) {
       ctx.fillStyle = colors.wall
     } else {
@@ -79,7 +81,6 @@ class Game {
   }
 
   //-----------------------------------------------------
-
   drawMazeBIG() {
     const cellWidth = canvasWidth / this.grid2D[0].length
     const cellheight = canvasHeight / this.grid2D.length
@@ -129,9 +130,8 @@ class Game {
   }
 
   drawOtherPlayer(x, y) {
-    ctx.fillStyle = colors.player
+    ctx.fillStyle = colors.playerGost
     ctx.beginPath()
-    console.log({x, y});
     ctx.arc(x*cellWidth - playerSize, y*cellheight - playerSize, playerSize, 0, 2 * Math.PI)
     ctx.closePath()
     ctx.fill()
@@ -160,7 +160,7 @@ class Game {
 
   runGameLoop() {
     this.chronometer.start(clockEl)
-    this.player.startLogs(recordRate)
+    this.player.startLogs(this.recordRate)
     this.player.startMove(this)
     this.gameInterval = setInterval(() => {
       this.clearCanvas()
@@ -172,7 +172,7 @@ class Game {
   }
 
   getHistoricInd() {
-    const index = Math.floor((this.chronometer.currentTime * 10) / recordRate)
+    const index = Math.floor((this.chronometer.currentTime * 10) / this.recordRate)
     return index
   }
 
@@ -192,20 +192,20 @@ class Game {
     for (let y = 0; y < this.grid2D.length; y++) {
       let x = this.grid2D[y].indexOf(10)
       if (x > -1) {
-        this.player.position = { y, x }
+        this.player.position = { y:y+0.5, x:x+0.5 }
       }
     }
   }
   checkVictory(player) {
     const cell = this.grid2D[Math.floor(player.position.y)][Math.floor(player.position.x)]
-    const isInVictoryInd = this.playerVistory.findIndex((el) => el.id === player.id)
+    const isInVictoryInd = this.ranking.findIndex((el) => el.id === player.id)
     if (isInVictoryInd > -1) {
       if (cell !== endValue) {
-        this.playerVistory.splice(isInVictoryInd, 1)
+        this.ranking.splice(isInVictoryInd, 1)
       }
     } else {
       if (cell === endValue) {
-        this.playerVistory.push(player)
+        this.ranking.push({...player, time:this.chronometer.currentTime })
       }
     }
   }
@@ -219,9 +219,9 @@ class Game {
         map: this.id,
         playerMove: this.player.logs,
       }
-      console.log({ historic })
+      const ranking = this.ranking.map(el=>({name:el.name, user:el.userID, time:el.time}))
       try {
-        await gameAPI.sendGame(historic)
+        await gameAPI.sendGame({ historic, ranking })
       } catch (error) {
         console.log({ error })
       }
