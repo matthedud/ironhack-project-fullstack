@@ -1,5 +1,5 @@
 //--------------------------DIMENTIONS-----------
-const canvasHeight = 500
+const canvasHeight = 1000
 const canvasWidth = 500
 const viewColumnNum = 10
 const viewLineNum = 10
