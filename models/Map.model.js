@@ -21,7 +21,7 @@ const mapSchema = new Schema({
   },
 })
 
-mapSchema.methods.createMap = function (dimensions = 20, maxTunnels = 50, maxLength = 8) {
+mapSchema.statics.createMap = function (dimensions = 20, maxTunnels = 50, maxLength = 8) {
   const map = createArray(wallValue, dimensions) // create a 2d array full of 1's
   let { x: currentRow, y: currentColumn } = randomPosition(dimensions) // our current row - start at a random spot
   let directions = [
