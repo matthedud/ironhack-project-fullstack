@@ -69,6 +69,7 @@ class Player {
     if (!this.game.isWall(x, y)) {
       this.position.x = x
       this.position.y = y
+      this.game.checkVictory(this)
     }else{
 
     }
