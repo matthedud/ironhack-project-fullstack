@@ -133,13 +133,14 @@ class Game {
   }
 
   drawOtherPlayer(x, y) {
+    const playerWidth = playerSize*cellWidth
     ctx.fillStyle = colors.playerGost
     ctx.beginPath()
-    ctx.arc(x*cellWidth - playerSize, y*cellheight - playerSize, playerSize, 0, 2 * Math.PI)
+    ctx.arc(x*cellWidth - playerWidth, y*cellheight - playerWidth, playerWidth, 0, 2 * Math.PI)
     ctx.closePath()
     ctx.fill()
   }
-
+s
   isWall(x, y) {
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
 
