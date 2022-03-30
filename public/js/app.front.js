@@ -29,6 +29,7 @@ const gameAPI = new APIHandler('http://localhost:3000/API')
 const colors = {
   floor: "rgb(126, 126, 126)",
   wall: "#013aa6",
+  bullet: 'black'
 }
 const startButton = document.getElementById("start")
 startButton.addEventListener("click", startGame)
@@ -39,6 +40,7 @@ async function startGame(event) {
 	  const mapFetch = await gameAPI.getGame()
 	  const player = new Player("Joe", { x: 5, y: 5, direction: 0 })
 	  game = new Game(mapFetch.map.cells, player)
+    player.game = game
   }
   game.runGameLoop()
   game.chronometer.start(clockEl)

@@ -1,5 +1,5 @@
 //--------------------------DIMENTIONS-----------
-const canvasHeight = 1000
+const canvasHeight = 500
 const canvasWidth = 500
 const viewColumnNum = 10
 const viewLineNum = 10
@@ -39,7 +39,9 @@ class Game {
       }
     })
     this.bullets.forEach((bullet) => {
-      if (this.isInView(bullet.x, bullet.y, this.player.position)) bullet.draw(xOffset, yOffset)
+      if (this.isInView(bullet.position.x, bullet.position.y, this.player.position)){
+        bullet.draw(xOffset, yOffset)
+      }
     })
   }
 
@@ -91,7 +93,7 @@ class Game {
 
   isWall(x, y) {
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
-
+    
     return this.grid2D[Math.floor(y)][Math.floor(x)]
   }
 
@@ -108,7 +110,7 @@ class Game {
       this.historique.splice(deadPlayerInd, 1)
       return true
     }
-    return this.grid2D[y][x]
+    return false
   }
 
   runGameLoop() {
