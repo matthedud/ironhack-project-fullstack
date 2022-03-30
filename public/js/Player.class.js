@@ -1,4 +1,4 @@
-const playerSize = 6
+const playerSize = 0.15
 let moveSpeed = 0.1
 
 class Player {
@@ -40,10 +40,10 @@ class Player {
 
   draw() {
     // draw circle for player
-
+    const playerWidth = playerSize*cellWidth
     ctx.fillStyle = "red"
     ctx.beginPath()
-    ctx.arc(canvasWidth / 2 - playerSize, canvasHeight / 2 - playerSize, playerSize, 0, 2 * Math.PI)
+    ctx.arc(canvasWidth / 2 - playerWidth, canvasHeight / 2 - playerWidth, playerWidth, 0, 2 * Math.PI)
     ctx.closePath()
     ctx.fill()
 
