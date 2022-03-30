@@ -22,7 +22,7 @@ class APIHandler {
           baseURL: this.BASE_URL,
           data: { historic, ranking, historicBullets }
         })
-        openModal()
+        openModal(ranking)
       } catch (err) {console.log({err})}
     }
 

@@ -4,6 +4,7 @@ const rankingSchema = new Schema({
   name: {
     type: String,
     required: true,
+    default:'Joe'
   },
   user:{
     type: Schema.Types.ObjectId,
