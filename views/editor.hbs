@@ -1,0 +1,15 @@
+{{#with mapSize}}
+    <p><span id="mapWidth">{{width}}</span> : <span id="mapHeight">{{height}}</span> </p>
+
+    <button id="wall">Wall</button>
+    <button id="floor">Floor</button>
+    <button id="start">Start</button>
+    <button id="end">End</button>
+    <div>
+     <canvas id="canvas" height="600" width="{{canvasWidth}}"></canvas>
+    </div>
+    <button id="save">Save</button>
+{{/with}}
+
+<script src="/js/MapEditor.js"></script>
+<script src="/js/APIHandler.class.js"></script>

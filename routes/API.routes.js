@@ -1,6 +1,8 @@
 const router = require("express").Router()
+const isLoggedIn = require("../middleware/isLoggedIn")
 const Map = require("../models/Map.model")
 const Historic = require("../models/Historic.model")
+const User = require("../models/User.model")
 
 const recordRate = 100
 
@@ -31,6 +33,18 @@ router.post("/game", async (req, res, next) => {
     console.error(error)
     next(error)
   }
+})
+
+router.post("/map", isLoggedIn, async (req, res, next) => {
+  const {mapToSend} = req.body
+  try {
+    const newMap = await Map.create(mapToSend)
+    await User.findByIdAndUpdate(req.session.user._id,{$push: {"maps": newMap._id}})
+    res.send('/'+newMap._id)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  } 
 })
 
 module.exports = router

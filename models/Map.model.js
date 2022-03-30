@@ -10,6 +10,10 @@ const mapSchema = new Schema({
   cells: {
     type: [[Number]],
   },
+  isPublic:{
+    type: Boolean,
+    default: true,
+  },
   debut: {
     type: Date,
     default: new Date(),

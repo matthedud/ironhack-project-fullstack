@@ -10,10 +10,11 @@ const cellheight = canvasHeight / viewLineNum
 
 
 //--------------------------Ground Values-----------
-const floorValue = 1
-const endValue = 11
-const startValue = 10
-const wallValue = 0
+// Has been moved to constants.js
+// const floorValue = 1 
+// const endValue = 11
+// const startValue = 10
+// const wallValue = 0
 //--------------------------------------------------
 
 class Game {
