@@ -1,13 +1,11 @@
 //--------------------------DIMENTIONS-----------
 const canvasHeight = 500
 const canvasWidth = 500
-
 const viewColumnNum = 10
 const viewLineNum = 10
 const cellWidth = canvasWidth / viewColumnNum
 const cellheight = canvasHeight / viewLineNum
 //---------------------------------------------
-
 
 //--------------------------Ground Values-----------
 const floorValue = 1
@@ -17,15 +15,18 @@ const wallValue = 0
 //--------------------------------------------------
 
 class Game {
-  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 500) {
+  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 100, historicBulletServer=[]) {
+    console.log('historicBulletServer', historicBulletServer);
     this.id = id
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
     this.gameInterval = null
-    this.frameRate = 100
+    this.frameRate = 30
     this.bullets = []
+    this.nextBulletId = historicBulletServer.length
+    this.historicBullets = [...historicBulletServer]
+    this.newHistoricBullet = [...historicBulletServer]
     this.player = player
-    this.player.game = this
     this.historic = historic
     this.ranking = []
     this.recordRate = recordRate
@@ -34,12 +35,12 @@ class Game {
   drawMaze() {
     const xOffset = this.player.position.x - viewColumnNum / 2
     const yOffset = this.player.position.y - viewLineNum / 2
-    for (let y = 0; y < viewLineNum+1; y++) {
-      for (let x = 0; x < viewColumnNum+1; x++) {
+    for (let y = 0; y < viewLineNum + 1; y++) {
+      for (let x = 0; x < viewColumnNum + 1; x++) {
         const lineInd = Math.floor(y + yOffset)
         const cellInd = Math.floor(x + xOffset)
-        const canvasIndX = x - this.player.position.x % 1
-        const canvasIndY= y - this.player.position.y % 1
+        const canvasIndX = x - (this.player.position.x % 1)
+        const canvasIndY = y - (this.player.position.y % 1)
         this.drawCell(cellInd, lineInd, canvasIndX, canvasIndY)
       }
     }
@@ -48,14 +49,14 @@ class Game {
     this.historic.forEach((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]
       if (coord) {
-        if (this.isInView(coord.x, coord.y, this.player.position)) {
-          this.drawOtherPlayer(coord.x- xOffset   ,coord.y- yOffset  )
+        if (this.isInView(Number(coord.x), Number(coord.y), this.player.position)) {
+          this.drawOtherPlayer(Number(coord.x) - xOffset, Number(coord.y) - yOffset)
         }
         this.checkVictory({ ...otherPlayer, position: coord })
       }
     })
     this.bullets.forEach((bullet) => {
-      if (this.isInView(bullet.position.x, bullet.position.y, this.player.position)){
+      if (this.isInView(bullet.position.x, bullet.position.y, this.player.position)) {
         bullet.draw(xOffset, yOffset)
       }
     })
@@ -97,7 +98,7 @@ class Game {
     this.historic.forEach((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]
       if (coord) {
-        this.player.drawBIG(coord.x, coord.y, cellWidth, cellheight)
+        this.player.drawBIG(Number(coord.x), Number(coord.y), cellWidth, cellheight)
       }
     })
   }
@@ -133,14 +134,14 @@ class Game {
   }
 
   drawOtherPlayer(x, y) {
-    const playerWidth = playerSize*cellWidth
+    const playerWidth = playerSize * cellWidth
     ctx.fillStyle = colors.playerGost
     ctx.beginPath()
-    ctx.arc(x*cellWidth - playerWidth, y*cellheight - playerWidth, playerWidth, 0, 2 * Math.PI)
+    ctx.arc(x * cellWidth , y * cellheight , playerWidth, 0, 2 * Math.PI)
     ctx.closePath()
     ctx.fill()
   }
-s
+
   isWall(x, y) {
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
 
@@ -148,18 +149,27 @@ s
   }
 
   isPlayer(xBullet, yBullet) {
-    const ind = this.getHistoricInd()
-    const deadPlayerInd = this.historic.findIndex(
-      (otherPlayer) =>{
-        const coord = otherPlayer.playerMove[ind]
-        return(
-          xBullet > coord?.x - playerSize &&
-          xBullet < coord?.x + playerSize &&
-          yBullet > coord.y - playerSize &&
-          yBullet < coord.y + playerSize
-        )
-      }
+    const {x, y } = this.player.position
+    const touchPlayer = (
+      xBullet > x - playerSize &&
+      xBullet < x + playerSize &&
+      yBullet > y - playerSize &&
+      yBullet < y + playerSize
     )
+    if(touchPlayer){
+      this.chronometer.timeLeft = 0
+      return true
+    }
+    const ind = this.getHistoricInd()
+    const deadPlayerInd = this.historic.findIndex((otherPlayer) => {
+      const coord = otherPlayer.playerMove[ind]
+      return (
+        xBullet > Number(coord?.x) - playerSize &&
+        xBullet < Number(coord?.x) + playerSize &&
+        yBullet > Number(coord?.y) - playerSize &&
+        yBullet < Number(coord?.y) + playerSize
+      )
+    })
     if (deadPlayerInd > -1) {
       this.historic.splice(deadPlayerInd, 1)
       return true
@@ -172,6 +182,7 @@ s
     this.player.startLogs(this.recordRate)
     this.player.startMove(this)
     this.gameInterval = setInterval(() => {
+      this.checkBulletHistory()
       this.clearCanvas()
       this.drawMazeBIG()
       this.drawMaze()
@@ -183,6 +194,24 @@ s
   getHistoricInd() {
     const index = Math.floor((this.chronometer.currentTime * 10) / this.recordRate)
     return index
+  }
+
+  checkBulletHistory(){
+    const currentTime = this.chronometer.currentTime
+    let lastBullet = this.historicBullets[this.historicBullets.length-1]
+    // console.log('lastBullet',this.historicBullets);
+    // console.log({currentTime});
+    while(lastBullet?.time<currentTime){
+      const playerAlive = this.historic.find(el=>el.id===lastBullet.playerID)
+      if(playerAlive){
+        const newBullet = new Bullet({...lastBullet, id:lastBullet._id})
+        this.bullets.push(newBullet)
+        console.log({newBullet});
+        newBullet.move(this)
+      }
+      this.historicBullets.pop()
+      lastBullet = this.historicBullets[this.historicBullets.length-1]
+    }
   }
 
   clearCanvas() {
@@ -201,7 +230,7 @@ s
     for (let y = 0; y < this.grid2D.length; y++) {
       let x = this.grid2D[y].indexOf(10)
       if (x > -1) {
-        this.player.position = { y:y+0.5, x:x+0.5 }
+        this.player.position = { y: y + 0.5, x: x + 0.5 }
       }
     }
   }
@@ -214,7 +243,7 @@ s
       }
     } else {
       if (cell === endValue) {
-        this.ranking.push({...player, time:this.chronometer.currentTime })
+        this.ranking.push({ ...player, time: this.chronometer.currentTime })
       }
     }
   }
@@ -228,9 +257,10 @@ s
         map: this.id,
         playerMove: this.player.logs,
       }
-      const ranking = this.ranking.map(el=>({name:el.name, user:el.userID, time:el.time}))
+      const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
+      const bullets = [...this.newHistoricBullet].sort((a, b) =>b.time - a.time  )
       try {
-        await gameAPI.sendGame({ historic, ranking })
+        await gameAPI.sendGame({ historic, ranking, historicBullets:bullets })
       } catch (error) {
         console.log({ error })
       }

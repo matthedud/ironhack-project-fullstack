@@ -32,27 +32,31 @@ endButton.addEventListener("click", endGame)
 
 async function startGame(event) {
   event.preventDefault()
-
   startButton.disabled = true
-  if (!game) {
-    const gameFetch = await gameAPI.getGame()
-    let player
-    if (gameFetch?.user?.userName) {
-      player = new Player(gameFetch?.historics?.length, gameFetch.user.userName)
-    } else {
-      const name = window.prompt("Enter Name", "Joe")
-      player = new Player(gameFetch?.historics?.length, name)
+  const gameFetch = await gameAPI.getGame()
+  let player
+  if (gameFetch?.user?.userName) {
+    player = new Player(gameFetch?.historics?.length, gameFetch.user.userName)
+  } else {
+    const name = window.prompt("Enter Name", "Joe")
+    if(name) player = new Player(gameFetch?.historics?.length, name)
+    else {
+      player = null
+      startButton.disabled = false
     }
+  }
+  if(player){
     game = new Game(
       gameFetch.map._id,
       gameFetch.map.cells,
       player,
       gameFetch.historics,
-      gameFetch.map.recordRate
+      gameFetch.map.recordRate,
+      gameFetch.map.historicBullets,
     )
     game.placePlayer()
+    game.runGameLoop()
   }
-  game.runGameLoop()
 }
 
 function endGame() {
