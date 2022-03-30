@@ -14,16 +14,8 @@ const context = canvas2.getContext("2d")
 parentEl2.appendChild(canvas2)
 
 let game = null
-const gameAPI = new APIHandler("http://localhost:3000/API")
 
-const colors = {
-  floor: "rgb(126, 126, 126)",
-  wall: "#013aa6",
-  bullet: 'black',
-  start: "yellow",
-  end: "green",
-  playerGost: "white",
-}
+
 
 const startButton = document.getElementById("start")
 const endButton = document.getElementById("end")

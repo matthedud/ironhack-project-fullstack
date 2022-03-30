@@ -12,6 +12,10 @@ const mapSchema = new Schema({
   cells: {
     type: [[Number]],
   },
+  isPublic:{
+    type: Boolean,
+    default: true,
+  },
   //date the game started
   debut: {
     type: Date,
