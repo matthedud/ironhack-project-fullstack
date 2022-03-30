@@ -62,6 +62,7 @@ class Game {
         bullet.draw(xOffset, yOffset)
       }
     })
+    this.drawBulletCount()
   }
 
   drawCell(cellInd, lineInd, canvasIndX, canvasIndY) {
@@ -84,6 +85,12 @@ class Game {
     const y = canvasIndY * cellheight
     ctx.beginPath()
     ctx.fillRect(x, y, cellWidth, cellheight)
+  }
+
+  drawBulletCount(){
+    ctx.fillStyle = "white"
+    ctx.font = "48px serif"
+		ctx.fillText(this.player.bullets, 10, 50)
   }
 
   //-----------------------------------------------------
