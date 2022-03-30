@@ -31,6 +31,7 @@ endButton.addEventListener("click", endGame)
 
 async function startGame(event) {
   event.preventDefault()
+  startButton.disabled = true
   if (!game) {
     const gameFetch = await gameAPI.getGame()
     let player
