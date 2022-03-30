@@ -3,7 +3,6 @@ const isLoggedIn = require("../middleware/isLoggedIn")
 const Map = require("../models/Map.model")
 const Historic = require("../models/Historic.model")
 const User = require("../models/User.model")
-const recordRate = 100;
 
 router.get("/game", async (req, res, next) => {
   try {

@@ -2,7 +2,7 @@
 //--------------------------DIMENTIONS-----------
 const canvasHeight = Math.floor(window.innerHeight*0.85)
 const canvasWidth = Math.floor(window.innerWidth*0.9)
-const viewColumnNum = 10
+const viewColumnNum = 20
 const viewLineNum = 10
 const cellWidth = Math.floor(canvasWidth / viewColumnNum)
 const cellheight = Math.floor(canvasHeight / viewLineNum)
@@ -207,7 +207,6 @@ class Game {
       if (playerAlive) {
         const newBullet = new Bullet({ ...lastBullet, id: lastBullet._id })
         this.bullets.push(newBullet)
-        console.log({ newBullet })
         newBullet.move(this)
       }
       this.historicBullets.pop()
