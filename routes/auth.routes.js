@@ -38,7 +38,7 @@ router.post("/signup", isLoggedOut, async (req, res, next) => {
           password: hashedPassword,
         });
         req.session.user = userNameExist;
-        await res.redirect("/auth/userProfile");
+        res.redirect("/user/userProfile");
       }
     }
   } catch (error) {
@@ -76,7 +76,7 @@ router.post("/login", isLoggedOut, async (req, res, next) => {
         );
         if (correctPassword) {
           req.session.user = userNameExist;
-          res.redirect("/auth/userProfile");
+          res.redirect("/user/userProfile");
         } else {
           res.render("auth/login", {
             errorMessage: "Oups wrong password :(",
@@ -89,9 +89,9 @@ router.post("/login", isLoggedOut, async (req, res, next) => {
   }
 });
 
-router.get("/userProfile", (req, res) => {
-  res.render("users/user-profile", { user: req.session.user });
-});
+// router.get("/userProfile", (req, res) => {
+//   res.render("users/user-profile", { user: req.session.user });
+// });
 
 router.get("/logout", isLoggedIn, (req, res, next) => {
   req.session.destroy((err) => {

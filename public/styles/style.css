@@ -25,6 +25,12 @@ nav {
   box-sizing: content-box;
   display: flex;
   justify-content: space-between;
+  background-color: #000000;
+  background-image: linear-gradient(147deg, #000000 0%, #434343 74%);
+  border-radius: 10px;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
 nav a {
@@ -32,10 +38,11 @@ nav a {
   color: whitesmoke;
   display: block;
   position: relative;
+  border-radius: 10px;
 }
 
 a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -63,7 +70,7 @@ li:nth-child(2) a::after {
 }
 
 li:nth-child(2) a:hover::after,
-li:nth-child(2) a:focus::after{
+li:nth-child(2) a:focus::after {
   transform: translate3d(0, 0, 0);
 }
 
@@ -75,7 +82,7 @@ li:nth-child(3) a::after {
 }
 
 li:nth-child(3) a:hover::after,
-li:nth-child(3) a:focus::after{
+li:nth-child(3) a:focus::after {
   transform: scale(1);
 }
 
@@ -87,7 +94,7 @@ li:nth-child(3) a:focus::after{
 
 .nav-right {
   display: flex;
-  align-items: stretch;
+  align-items: center;
 }
 
 .parag {
@@ -99,9 +106,27 @@ li:nth-child(3) a:focus::after{
 }
 
 h1 {
-  margin-left: 32px;
-  padding-bottom: 1.2rem;
-  /* text-shadow: 2px 2px whitesmoke; */
+  margin-left: 18px;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  /* color: whitesmoke; */
+  /* text-shadow: 2px 2px #fa544d; */
+  /* -webkit-text-stroke: 0.5px #fa544d; */
+}
+
+h2 {
+  margin-left: 18px;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+h3 {
+  color: whitesmoke;
+}
+
+.hof {
+  display: inline-block;
+  box-sizing: border-box;
 }
 
 .container {
@@ -112,11 +137,11 @@ h1 {
   width: 900px;
   height: 580px;
   padding: 20px;
-  margin-left: 30px;
+  margin-left: 10px;
 }
 
 .gamePage {
-  margin-left: 30px;
+  margin-left: 18px;
 }
 
 canvas {

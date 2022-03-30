@@ -3,13 +3,12 @@ const isLoggedIn = require("../middleware/isLoggedIn")
 const Map = require("../models/Map.model")
 const Historic = require("../models/Historic.model")
 const User = require("../models/User.model")
-
-
+const recordRate = 100;
 
 router.get("/game", async (req, res, next) => {
   try {
-    const map = await Map.findOne({ current: true })
-    const user = req.session?.user
+    const map = await Map.findOne({ current: true });
+    const user = req.session?.user;
     if (map) {
       const timeElapse = new Date() - new Date(map.debut)
       console.log('timeElapse', timeElapse, map.debut, map.gameDuration);
@@ -27,10 +26,10 @@ router.get("/game", async (req, res, next) => {
       res.send({map:newMap, historics:[], user})
     }
   } catch (error) {
-    console.error(error)
-    next(error)
+    console.error(error);
+    next(error);
   }
-})
+});
 
 router.post("/game", async (req, res, next) => {
   const {historic, ranking, historicBullets} = req.body
@@ -39,10 +38,10 @@ router.post("/game", async (req, res, next) => {
      await Map.findByIdAndUpdate(historic.map, {ranking, historicBullets})
      res.send('cool')
   } catch (error) {
-    console.error(error)
-    next(error)
+    console.error(error);
+    next(error);
   }
-})
+});
 
 router.post("/map", isLoggedIn, async (req, res, next) => {
   const {mapToSend} = req.body

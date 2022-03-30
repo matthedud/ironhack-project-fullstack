@@ -13,5 +13,4 @@ const coordinateSchema = new Schema({
   },
 });
 
-
 module.exports = coordinateSchema;
