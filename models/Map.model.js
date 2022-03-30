@@ -8,22 +8,34 @@ const wallValue = 0
 const floorValue = 1
 
 const mapSchema = new Schema({
+  //grid defininig the grid
   cells: {
     type: [[Number]],
   },
+  //date the game started
   debut: {
     type: Date,
     default: new Date(),
     require: true,
   },
-  current: {
+  // if this Map is the One in current Play
+  current: { 
     type: Boolean,
     require: true,
     default: true,
   },
-  recordRate :Number,
-  ranking:[rankingSchema],
-  historicBullets:[historicBulletsSchema],
+  //in milliseconds
+  gameDuration:{
+    type:Number,
+    default:1000*60*60,
+  }, 
+  // lapse between two record in milliseconds in historic
+  recordRate :{
+    type:Number,
+    default:100,
+  }, 
+  ranking:[rankingSchema], // ordered list of the winning players (first index is player one)
+  historicBullets:[historicBulletsSchema],// record of all the bullets shot
 })
 
 // mapSchema.statics.createMap = function (dimensions = 100, maxTunnels = 200, maxLength = 20) {
