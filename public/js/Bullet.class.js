@@ -1,5 +1,5 @@
-const bulletVelocity = 1
-const bulletSize = 3
+const bulletVelocity = 0.1
+const bulletSize = 1
 
 class Bullet {
 	constructor(player, id, position) {
@@ -26,7 +26,7 @@ class Bullet {
 			this.position.y = newYposition
 			setTimeout(() => {
 				if (this) this.move(game)
-			},500)
+			},30)
 		} else {
 			const bulletIndex = game.bullets.findIndex(
 				(el) => (el.id = this.id)

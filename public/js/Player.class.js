@@ -13,10 +13,10 @@ class Player {
     this.logInterval = null
     this.nextBulletId = 0
 
-    document.addEventListener("click",(event) =>{
-      this.shoot(this.pointToAngle(event.offsetX,event.offsetY))
+    document.addEventListener("click", (event) => {
+      this.shoot(this.pointToAngle(event.offsetX, event.offsetY))
     })
-  
+
     this.moveInterval = null
     this.moveRate = 30
 
@@ -32,18 +32,29 @@ class Player {
     //-------------------------
   }
 
-  shoot(angle){
-    this.nextBulletId = this.game.bullets.push(new Bullet(this,this.nextBulletId,{x:this.position.x,y:this.position.y,direction:angle}))
-    this.game.bullets[this.nextBulletId-1].move(this.game)
-    console.log(this.game.bullets)
+  shoot(angle) {
+    this.nextBulletId = this.game.bullets.push(
+      new Bullet(this, this.nextBulletId, {
+        x: this.position.x,
+        y: this.position.y,
+        direction: angle,
+      })
+    )
+    this.game.bullets[this.nextBulletId - 1].move(this.game)
   }
 
   draw() {
     // draw circle for player
-    const playerWidth = playerSize*cellWidth
+    const playerWidth = playerSize * cellWidth
     ctx.fillStyle = "red"
     ctx.beginPath()
-    ctx.arc(canvasWidth / 2 - playerWidth, canvasHeight / 2 - playerWidth, playerWidth, 0, 2 * Math.PI)
+    ctx.arc(
+      canvasWidth / 2 - playerWidth,
+      canvasHeight / 2 - playerWidth,
+      playerWidth,
+      0,
+      2 * Math.PI
+    )
     ctx.closePath()
     ctx.fill()
 
@@ -90,7 +101,7 @@ class Player {
     }, this.moveRate)
   }
 
-  stopMove(){
+  stopMove() {
     clearInterval(this.moveInterval)
     this.moveInterval = null
   }
@@ -99,11 +110,11 @@ class Player {
     return this.keyboard.up + this.keyboard.down + this.keyboard.right + this.keyboard.left - 1
   }
 
-  pointToAngle(x,y){
-    let deltaX = x - canvasWidth/2
-    let deltaY = canvasHeight/2 - y
-    let result = Math.floor(Math.atan2(deltaY, deltaX)*(180/Math.PI))
-    return (result < 0) ? -result : (360 - result)
+  pointToAngle(x, y) {
+    let deltaX = x - canvasWidth / 2
+    let deltaY = canvasHeight / 2 - y
+    let result = Math.floor(Math.atan2(deltaY, deltaX) * (180 / Math.PI))
+    return result < 0 ? -result : 360 - result
   }
 
   drawBIG(x, y, cellWidth, cellheight) {
