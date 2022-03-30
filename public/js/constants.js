@@ -11,7 +11,7 @@ const gameLength = 100*60 //1 minute
 
 const colors = {
     floor: "rgb(126, 126, 126)",
-    wall: "#013aa6",
+    wall: "#202020ee",
     bullet: 'black',
     start: "yellow",
     end: "green",

@@ -163,7 +163,10 @@ class Game {
       yBullet > y - playerSize &&
       yBullet < y + playerSize
     if (touchPlayer) {
-      this.endGame()
+      this.player.stopLogs()
+      this.player.stopMove()
+      this.player.color = "rgba(36, 39, 41, 0)"
+      // this.endGame()
     }
     const ind = this.getHistoricInd()
     const deadPlayerInd = this.historic.findIndex((otherPlayer) => {
@@ -240,7 +243,7 @@ class Game {
   }
   checkVictory(player) {
     const cell = this.grid2D[Math.floor(player.position.y)][Math.floor(player.position.x)]
-    const isInVictoryInd = this.ranking.findIndex((el) => el.id === player.id)
+    const isInVictoryInd = this.ranking.findIndex((el) => el.playerIND === player.playerIND)
     if (isInVictoryInd > -1) {
       if (cell !== endValue) {
         this.ranking.splice(isInVictoryInd, 1)

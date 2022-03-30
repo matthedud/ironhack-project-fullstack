@@ -2,17 +2,17 @@ const playerSize = 0.15
 let moveSpeed = 0.1
 
 class Player {
-  constructor(id, name, position = { x: 0, y: 0, direction: 0 }) {
-    this.id = id
-    this.userID = null
+  constructor({playerIND, name, user}) {
+    this.playerIND = playerIND
+    this.user = user?.id
     this.name = name
-    this.position = { x: position.x, y: position.y, direction: position.direction }
-    this.controller = null //if the player use controller
+    this.position = { x: 0, y: 0, direction: 0 }
     this.keyboard = new KeyBoard()
     this.logs = []
     this.logInterval = null
     this.canShoot = true
     this.bullets = 10
+    this.color='red'
 
     document.addEventListener("click", (event) => {
       const direction = this.pointToAngle(event.offsetX, event.offsetY)
@@ -50,7 +50,7 @@ class Player {
   draw() {
     // draw circle for player
     const playerWidth = playerSize * cellWidth
-    ctx.fillStyle = "red"
+    ctx.fillStyle = this.color
     ctx.beginPath()
     ctx.arc(
       canvasWidth / 2 ,
