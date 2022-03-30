@@ -58,7 +58,7 @@ li:nth-child(2) a {
 }
 
 li:nth-child(2) a::after {
-  opacity 1;
+  opacity: 1;
   transform: translate3d(-100%, 0, 0);
 }
 
@@ -69,7 +69,7 @@ li:nth-child(2) a:focus::after{
 
 /* Scale from center */
 li:nth-child(3) a::after {
-  opacity 1;
+  opacity: 1;
   transform: scale(0);
   transform-origin: center;
 }
