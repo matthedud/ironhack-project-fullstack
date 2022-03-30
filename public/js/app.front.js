@@ -1,4 +1,6 @@
 
+const clockEl = document.getElementById("clock")
+const clockEndEl = document.getElementById("clock-end-game")
 
 
 const parentEl = document.getElementById("game")
@@ -16,6 +18,7 @@ const context = canvas2.getContext("2d")
 // parentEl2.appendChild(canvas2)
 
 let game = null
+let endTimer = null
 
 const startButton = document.getElementById("start")
 const endButton = document.getElementById("end")
@@ -46,7 +49,12 @@ async function startGame(event) {
       gameFetch.map.recordRate,
       gameFetch.map.historicBullets,
     )
+    const endTime = new Date(gameFetch.map.debut).getTime() + gameFetch.map.gameDuration
+    console.log({endTime});
+    endTimer = new EndTImer(endTime)
+    endTimer.start(clockEndEl)
     game.placePlayer()
+
     game.runGameLoop()
   }
 }
