@@ -28,10 +28,11 @@ async function startGame(event) {
   startButton.disabled = true
   const gameFetch = await gameAPI.getGame()
   let player
-  if (gameFetch?.user?.userName) {
+  console.log('user', gameFetch?.user);
+  if (gameFetch?.user?.username) {
     player = new Player({
       playerIND: gameFetch?.historics?.length,
-      name: gameFetch.user.userName,
+      name: gameFetch.user.username,
       user: gameFetch.user,
     })
   } else {
