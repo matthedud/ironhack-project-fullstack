@@ -1,5 +1,4 @@
-const bulletVelocity = 0.1
-const bulletSize = 1
+
 
 class Bullet {
 	constructor({playerIND, id, position, time}) {

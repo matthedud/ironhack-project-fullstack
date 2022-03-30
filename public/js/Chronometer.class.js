@@ -1,6 +1,4 @@
 const clockEl = document.getElementById("clock")
-const gameLength = 100*60 //1 minute
-
 
 class Chronometer {
   constructor(timeLeft= gameLength) {
@@ -19,7 +17,7 @@ class Chronometer {
         const milliSeconds = this.computeTwoDigitNumber(this.getMilliSeconds());
         this.printTime(clockEl, minutes, seconds, milliSeconds);
       }
-    }, 10);
+    }, 10);// precision au centieme de second
   }
 
   getMinutes() {
@@ -41,13 +39,6 @@ class Chronometer {
     clearInterval(this.intervalId);
   }
 
-  reset(printTime) {
-    this.timeLeft = 0;
-    if (printTime) {
-      printTime('00', '00', '00');
-    }
-  }
-
   printTime(clockEl, minutes, seconds, milliSeconds) {
     clockEl.textContent = `${minutes}:${seconds}:${milliSeconds}`
   }
@@ -59,4 +50,3 @@ class Chronometer {
     return `${minutes}:${secondes}:${milliSeconds}`;
   }
 }
-

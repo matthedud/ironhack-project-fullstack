@@ -7,13 +7,6 @@ const cellWidth = canvasWidth / viewColumnNum
 const cellheight = canvasHeight / viewLineNum
 //---------------------------------------------
 
-//--------------------------Ground Values-----------
-// Has been moved to constants.js
-// const floorValue = 1 
-// const endValue = 11
-// const startValue = 10
-// const wallValue = 0
-//--------------------------------------------------
 
 class Game {
   constructor(
