@@ -256,27 +256,22 @@ class Game {
   }
   checkEndGame() {
     if (this.chronometer.timeLeft < 0) 
-    this.endGame()
+      this.endGame()
   }
 
   async endGame(){
     this.pauseGame()
     const historic = {
-      playerIND: this.player.id,
-      user: this.player.userID,
+      playerIND: this.player.playerIND,
+      user: this.player.user,
       playerName: this.player.name,
       map: this.id,
       playerMove: this.player.logs,
     }
     const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
     try {
-    if(this.chronometer.timeLeft<0){
-      const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
+        const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
         await gameAPI.sendGame({ historic, ranking, historicBullets: bullets })
-      }
-    else{
-      await gameAPI.sendGame({ historic, historicBullets: bullets })
-    }
     } catch (error) {
       console.log({ error })
     }
