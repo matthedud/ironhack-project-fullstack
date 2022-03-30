@@ -1,7 +1,6 @@
 //--------------------------DIMENTIONS-----------
 const canvasHeight = 500
 const canvasWidth = 500
-
 const viewColumnNum = 10
 const viewLineNum = 10
 const cellWidth = canvasWidth / viewColumnNum
@@ -16,12 +15,12 @@ const wallValue = 0
 //--------------------------------------------------
 
 class Game {
-  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 500) {
+  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 100) {
     this.id = id
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
     this.gameInterval = null
-    this.frameRate = 100
+    this.frameRate = 30
     this.bullets = []
     this.player = player
     this.player.game = this
@@ -151,10 +150,10 @@ class Game {
     const deadPlayerInd = this.historic.findIndex((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]
       return (
-        xBullet+bulletSize > Number(coord?.x) - playerSize &&
-        xBullet-bulletSize < Number(coord?.x) + playerSize &&
-        yBullet+bulletSize > Number(coord?.y) - playerSize &&
-        yBullet-bulletSize < Number(coord?.y) + playerSize
+        xBullet > Number(coord?.x) - playerSize &&
+        xBullet < Number(coord?.x) + playerSize &&
+        yBullet > Number(coord?.y) - playerSize &&
+        yBullet < Number(coord?.y) + playerSize
       )
     })
     if (deadPlayerInd > -1) {

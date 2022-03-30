@@ -12,6 +12,8 @@ class Player {
     this.logs = []
     this.logInterval = null
     this.nextBulletId = 0
+    this.canShoot = true
+    this.bullets = 10
 
     document.addEventListener("click", (event) => {
       this.shoot(this.pointToAngle(event.offsetX, event.offsetY))
@@ -33,14 +35,19 @@ class Player {
   }
 
   shoot(angle) {
-    this.nextBulletId = this.game.bullets.push(
-      new Bullet(this, this.nextBulletId, {
-        x: this.position.x,
-        y: this.position.y,
-        direction: angle,
-      })
-    )
-    this.game.bullets[this.nextBulletId - 1].move(this.game)
+    if (this.canShoot && this.bullets>0){
+      this.bullets--
+      this.nextBulletId = this.game.bullets.push(
+        new Bullet(this, this.nextBulletId, {
+          x: this.position.x,
+          y: this.position.y,
+          direction: angle,
+        })
+      )
+      this.game.bullets[this.nextBulletId - 1].move(this.game)
+        this.canShoot=false
+        setTimeout(()=>this.canShoot=true, 500)
+    }
   }
 
   draw() {
