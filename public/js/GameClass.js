@@ -15,8 +15,15 @@ const wallValue = 0
 //--------------------------------------------------
 
 class Game {
-  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 100, historicBulletServer=[]) {
-    console.log('historicBulletServer', historicBulletServer);
+  constructor(
+    id,
+    grid2D = [],
+    player = {},
+    historic = [],
+    recordRate = 100,
+    historicBulletServer = []
+  ) {
+    console.log("historicBulletServer", historicBulletServer)
     this.id = id
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
@@ -137,7 +144,7 @@ class Game {
     const playerWidth = playerSize * cellWidth
     ctx.fillStyle = colors.playerGost
     ctx.beginPath()
-    ctx.arc(x * cellWidth , y * cellheight , playerWidth, 0, 2 * Math.PI)
+    ctx.arc(x * cellWidth, y * cellheight, playerWidth, 0, 2 * Math.PI)
     ctx.closePath()
     ctx.fill()
   }
@@ -149,14 +156,13 @@ class Game {
   }
 
   isPlayer(xBullet, yBullet) {
-    const {x, y } = this.player.position
-    const touchPlayer = (
+    const { x, y } = this.player.position
+    const touchPlayer =
       xBullet > x - playerSize &&
       xBullet < x + playerSize &&
       yBullet > y - playerSize &&
       yBullet < y + playerSize
-    )
-    if(touchPlayer){
+    if (touchPlayer) {
       this.chronometer.timeLeft = 0
       return true
     }
@@ -196,21 +202,21 @@ class Game {
     return index
   }
 
-  checkBulletHistory(){
+  checkBulletHistory() {
     const currentTime = this.chronometer.currentTime
-    let lastBullet = this.historicBullets[this.historicBullets.length-1]
-    // console.log('lastBullet',this.historicBullets);
-    // console.log({currentTime});
-    while(lastBullet?.time<currentTime){
-      const playerAlive = this.historic.find(el=>el.id===lastBullet.playerID)
-      if(playerAlive){
-        const newBullet = new Bullet({...lastBullet, id:lastBullet._id})
+    let lastBullet = this.historicBullets[this.historicBullets.length - 1]
+    while (lastBullet?.time < currentTime) {
+      const playerAlive = this.historic.find(
+        (el) => Number(el.playerIND) === Number(lastBullet.playerIND)
+      )
+      if (playerAlive) {
+        const newBullet = new Bullet({ ...lastBullet, id: lastBullet._id })
         this.bullets.push(newBullet)
-        console.log({newBullet});
+        console.log({ newBullet })
         newBullet.move(this)
       }
       this.historicBullets.pop()
-      lastBullet = this.historicBullets[this.historicBullets.length-1]
+      lastBullet = this.historicBullets[this.historicBullets.length - 1]
     }
   }
 
@@ -258,9 +264,9 @@ class Game {
         playerMove: this.player.logs,
       }
       const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
-      const bullets = [...this.newHistoricBullet].sort((a, b) =>b.time - a.time  )
+      const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
       try {
-        await gameAPI.sendGame({ historic, ranking, historicBullets:bullets })
+        await gameAPI.sendGame({ historic, ranking, historicBullets: bullets })
       } catch (error) {
         console.log({ error })
       }
