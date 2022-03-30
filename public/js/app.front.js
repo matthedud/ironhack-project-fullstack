@@ -15,8 +15,6 @@ parentEl2.appendChild(canvas2)
 
 let game = null
 
-
-
 const startButton = document.getElementById("start")
 const endButton = document.getElementById("end")
 startButton.addEventListener("click", startGame)

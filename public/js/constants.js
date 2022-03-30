@@ -12,4 +12,4 @@ const colors = {
     playerGost: "white",
 }
 
-const gameAPI = new APIHandler("http://localhost:3000/API")
+const gameAPI = new APIHandler()

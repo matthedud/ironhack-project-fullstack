@@ -11,7 +11,6 @@ router.get("/game", async (req, res, next) => {
     const user = req.session?.user;
     if (map) {
       const timeElapse = new Date() - new Date(map.debut)
-      console.log('timeElapse', timeElapse, map.debut, map.gameDuration);
       if(timeElapse<map.gameDuration){
         const historics = await Historic.find({ map: map._id })
         res.send({ map, historics, user })

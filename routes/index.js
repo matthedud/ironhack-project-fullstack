@@ -37,21 +37,7 @@ router.post("/editor", isLoggedIn, async (req, res, next) => {
 })
 
 router.get("/game", async (req, res, next) => {
-    try {
-        const map = await Map.findOne({ current: true })
-        if(map){
-            const historics = await Historic.find({map: map._id})
-            res.render("game", {map, historics})
-        }
-        else {
-            // const newGrid = Map.createMap()
-            const newMap = await Map.create()
-            res.render("game", {map:newMap, historics:[]})
-        }
-        } catch (error) {
-            console.error(error)
-            next(error)
-    }
+    res.render("game")
 });
 
 router.get("/game/:id", async (req, res, next) => {
