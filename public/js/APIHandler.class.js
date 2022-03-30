@@ -16,13 +16,13 @@ class APIHandler {
 
     async sendGame({ historic, ranking } ) {
       try {
-        const response = await axios({
+        await axios({
           method: "POST",
           url: "/game",
           baseURL: this.BASE_URL,
           data: { historic, ranking }
         })
-        return response.data
+        window.location.href('/')
       } catch (err) {console.log({err})}
     }
   }
