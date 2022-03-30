@@ -1,10 +1,11 @@
+
 //--------------------------DIMENTIONS-----------
-const canvasHeight = 500
-const canvasWidth = 500
+const canvasHeight = Math.floor(window.innerHeight*0.85)
+const canvasWidth = Math.floor(window.innerWidth*0.9)
 const viewColumnNum = 10
 const viewLineNum = 10
-const cellWidth = canvasWidth / viewColumnNum
-const cellheight = canvasHeight / viewLineNum
+const cellWidth = Math.floor(canvasWidth / viewColumnNum)
+const cellheight = Math.floor(canvasHeight / viewLineNum)
 //---------------------------------------------
 
 
