@@ -21,9 +21,9 @@ let game = null
 let endTimer = null
 
 const startButton = document.getElementById("start")
-const endButton = document.getElementById("end")
+// const endButton = document.getElementById("end")
 startButton.addEventListener("click", startGame)
-endButton.addEventListener("click", endGame)
+// endButton.addEventListener("click", endGame)
 
 async function startGame(event) {
   event.preventDefault()

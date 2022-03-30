@@ -16,13 +16,13 @@ class APIHandler {
 
     async sendGame({ historic, ranking, historicBullets } ) {
       try {
-        await axios({
+        const response = await axios({
           method: "POST",
           url: "/game",
           baseURL: this.BASE_URL,
           data: { historic, ranking, historicBullets }
         })
-        openModal(ranking)
+        openModal(response.data)
       } catch (err) {console.log({err})}
     }
 

@@ -2,7 +2,7 @@
 //--------------------------DIMENTIONS-----------
 const canvasHeight = Math.floor(window.innerHeight*0.85)
 const canvasWidth = Math.floor(window.innerWidth*0.9)
-const viewColumnNum = 20
+const viewColumnNum = Math.floor(10*canvasWidth/canvasHeight)
 const viewLineNum = 10
 const cellWidth = Math.floor(canvasWidth / viewColumnNum)
 const cellheight = Math.floor(canvasHeight / viewLineNum)
@@ -18,7 +18,6 @@ class Game {
     recordRate = 100,
     historicBulletServer = []
   ) {
-    console.log("historicBulletServer", historicBulletServer)
     this.id = id
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
@@ -153,7 +152,6 @@ class Game {
 
   isWall(x, y) {
     if (x < 0 || y < 0 || y >= this.grid2D.length || x >= this.grid2D[0].length) return true
-
     return this.grid2D[Math.floor(y)][Math.floor(x)] === wallValue
   }
 
@@ -165,8 +163,7 @@ class Game {
       yBullet > y - playerSize &&
       yBullet < y + playerSize
     if (touchPlayer) {
-      this.chronometer.timeLeft = 0
-      return true
+      this.endGame()
     }
     const ind = this.getHistoricInd()
     const deadPlayerInd = this.historic.findIndex((otherPlayer) => {
@@ -254,23 +251,31 @@ class Game {
       }
     }
   }
-  async checkEndGame() {
-    if (this.chronometer.timeLeft < 0) {
-      this.pauseGame()
-      const historic = {
-        playerIND: this.player.id,
-        user: this.player.userID,
-        playerName: this.player.name,
-        map: this.id,
-        playerMove: this.player.logs,
-      }
+  checkEndGame() {
+    if (this.chronometer.timeLeft < 0) 
+    this.endGame()
+  }
+
+  async endGame(){
+    this.pauseGame()
+    const historic = {
+      playerIND: this.player.id,
+      user: this.player.userID,
+      playerName: this.player.name,
+      map: this.id,
+      playerMove: this.player.logs,
+    }
+    const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
+    try {
+    if(this.chronometer.timeLeft<0){
       const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
-      const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
-      try {
         await gameAPI.sendGame({ historic, ranking, historicBullets: bullets })
-      } catch (error) {
-        console.log({ error })
       }
+    else{
+      await gameAPI.sendGame({ historic, historicBullets: bullets })
+    }
+    } catch (error) {
+      console.log({ error })
     }
   }
 }
