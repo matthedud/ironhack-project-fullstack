@@ -179,6 +179,8 @@ class Game {
       )
     })
     if (deadPlayerInd > -1) {
+      const rankInd = this.ranking.findIndex(el=>el.playerIND===this.historic[deadPlayerInd].playerIND)
+      if(rankInd>-1)this.ranking.splice(rankInd, 1)
       this.historic.splice(deadPlayerInd, 1)
       return true
     }
