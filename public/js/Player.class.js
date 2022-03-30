@@ -1,3 +1,5 @@
+const playerSize = 0.15
+let moveSpeed = 0.1
 
 class Player {
   constructor(id, name, position = { x: 0, y: 0, direction: 0 }) {
@@ -5,7 +7,7 @@ class Player {
     this.userID = null
     this.name = name
     this.position = { x: position.x, y: position.y, direction: position.direction }
-    // this.controller = null //if the player use controller
+    this.controller = null //if the player use controller
     this.keyboard = new KeyBoard()
     this.logs = []
     this.logInterval = null

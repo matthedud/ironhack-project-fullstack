@@ -20,10 +20,10 @@ router.get("/game", async (req, res, next) => {
         map.current = false
         await map.save()
       }
-      const newGrid = Map.createMap()
-      const newMap = await Map.create({ cells: newGrid})
-      res.send({map:newMap, historics:[], user})
     }
+    const newGrid = await Map.createMap()
+    const newMap = await Map.create({ cells: newGrid})
+    res.send({map:newMap, historics:[], user})
   } catch (error) {
     console.error(error);
     next(error);

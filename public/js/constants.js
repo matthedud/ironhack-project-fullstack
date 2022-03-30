@@ -5,8 +5,6 @@ const wallValue = 0
 
 const bulletVelocity = 0.1
 const bulletSize = 1
-const playerSize = 0.15
-const playerMoveSpeed = 0.1
 
 const gameLength = 100*60 //1 minute
 
