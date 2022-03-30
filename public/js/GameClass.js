@@ -149,11 +149,15 @@ class Game {
   isPlayer(xBullet, yBullet) {
     const ind = this.getHistoricInd()
     const deadPlayerInd = this.historic.findIndex(
-      (el) =>
-        xBullet > el[ind].x - playerSize &&
-        xBullet < el[ind].x + playerSize &&
-        yBullet > el[ind].y - playerSize &&
-        yBullet < el[ind].y + playerSize
+      (otherPlayer) =>{
+        const coord = otherPlayer.playerMove[ind]
+        return(
+          xBullet > coord?.x - playerSize &&
+          xBullet < coord?.x + playerSize &&
+          yBullet > coord.y - playerSize &&
+          yBullet < coord.y + playerSize
+        )
+      }
     )
     if (deadPlayerInd > -1) {
       this.historic.splice(deadPlayerInd, 1)
