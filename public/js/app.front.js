@@ -19,6 +19,7 @@ const gameAPI = new APIHandler("http://localhost:3000/API")
 const colors = {
   floor: "rgb(126, 126, 126)",
   wall: "#013aa6",
+  bullet: 'black'
   start: "yellow",
   end: "green",
   playerGost: "white",
@@ -31,6 +32,7 @@ endButton.addEventListener("click", endGame)
 
 async function startGame(event) {
   event.preventDefault()
+
   startButton.disabled = true
   if (!game) {
     const gameFetch = await gameAPI.getGame()

@@ -11,6 +11,12 @@ class Player {
     this.keyboard = new KeyBoard()
     this.logs = []
     this.logInterval = null
+    this.nextBulletId = 0
+
+    document.addEventListener("click",(event) =>{
+      this.shoot(this.pointToAngle(event.offsetX,event.offsetY))
+    })
+  
     this.moveInterval = null
     this.moveRate = 30
 
@@ -25,6 +31,13 @@ class Player {
     // this.deadSound = new Audio('./Audio/Wilhelm Scream sound effect.mp3')
     //-------------------------
   }
+
+  shoot(angle){
+    this.nextBulletId = this.game.bullets.push(new Bullet(this,this.nextBulletId,{x:this.position.x,y:this.position.y,direction:angle}))
+    this.game.bullets[this.nextBulletId-1].move(this.game)
+    console.log(this.game.bullets)
+  }
+
   draw() {
     // draw circle for player
 
@@ -84,6 +97,13 @@ class Player {
 
   isMovingDiagonal() {
     return this.keyboard.up + this.keyboard.down + this.keyboard.right + this.keyboard.left - 1
+  }
+
+  pointToAngle(x,y){
+    let deltaX = x - canvasWidth/2
+    let deltaY = canvasHeight/2 - y
+    let result = Math.floor(Math.atan2(deltaY, deltaX)*(180/Math.PI))
+    return (result < 0) ? -result : (360 - result)
   }
 
   drawBIG(x, y, cellWidth, cellheight) {
