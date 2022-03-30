@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const mapSchema = require('./Map.model')
 
 const userSchema = new Schema({
   username: {
@@ -17,6 +18,11 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Password is required."],
   },
+  maps: {
+    type: [Schema.Types.ObjectId],
+    ref:'Map',
+    required: false,
+  }
 });
 
 const User = model("User", userSchema);
