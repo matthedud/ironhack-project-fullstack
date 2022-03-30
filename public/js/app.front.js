@@ -19,7 +19,7 @@ const gameAPI = new APIHandler("http://localhost:3000/API")
 const colors = {
   floor: "rgb(126, 126, 126)",
   wall: "#013aa6",
-  bullet: 'black'
+  bullet: 'black',
   start: "yellow",
   end: "green",
   playerGost: "white",
