@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose")
+const rankingSchema = require("./Ranking.model")
 
 const startValue = 10
 const endValue = 11
@@ -19,9 +20,12 @@ const mapSchema = new Schema({
     require: true,
     default: true,
   },
+  recordRate :Number,
+  ranking:[rankingSchema]
 })
 
-mapSchema.statics.createMap = function (dimensions = 100, maxTunnels = 200, maxLength = 20) {
+// mapSchema.statics.createMap = function (dimensions = 100, maxTunnels = 200, maxLength = 20) {
+  mapSchema.statics.createMap = function (dimensions = 20, maxTunnels = 50, maxLength = 8) {
   const map = createArray(wallValue, dimensions) // create a 2d array full of 0's
   let { x: currentRow, y: currentColumn } = randomPosition(dimensions) // our current row - start at a random spot
   let directions = [
@@ -99,7 +103,7 @@ function randomFloorPosition(array) {
   let position
   do {
     position = randomPosition(array.length)
-  } while (array[position.y][position.x])
+  } while (array[position.y][position.x]===wallValue)
   return position
 }
 

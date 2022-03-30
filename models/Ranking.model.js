@@ -1,26 +1,18 @@
-const { Schema, model } = require("mongoose");
+const { Schema } = require("mongoose");
 
 const rankingSchema = new Schema({
   name: {
     type: String,
-    unique: true
-  },
-  player:{
-    type: Schema.Types.ObjectId,
-    ref: 'Player',
     required: true,
   },
-  map: {
+  user:{
     type: Schema.Types.ObjectId,
-    ref:'Map',
-    required: true,
+    ref: 'User',
   },
-  value:{
-    type: String,
+  time:{
+    type: Number,
     required: true,
   }
-});
+})
 
-const Ranking = model("Ranking", rankingSchema);
-
-module.exports = Ranking;
+module.exports = rankingSchema;
