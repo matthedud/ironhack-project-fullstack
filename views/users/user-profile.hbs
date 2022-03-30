@@ -1,5 +1,19 @@
 {{#if user}}
   <h2>Welcome {{ user.username }} to your profile page!</h2>
+      <div>
+        <h3>PERSONAL INFO</h3>
+        <li>Username: {{user.username}}</li>
+        <li>Email : {{user.email}}</li>
+        <li>Password : *********</li>
+        {{!-- <button>{{user.password}}</button> --}}
+        <br>
+    </div>
+    <div>
+      <h3>HISTORY</h3>
+        <li>Number of games played: {{mapPlayed}}</li>
+        <li>Date: {{user.debut}}</li>
+        <li>Record: {{user.current}}</li>
+    </div>
 {{else}}
   <p>Still no logged in user, sorry!</p>
 {{/if}}

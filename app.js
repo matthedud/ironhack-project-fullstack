@@ -17,9 +17,11 @@ app.locals.title = `${capitalized(projectName)}- Generated with Ironlauncher`;
 const index = require("./routes/index");
 const authRouter = require("./routes/auth.routes");
 const APIROuter = require("./routes/API.routes");
-app.use("/", index);
+const userRouter = require("./routes/user.routes");
 app.use("/auth/", authRouter);
 app.use("/API/", APIROuter);
+app.use("/user/", userRouter);
+app.use("/", index);
 
 require("./error-handling")(app);
 
