@@ -22,8 +22,7 @@ class APIHandler {
           baseURL: this.BASE_URL,
           data: { historic, ranking, historicBullets }
         })
-        console.log('here');
-        // window.location.href = "/"
+        window.location.href = "/"
       } catch (err) {console.log({err})}
     }
   }
