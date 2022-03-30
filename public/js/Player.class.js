@@ -1,4 +1,4 @@
-const playerSize = 6
+const playerSize = 0.15
 let moveSpeed = 0.1
 
 class Player {
@@ -11,53 +11,57 @@ class Player {
     this.keyboard = new KeyBoard()
     this.logs = []
     this.logInterval = null
-    this.nextBulletId = 0
+    this.canShoot = true
+    this.bullets = 10
 
-    document.addEventListener("click",(event) =>{
-      this.shoot(this.pointToAngle(event.offsetX,event.offsetY))
+    document.addEventListener("click", (event) => {
+      const direction = this.pointToAngle(event.offsetX, event.offsetY)
+      this.shoot(direction)
     })
-  
+
     this.moveInterval = null
     this.moveRate = 30
-
+    this.reloadTime = 500
     this.game = null
-    //---------FOR UX----------
-    // this.score = 0
-    // this.canShoot = true
-    // this.avatar = new Image()
-    // this.avatar.src = "./Image/player/topgun.gif"
-    // this.shootSound = new Audio('./Audio/GunShotSnglShotEx PE1097508.mp3');
-    // this.reloadSound = new Audio('./Audio/GunCockSingle PE1096303.mp3');
-    // this.deadSound = new Audio('./Audio/Wilhelm Scream sound effect.mp3')
-    //-------------------------
+
   }
 
-  shoot(angle){
-    this.nextBulletId = this.game.bullets.push(new Bullet(this,this.nextBulletId,{x:this.position.x,y:this.position.y,direction:angle}))
-    this.game.bullets[this.nextBulletId-1].move(this.game)
-    console.log(this.game.bullets)
+  shoot(direction) {
+    if (this.canShoot && this.bullets > 0) {
+      const x = this.position.x + Math.cos(direction* Math.PI / 180) * playerSize
+      const y =	this.position.y + Math.sin(direction* Math.PI / 180) * playerSize
+      const bulletData ={
+        playerIND: this.id,
+        id: game.nextBulletId,
+        position: { x,y, direction },
+        time: game.chronometer.currentTime,
+      }
+      const newBullet = new Bullet(bulletData)
+      game.bullets.push(newBullet)
+      game.newHistoricBullet.push(bulletData)
+      game.nextBulletId++
+      this.bullets--
+      newBullet.move(game)
+      this.canShoot = false
+      setTimeout(() => (this.canShoot = true), this.reloadTime)
+    }
   }
 
   draw() {
     // draw circle for player
-
+    const playerWidth = playerSize * cellWidth
     ctx.fillStyle = "red"
     ctx.beginPath()
-    ctx.arc(canvasWidth / 2 - playerSize, canvasHeight / 2 - playerSize, playerSize, 0, 2 * Math.PI)
+    ctx.arc(
+      canvasWidth / 2 ,
+      canvasHeight / 2 ,
+      playerWidth,
+      0,
+      2 * Math.PI
+    )
     ctx.closePath()
     ctx.fill()
-
-    // draw direction for player
-    // ctx.beginPath()
-    // const xDirection = this.x + Math.cos(this.direction) * playerSize
-    // const yDirection = this.y + Math.sin(this.direction) * playerSize
-    // ctx.moveTo(this.x + xOffset, this.y)
-    // ctx.lineTo(xDirection + xOffset, yDirection)
-    // ctx.closePath()
-    // ctx.stroke()
   }
-
-  //get new coordonates with input and time passed
 
   newCoord() {
     let newx = this.position.x
@@ -90,7 +94,7 @@ class Player {
     }, this.moveRate)
   }
 
-  stopMove(){
+  stopMove() {
     clearInterval(this.moveInterval)
     this.moveInterval = null
   }
@@ -99,11 +103,11 @@ class Player {
     return this.keyboard.up + this.keyboard.down + this.keyboard.right + this.keyboard.left - 1
   }
 
-  pointToAngle(x,y){
-    let deltaX = x - canvasWidth/2
-    let deltaY = canvasHeight/2 - y
-    let result = Math.floor(Math.atan2(deltaY, deltaX)*(180/Math.PI))
-    return (result < 0) ? -result : (360 - result)
+  pointToAngle(x, y) {
+    let deltaX = x - canvasWidth / 2
+    let deltaY = canvasHeight / 2 - y
+    let result = Math.floor(Math.atan2(deltaY, deltaX) * (180 / Math.PI))
+    return result < 0 ? -result : 360 - result
   }
 
   drawBIG(x, y, cellWidth, cellheight) {

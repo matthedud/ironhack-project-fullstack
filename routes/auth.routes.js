@@ -94,7 +94,6 @@ router.get("/userProfile", (req, res) => {
 });
 
 router.get("/logout", isLoggedIn, (req, res, next) => {
-  console.log("here");
   req.session.destroy((err) => {
     if (err) next(err);
     res.redirect("/");

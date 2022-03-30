@@ -1,11 +1,12 @@
-const bulletVelocity = 0.2
-const bulletSize = 3
+const bulletVelocity = 0.1
+const bulletSize = 1
 
 class Bullet {
-	constructor(player, id, position) {
-		this.position = { x: position.x, y: position.y, direction: position.direction }
-		this.player = player
+	constructor({playerIND, id, position, time}) {
+		this.position = { x: Number(position.x), y: Number(position.y), direction: Number(position.direction) }
+		this.playerIND = playerIND
 		this.id = id
+		this.time = time
 	}
 	draw(xOffset, yOffset) {
 		ctx.fillStyle = colors.bullet
@@ -26,7 +27,7 @@ class Bullet {
 			this.position.y = newYposition
 			setTimeout(() => {
 				if (this) this.move(game)
-			},50)
+			},15)
 		} else {
 			const bulletIndex = game.bullets.findIndex(
 				(el) => (el.id = this.id)

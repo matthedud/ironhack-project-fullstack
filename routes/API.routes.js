@@ -4,18 +4,26 @@ const Map = require("../models/Map.model")
 const Historic = require("../models/Historic.model")
 const User = require("../models/User.model")
 
-const recordRate = 100
+
 
 router.get("/game", async (req, res, next) => {
   try {
     const map = await Map.findOne({ current: true })
     const user = req.session?.user
     if (map) {
-      const historics = await Historic.find({ map: map._id })
-      res.send({ map, historics, user })
-    } else {
+      const timeElapse = new Date() - new Date(map.debut)
+      console.log('timeElapse', timeElapse, map.debut, map.gameDuration);
+      if(timeElapse<map.gameDuration){
+        const historics = await Historic.find({ map: map._id })
+        res.send({ map, historics, user })
+        return
+      }
+      else{
+        map.current = false
+        await map.save()
+      }
       const newGrid = Map.createMap()
-      const newMap = await Map.create({ cells: newGrid, recordRate })
+      const newMap = await Map.create({ cells: newGrid})
       res.send({map:newMap, historics:[], user})
     }
   } catch (error) {
@@ -25,10 +33,11 @@ router.get("/game", async (req, res, next) => {
 })
 
 router.post("/game", async (req, res, next) => {
-  const {historic, ranking} = req.body
+  const {historic, ranking, historicBullets} = req.body
   try {
      await Historic.create( historic)
-     await Map.findByIdAndUpdate(historic.map, {ranking})
+     await Map.findByIdAndUpdate(historic.map, {ranking, historicBullets})
+     res.send('cool')
   } catch (error) {
     console.error(error)
     next(error)

@@ -14,15 +14,15 @@ class APIHandler {
       } catch (err) {console.log({err})}
     }
 
-    async sendGame({ historic, ranking } ) {
+    async sendGame({ historic, ranking, historicBullets } ) {
       try {
-        const response = await axios({
+        await axios({
           method: "POST",
           url: "/game",
           baseURL: this.BASE_URL,
-          data: { historic, ranking }
+          data: { historic, ranking, historicBullets }
         })
-        return response.data
+        window.location.href = "/"
       } catch (err) {console.log({err})}
     }
 
