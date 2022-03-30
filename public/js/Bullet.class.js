@@ -7,9 +7,8 @@ class Bullet {
 		this.player = player
 		this.id = id
 	}
-	draw(xOffset, yOffset) {//canvasWidth / 2
-		console.log(this.position.x,this.position.y)
-		ctx.fillStyle = 'black'//colors.bullet
+	draw(xOffset, yOffset) {
+		ctx.fillStyle = colors.bullet
 		ctx.beginPath()
 		ctx.arc((this.position.x - xOffset)*cellWidth,(this.position.y - yOffset)*cellheight, bulletSize, 0, 2 * Math.PI)
 		ctx.closePath()
