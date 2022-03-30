@@ -6,7 +6,7 @@ const User = require("../models/User.model")
 
 router.get("/game", async (req, res, next) => {
   try {
-    const map = await Map.findOne({ current: true });
+    const map = await Map.findOne({ current: true, isPublic:true });
     const user = req.session?.user;
     if (map) {
       const timeElapse = new Date() - new Date(map.debut)

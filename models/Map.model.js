@@ -42,8 +42,8 @@ const mapSchema = new Schema({
   historicBullets:[historicBulletsSchema],// record of all the bullets shot
 })
 
-// mapSchema.statics.createMap = function (dimensions = 100, maxTunnels = 200, maxLength = 20) {
-  mapSchema.statics.createMap = function (dimensions = 30, maxTunnels = 70, maxLength = 10) {
+mapSchema.statics.createMap = function (dimensions = 100, maxTunnels = 200, maxLength = 20) {
+  // mapSchema.statics.createMap = function (dimensions = 30, maxTunnels = 70, maxLength = 10) {
   const map = createArray(wallValue, dimensions) // create a 2d array full of 0's
   let { x: currentRow, y: currentColumn } = randomPosition(dimensions) // our current row - start at a random spot
   let directions = [
