@@ -137,7 +137,7 @@ class Game {
     const playerWidth = playerSize * cellWidth
     ctx.fillStyle = colors.playerGost
     ctx.beginPath()
-    ctx.arc(x * cellWidth - playerWidth, y * cellheight - playerWidth, playerWidth, 0, 2 * Math.PI)
+    ctx.arc(x * cellWidth , y * cellheight , playerWidth, 0, 2 * Math.PI)
     ctx.closePath()
     ctx.fill()
   }
@@ -149,6 +149,17 @@ class Game {
   }
 
   isPlayer(xBullet, yBullet) {
+    const {x, y } = this.player.position
+    const touchPlayer = (
+      xBullet > x - playerSize &&
+      xBullet < x + playerSize &&
+      yBullet > y - playerSize &&
+      yBullet < y + playerSize
+    )
+    if(touchPlayer){
+      this.chronometer.timeLeft = 0
+      return true
+    }
     const ind = this.getHistoricInd()
     const deadPlayerInd = this.historic.findIndex((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]

@@ -27,7 +27,7 @@ class Bullet {
 			this.position.y = newYposition
 			setTimeout(() => {
 				if (this) this.move(game)
-			},30)
+			},15)
 		} else {
 			const bulletIndex = game.bullets.findIndex(
 				(el) => (el.id = this.id)

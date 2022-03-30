@@ -28,17 +28,17 @@ class Player {
 
   shoot(direction) {
     if (this.canShoot && this.bullets > 0) {
+      const x = this.position.x + Math.cos(direction* Math.PI / 180) * playerSize
+      const y =	this.position.y + Math.sin(direction* Math.PI / 180) * playerSize
       const bulletData ={
         playerIND: this.id,
         id: game.nextBulletId,
-        position: { ...this.position, direction },
+        position: { x,y, direction },
         time: game.chronometer.currentTime,
       }
       const newBullet = new Bullet(bulletData)
       game.bullets.push(newBullet)
       game.newHistoricBullet.push(bulletData)
-      console.log('newHistoricBullet', game.newHistoricBullet);
-      console.log('bulletData', bulletData);
       game.nextBulletId++
       this.bullets--
       newBullet.move(game)
@@ -53,8 +53,8 @@ class Player {
     ctx.fillStyle = "red"
     ctx.beginPath()
     ctx.arc(
-      canvasWidth / 2 - playerWidth,
-      canvasHeight / 2 - playerWidth,
+      canvasWidth / 2 ,
+      canvasHeight / 2 ,
       playerWidth,
       0,
       2 * Math.PI
