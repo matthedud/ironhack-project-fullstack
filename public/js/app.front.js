@@ -51,7 +51,8 @@ async function startGame(event) {
       gameFetch.map.cells,
       player,
       gameFetch.historics,
-      gameFetch.map.recordRate
+      gameFetch.map.recordRate,
+      gameFetch.map.historicBullets,
     )
     game.placePlayer()
     game.runGameLoop()

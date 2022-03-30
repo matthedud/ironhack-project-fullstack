@@ -23,10 +23,10 @@ router.get("/game", async (req, res, next) => {
 })
 
 router.post("/game", async (req, res, next) => {
-  const {historic, ranking} = req.body
+  const {historic, ranking, historicBullets} = req.body
   try {
      await Historic.create( historic)
-     await Map.findByIdAndUpdate(historic.map, {ranking})
+     await Map.findByIdAndUpdate(historic.map, {ranking, historicBullets})
      res.send('cool')
   } catch (error) {
     console.error(error)

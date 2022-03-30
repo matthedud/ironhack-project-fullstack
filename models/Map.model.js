@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose")
 const rankingSchema = require("./Ranking.model")
+const historicBulletsSchema = require("./HistoricBullets.model")
 
 const startValue = 10
 const endValue = 11
@@ -21,7 +22,8 @@ const mapSchema = new Schema({
     default: true,
   },
   recordRate :Number,
-  ranking:[rankingSchema]
+  ranking:[rankingSchema],
+  historicBullets:[historicBulletsSchema],
 })
 
 // mapSchema.statics.createMap = function (dimensions = 100, maxTunnels = 200, maxLength = 20) {

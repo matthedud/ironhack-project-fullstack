@@ -15,15 +15,18 @@ const wallValue = 0
 //--------------------------------------------------
 
 class Game {
-  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 100) {
+  constructor(id, grid2D = [], player = {}, historic = [], recordRate = 100, historicBulletServer=[]) {
+    console.log('historicBulletServer', historicBulletServer);
     this.id = id
     this.grid2D = grid2D
     this.chronometer = new Chronometer()
     this.gameInterval = null
     this.frameRate = 30
     this.bullets = []
+    this.nextBulletId = historicBulletServer.length
+    this.historicBullets = [...historicBulletServer]
+    this.newHistoricBullet = [...historicBulletServer]
     this.player = player
-    this.player.game = this
     this.historic = historic
     this.ranking = []
     this.recordRate = recordRate
@@ -168,6 +171,7 @@ class Game {
     this.player.startLogs(this.recordRate)
     this.player.startMove(this)
     this.gameInterval = setInterval(() => {
+      this.checkBulletHistory()
       this.clearCanvas()
       this.drawMazeBIG()
       this.drawMaze()
@@ -179,6 +183,24 @@ class Game {
   getHistoricInd() {
     const index = Math.floor((this.chronometer.currentTime * 10) / this.recordRate)
     return index
+  }
+
+  checkBulletHistory(){
+    const currentTime = this.chronometer.currentTime
+    let lastBullet = this.historicBullets[this.historicBullets.length-1]
+    // console.log('lastBullet',this.historicBullets);
+    // console.log({currentTime});
+    while(lastBullet?.time<currentTime){
+      const playerAlive = this.historic.find(el=>el.id===lastBullet.playerID)
+      if(playerAlive){
+        const newBullet = new Bullet({...lastBullet, id:lastBullet._id})
+        this.bullets.push(newBullet)
+        console.log({newBullet});
+        newBullet.move(this)
+      }
+      this.historicBullets.pop()
+      lastBullet = this.historicBullets[this.historicBullets.length-1]
+    }
   }
 
   clearCanvas() {
@@ -225,8 +247,9 @@ class Game {
         playerMove: this.player.logs,
       }
       const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
+      const bullets = [...this.newHistoricBullet].sort((a, b) =>b.time - a.time  )
       try {
-        await gameAPI.sendGame({ historic, ranking })
+        await gameAPI.sendGame({ historic, ranking, historicBullets:bullets })
       } catch (error) {
         console.log({ error })
       }

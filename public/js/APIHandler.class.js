@@ -14,16 +14,16 @@ class APIHandler {
       } catch (err) {console.log({err})}
     }
 
-    async sendGame({ historic, ranking } ) {
+    async sendGame({ historic, ranking, historicBullets } ) {
       try {
         await axios({
           method: "POST",
           url: "/game",
           baseURL: this.BASE_URL,
-          data: { historic, ranking }
+          data: { historic, ranking, historicBullets }
         })
         console.log('here');
-        window.location.href = "/"
+        // window.location.href = "/"
       } catch (err) {console.log({err})}
     }
   }

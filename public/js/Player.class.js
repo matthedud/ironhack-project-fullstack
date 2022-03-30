@@ -11,42 +11,39 @@ class Player {
     this.keyboard = new KeyBoard()
     this.logs = []
     this.logInterval = null
-    this.nextBulletId = 0
     this.canShoot = true
     this.bullets = 10
 
     document.addEventListener("click", (event) => {
-      this.shoot(this.pointToAngle(event.offsetX, event.offsetY))
+      const direction = this.pointToAngle(event.offsetX, event.offsetY)
+      this.shoot(direction)
     })
 
     this.moveInterval = null
     this.moveRate = 30
-
+    this.reloadTime = 500
     this.game = null
-    //---------FOR UX----------
-    // this.score = 0
-    // this.canShoot = true
-    // this.avatar = new Image()
-    // this.avatar.src = "./Image/player/topgun.gif"
-    // this.shootSound = new Audio('./Audio/GunShotSnglShotEx PE1097508.mp3');
-    // this.reloadSound = new Audio('./Audio/GunCockSingle PE1096303.mp3');
-    // this.deadSound = new Audio('./Audio/Wilhelm Scream sound effect.mp3')
-    //-------------------------
+
   }
 
-  shoot(angle) {
-    if (this.canShoot && this.bullets>0){
+  shoot(direction) {
+    if (this.canShoot && this.bullets > 0) {
+      const bulletData ={
+        playerIND: this.id,
+        id: game.nextBulletId,
+        position: { ...this.position, direction },
+        time: game.chronometer.currentTime,
+      }
+      const newBullet = new Bullet(bulletData)
+      game.bullets.push(newBullet)
+      game.newHistoricBullet.push(bulletData)
+      console.log('newHistoricBullet', game.newHistoricBullet);
+      console.log('bulletData', bulletData);
+      game.nextBulletId++
       this.bullets--
-      this.nextBulletId = this.game.bullets.push(
-        new Bullet(this, this.nextBulletId, {
-          x: this.position.x,
-          y: this.position.y,
-          direction: angle,
-        })
-      )
-      this.game.bullets[this.nextBulletId - 1].move(this.game)
-        this.canShoot=false
-        setTimeout(()=>this.canShoot=true, 500)
+      newBullet.move(game)
+      this.canShoot = false
+      setTimeout(() => (this.canShoot = true), this.reloadTime)
     }
   }
 
@@ -64,18 +61,7 @@ class Player {
     )
     ctx.closePath()
     ctx.fill()
-
-    // draw direction for player
-    // ctx.beginPath()
-    // const xDirection = this.x + Math.cos(this.direction) * playerSize
-    // const yDirection = this.y + Math.sin(this.direction) * playerSize
-    // ctx.moveTo(this.x + xOffset, this.y)
-    // ctx.lineTo(xDirection + xOffset, yDirection)
-    // ctx.closePath()
-    // ctx.stroke()
   }
-
-  //get new coordonates with input and time passed
 
   newCoord() {
     let newx = this.position.x
