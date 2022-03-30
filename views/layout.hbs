@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
   		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-		<title>The Game</title>
+		<title>Paradox</title>
 		{{!-- <link
 			rel="apple-touch-icon"
 			sizes="180x180"
@@ -39,13 +39,17 @@
 	<body>
 		<header>
 			<nav>
-				<button><a href="/">Home</a></button>
-				<button><a href="/game">Game</a></button>
-				<button><a href="/hof">Hall Of Fame</a></button>
-				<button><a href="/instructions">Instructions</a></button>
-				<button><a href="/auth/signup">Signup</a></button><span> | </span>
-        		<button><a href="/auth/login">Login</a></button>
-				<button><a href="/auth/logout">Logout</a></button>
+				<div class="nav-left">
+				<a href="/">HOME</a>
+				<a href="/game">GAME</a>
+				<a href="/hof">HOF</a>
+				<a href="/instructions">INSTRUCTIONS</a>
+				</div>
+				<div class="nav-right">
+				<a href="/auth/signup">REGISTER</a>
+        		<a href="/auth/login">LOG IN</a>
+				<a href="/auth/logout">LOG OUT</a>
+				</div>
 			</nav>
 		</header>
 		<main>
