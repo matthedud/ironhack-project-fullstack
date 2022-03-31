@@ -124,24 +124,11 @@ export class Game {
     const cellheight = this.dimention.canvasHeight / this.grid2D.length;
     this.grid2D.forEach((line, lineInd) => {
       line.forEach((cell, cellInd) => {
-<<<<<<< HEAD
         this.drawCellBIG(context, cell, cellInd, lineInd, cellWidth, cellheight)
       })
     })
     this.player.drawBIG(context, this.player.position.x, this.player.position.y, cellWidth, cellheight)
     const ind = this.getHistoricInd()
-=======
-        this.drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight);
-      });
-    });
-    this.player.drawBIG(
-      this.player.position.x,
-      this.player.position.y,
-      cellWidth,
-      cellheight
-    );
-    const ind = this.getHistoricInd();
->>>>>>> 24175356688f7519f8a922e44b0397c340d4ab95
     this.historic.forEach((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind];
       if (coord) {
@@ -254,15 +241,9 @@ export class Game {
     }
     this.gameInterval = setInterval(() => {
       if (!this.isServer) {
-<<<<<<< HEAD
         this.clearCanvas(ctx)
         if (context) this.drawMazeBIG(context)
         this.drawMaze(ctx)
-=======
-        this.clearCanvas(ctx);
-        // this.drawMazeBIG(context)
-        this.drawMaze(ctx);
->>>>>>> 24175356688f7519f8a922e44b0397c340d4ab95
       }
       this.checkBulletHistory();
       this.checkEndGame();
@@ -346,18 +327,8 @@ export class Game {
   }
 
   async endGame() {
-<<<<<<< HEAD
     this.pauseGame()
     const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
-=======
-    this.pauseGame();
-    console.log({ player: this.player });
-    const ranking = this.ranking.map((el) => ({
-      name: el.name,
-      user: el.userID,
-      time: el.time,
-    }));
->>>>>>> 24175356688f7519f8a922e44b0397c340d4ab95
     try {
       if (!this.isServer) {
         const historic = {
@@ -366,19 +337,9 @@ export class Game {
           playerName: this.player.name,
           map: this.id,
           playerMove: this.player.logs,
-<<<<<<< HEAD
         }
         const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
         await this.sendGame({ historic, ranking, historicBullets: bullets })
-=======
-        };
-        const bullets = [...this.newHistoricBullet].sort(
-          (a, b) => b.time - a.time
-        );
-        console.log({ bullets });
-
-        await this.sendGame({ historic, ranking, historicBullets: bullets });
->>>>>>> 24175356688f7519f8a922e44b0397c340d4ab95
       } else {
         await this.sendGame(ranking, this.id);
       }
