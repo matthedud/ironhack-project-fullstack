@@ -1,7 +1,7 @@
 {{!-- <h1>PARADOX</h1> --}}
 <div class="gamePage">
   <div class="game-groupe-top">
-    <button id="start">start</button>
+    <button id="start" {{#with id}}value="{{this}}"{{/with}}>start</button>
     <div id="clock"> 00:00:00 </div>
     <div id="clock-end-game"> 00:00:00 </div>
     {{!-- <button id="end">end</button> --}}

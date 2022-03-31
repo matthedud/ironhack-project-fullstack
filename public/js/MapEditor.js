@@ -42,6 +42,7 @@ window.onload = () => {
         if(checkMap()){
             try {
                 const mapToSend = {cells:map,current:true,recordRate:100,isPublic:false}
+                console.log(mapToSend)
                 await gameAPI.sendMap({ mapToSend })
             } catch (error) {
                 console.log({ error })

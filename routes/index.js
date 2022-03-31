@@ -41,21 +41,8 @@ router.get("/game", async (req, res, next) => {
 });
 
 router.get("/game/:id", async (req, res, next) => {
-    try {
-        const map = await Map.findById(req.params.id)
-        
-        // if(map){
-        //     const historics = await Historic.find({map: map._id})
-        //     res.render("game", {map, historics})
-        // }else{
-        //     // const newGrid = Map.createMap()
-        //     const newMap = await Map.create()
-        //     res.render("game", {map:newMap, historics:[]})
-        // }
-    } catch (error) {
-        console.error(error)
-        next(error)
-    }
+    const id = req.params.id
+    res.render("game",{id})
 });
 
 router.post("/game", async (req, res, next) => {//END-GAME
