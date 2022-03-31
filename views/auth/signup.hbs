@@ -19,6 +19,8 @@
     <form class="form-signup" action="#" method="post">
         <h3>Signup</h3>
 
+        <form action="/auth/signup" method="post">
+
         <label class="label-signup" for="username">Username</label>
         <input class="input-signup" type="text" placeholder="Username" id="username" name="username">
 
@@ -28,7 +30,7 @@
         <label class="label-signup" for="password">Password</label>
         <input class="input-signup" type="password" placeholder="Password" id="password" name="password">
 
-        <button type="submit" class="signup-btn">Log In</button>
+        <button type="submit" class="signup-btn">Create an account</button>
     </form>
 
     {{#if errorMessage}}
