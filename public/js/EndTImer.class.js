@@ -36,3 +36,4 @@ class EndTImer {
     clock.textContent = `${minutes}:${seconds}`
   }
 }
+

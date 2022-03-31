@@ -1,13 +1,11 @@
-
 //--------------------------DIMENTIONS-----------
-const canvasHeight = Math.floor(window.innerHeight*0.85)
-const canvasWidth = Math.floor(window.innerWidth*0.9)
-const viewColumnNum = Math.floor(10*canvasWidth/canvasHeight)
+const canvasHeight = Math.floor(window.innerHeight * 0.85)
+const canvasWidth = Math.floor(window.innerWidth * 0.9)
+const viewColumnNum = Math.floor((10 * canvasWidth) / canvasHeight)
 const viewLineNum = 10
 const cellWidth = Math.floor(canvasWidth / viewColumnNum)
 const cellheight = Math.floor(canvasHeight / viewLineNum)
 //---------------------------------------------
-
 
 class Game {
   constructor(
@@ -16,7 +14,9 @@ class Game {
     player = {},
     historic = [],
     recordRate = 100,
-    historicBulletServer = []
+    historicBulletServer = [],
+    isServer = false,
+    sendGame
   ) {
     this.id = id
     this.grid2D = grid2D
@@ -31,6 +31,8 @@ class Game {
     this.historic = historic
     this.ranking = []
     this.recordRate = recordRate
+    this.isServer = isServer
+    this.sendGame = sendGame
   }
 
   drawMaze() {
@@ -86,10 +88,10 @@ class Game {
     ctx.fillRect(x, y, cellWidth, cellheight)
   }
 
-  drawBulletCount(){
+  drawBulletCount() {
     ctx.fillStyle = "white"
     ctx.font = "48px serif"
-		ctx.fillText(this.player.bullets, 10, 50)
+    ctx.fillText(this.player.bullets, 10, 50)
   }
 
   //-----------------------------------------------------
@@ -179,8 +181,10 @@ class Game {
       )
     })
     if (deadPlayerInd > -1) {
-      const rankInd = this.ranking.findIndex(el=>el.playerIND===this.historic[deadPlayerInd].playerIND)
-      if(rankInd>-1)this.ranking.splice(rankInd, 1)
+      const rankInd = this.ranking.findIndex(
+        (el) => el.playerIND === this.historic[deadPlayerInd].playerIND
+      )
+      if (rankInd > -1) this.ranking.splice(rankInd, 1)
       this.historic.splice(deadPlayerInd, 1)
       return true
     }
@@ -189,14 +193,17 @@ class Game {
 
   runGameLoop() {
     this.chronometer.start(clockEl)
-    this.player.startLogs(this.recordRate)
-    this.player.startMove(this)
+    if (!this.isServer) {
+      this.player.startLogs(this.recordRate)
+      this.player.startMove(this)
+    }
     this.gameInterval = setInterval(() => {
+      if (!this.isServer) {
+        this.clearCanvas()
+        this.drawMazeBIG()
+        this.drawMaze()
+      }
       this.checkBulletHistory()
-      this.clearCanvas()
-      this.drawMazeBIG()
-      this.drawMaze()
-      this.player.newCoord()
       this.checkEndGame()
     }, this.frameRate)
   }
@@ -228,9 +235,11 @@ class Game {
   }
 
   pauseGame() {
+    if (!this.isServer) {
+      this.player.stopLogs()
+      this.player.stopMove()
+    }
     this.chronometer.stop()
-    this.player.stopLogs()
-    this.player.stopMove()
     clearInterval(this.gameInterval)
     this.gameInterval = null
   }
@@ -257,25 +266,28 @@ class Game {
     }
   }
   checkEndGame() {
-    if (this.chronometer.timeLeft < 0) 
-      this.endGame()
+    if (this.chronometer.timeLeft < 0) this.endGame()
   }
 
-  async endGame(){
+  async endGame() {
     this.pauseGame()
-    const historic = {
-      playerIND: this.player.playerIND,
-      user: this.player.user,
-      playerName: this.player.name,
-      map: this.id,
-      playerMove: this.player.logs,
-    }
-    const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
-    try {
-        const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
-        await gameAPI.sendGame({ historic, ranking, historicBullets: bullets })
-    } catch (error) {
-      console.log({ error })
+    const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
+    if (!this.isServer) {
+      const historic = {
+        playerIND: this.player.playerIND,
+        user: this.player.user,
+        playerName: this.player.name,
+        map: this.id,
+        playerMove: this.player.logs,
+      }
+      const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
+      try {
+        await this.sendGame({ historic, ranking, historicBullets: bullets })
+      } catch (error) {
+        console.log({ error })
+      }
+    } else {
+      this.sendGame(ranking)
     }
   }
 }

@@ -19,9 +19,9 @@ let game = null
 let endTimer = null
 
 const startButton = document.getElementById("start")
-// const endButton = document.getElementById("end")
+const endButton = document.getElementById("end")
 startButton.addEventListener("click", startGame)
-// endButton.addEventListener("click", endGame)
+endButton.addEventListener("click", endGame)
 
 async function startGame(event) {
   event.preventDefault()
@@ -50,7 +50,9 @@ async function startGame(event) {
       player,
       gameFetch.historics,
       gameFetch.map.recordRate,
-      gameFetch.map.historicBullets
+      gameFetch.map.historicBullets,
+      false,
+      gameAPI.sendGame,
     )
     const endTime = new Date(gameFetch.map.debut).getTime() + gameFetch.map.gameDuration
     endTimer = new EndTImer(endTime)

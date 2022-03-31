@@ -7,6 +7,7 @@ class Chronometer {
   }
 
   start(clock) {
+    console.log('start');
     this.intervalId = setInterval(() => {
       this.timeLeft--;
       this.currentTime++
@@ -49,3 +50,4 @@ class Chronometer {
     return `${minutes}:${secondes}:${milliSeconds}`;
   }
 }
+

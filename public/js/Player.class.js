@@ -133,3 +133,4 @@ class Player {
     clearInterval(this.logInterval)
   }
 }
+
