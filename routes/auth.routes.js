@@ -30,15 +30,16 @@ router.post("/signup", isLoggedOut, async (req, res, next) => {
         res.render("auth/signup", {
           errorMessage: "Oups this username already exists :(",
         });
+        return
       } else {
         const salt = await bcryptjs.genSalt(saltRounds);
         const hashedPassword = await bcryptjs.hash(password, salt);
-        await User.create({
+        const newUser = await User.create({
           username,
           email,
           password: hashedPassword,
         });
-        req.session.user = userNameExist;
+        req.session.user = newUser;
         res.redirect("/user/userProfile");
       }
     }
@@ -58,7 +59,6 @@ router.get("/login", isLoggedOut, (req, res) => res.render("auth/login"));
 router.post("/login", isLoggedOut, async (req, res, next) => {
   try {
     const { username, password } = req.body;
-
     if (!username || !password) {
       res.render("auth/login", {
         errorMessage: "Please enter both, username and password to login.",

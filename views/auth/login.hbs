@@ -12,16 +12,16 @@
  
     <button type="submit">Log in</button> --}}
 
-    <form class="form-login">
+    <form class="form-login" action="#" method="post">
         <h3>Login</h3>
 
         <label class="label-login" for="username">Username</label>
-        <input class="input-login" type="text" placeholder="Email" id="username" value="Anakin">
+        <input class="input-login" type="text" placeholder="Email" id="username" name="username" value="Anakin">
 
         <label class="label-login" for="password">Password</label>
-        <input class="input-login" type="password" placeholder="Password" id="password" value="skywalker">
+        <input class="input-login" type="password" placeholder="Password" id="password" name="password" value="skywalker">
 
-        <button class="login-btn">Log In</button>
+        <button type='submit' class="login-btn">Log In</button>
     </form>
  
     {{#if errorMessage}}

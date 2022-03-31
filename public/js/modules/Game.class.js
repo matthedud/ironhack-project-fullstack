@@ -85,7 +85,7 @@ export class Game {
 
   drawBulletCount(ctx) {
     ctx.fillStyle = "white"
-    ctx.font = "48px serif"
+    ctx.font = "48px jaapokkisubtractregularRg"
     ctx.fillText(this.player.bullets, 10, 50)
   }
 
@@ -275,7 +275,7 @@ export class Game {
 
   async endGame() {
     this.pauseGame()
-    console.log("game ENd")
+    console.log({player:this.player});
     const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
     if (!this.isServer) {
       const historic = {

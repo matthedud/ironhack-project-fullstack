@@ -1,7 +1,7 @@
 const modal = document.getElementById("myModal")
 const rankingList = document.getElementById("ranking-list")
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0]
+var span = document.getElementsByClassName("close-modal")[0]
 
 // When the user clicks on the button, open the modal
 function openModal(ranking) {

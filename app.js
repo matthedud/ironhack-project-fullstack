@@ -1,5 +1,4 @@
 import "dotenv/config"
-import mongoose from "mongoose"
 import hbs from "hbs"
 import express from "express"
 import "./error-handling/index.js"
@@ -18,16 +17,6 @@ conf(app)
 sessionConf(app)
 
 const projectName = "lab-express-basic-auth";
-// const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost/project2";
-
-// mongoose
-//   .connect(MONGO_URI)
-//   .then((x) => {
-//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
-//   })
-//   .catch((err) => {
-//     console.error("Error connecting to mongo: ", err);
-//   });
 
 const capitalized = (string) =>
   string[0].toUpperCase() + string.slice(1).toLowerCase();

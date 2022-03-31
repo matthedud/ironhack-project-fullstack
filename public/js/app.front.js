@@ -6,10 +6,10 @@ import { KeyBoard } from "./modules/Keyboard.class.js"
 import { Chronometer } from "./modules/Chronometer.class.js"
 
 //--------------------------DIMENTIONS-----------
-export const canvasHeight = window?.innerHeight ? Math.floor(window?.innerHeight * 0.85) : 500
-export const canvasWidth = window?.innerWidth ? Math.floor(window?.innerWidth * 0.9) : 500
-export const viewColumnNum = Math.floor((10 * canvasWidth) / canvasHeight)
-export const viewLineNum = 10
+export const canvasHeight = window?.innerHeight ? Math.floor(window?.innerHeight * 0.92) : 500
+export const canvasWidth = window?.innerWidth ? Math.floor(window?.innerWidth * 0.85) : 500
+export const viewColumnNum = 10
+export const viewLineNum = 6
 export const cellWidth = Math.floor(canvasWidth / viewColumnNum)
 export const cellheight = Math.floor(canvasHeight / viewLineNum)
 //---------------------------------------------
@@ -43,10 +43,7 @@ const endButton = document.getElementById("end")
 startButton.addEventListener("click", startGame)
 endButton.addEventListener("click", endGame)
 
-document.addEventListener("click", (event) => {
-  const direction = player?.pointToAngle(event.offsetX, event.offsetY)
-  player?.shoot(direction)
-})
+
 
 async function startGame(event) {
   event.preventDefault()
@@ -96,6 +93,11 @@ async function startGame(event) {
     player.keyboard = keyboard
     const endTime = new Date(gameFetch.map.debut).getTime() + gameFetch.map.gameDuration
     endTimer = new EndTImer(endTime)
+    document.addEventListener("click", (event) => {
+      console.log('here click');
+      const direction = player?.pointToAngle(event.offsetX, event.offsetY)
+      player?.shoot(direction)
+    })
     endTimer.start(clockEndEl)
     game.chronometer = clock
     game.placePlayer()

@@ -8,14 +8,17 @@ import isLoggedIn from "../middleware/isLoggedIn.js"
 const router = new Router()
 
 router.get("/userProfile", isLoggedIn, async (req, res) => {
-  const mapPlayed = await Historic.find({ user: req.session.user._id });
-  const numOfMapPlayed = mapPlayed.length;
-
+  const numberOfGames = await Historic.find({ user: req.session.user._id }).count()
+  const mapPlayedNumber = await Historic.find({ user: req.session.user._id })
+    .distinct("map")
+    .count()
+  console.log({ mapPlayedNumber, numberOfGames })
   res.render("users/user-profile", {
     user: req.session.user,
-    mapPlayed: numOfMapPlayed,
-  });
-});
+    mapPlayedNumber,
+    numberOfGames,
+  })
+})
 
 // router.get("/user/:id", async (req, res, next) => {
 //   try {
@@ -30,4 +33,4 @@ router.get("/userProfile", isLoggedIn, async (req, res) => {
 
 // sort --> map
 
-export default router;
+export default router

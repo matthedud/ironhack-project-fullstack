@@ -5,7 +5,7 @@ import {playerSize, moveSpeed} from './Constants.js'
 export class Player {
   constructor({playerIND, name, user}) {
     this.playerIND = playerIND
-    this.user = user?.id
+    this.user = user?._id
     this.name = name
     this.position = { x: 0, y: 0, direction: 0 }
     this.keyboard = null
@@ -23,6 +23,7 @@ export class Player {
   }
 
   shoot(direction) {
+    console.log('shooting');
     if (this.canShoot && this.bullets > 0) {
       const x = this.position.x + Math.cos(direction* Math.PI / 180) * playerSize
       const y =	this.position.y + Math.sin(direction* Math.PI / 180) * playerSize
