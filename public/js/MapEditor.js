@@ -9,6 +9,7 @@ window.onload = () => {
     const cellWidth = canvasWidth / mapWidth
     const cellHeight = canvasHeight / mapHeight
     let activeButton = 1
+    let isClicking = 0
 
     for(let i = 0; i < mapHeight; i++){
         map[i]=[]
@@ -17,9 +18,19 @@ window.onload = () => {
         }
     }
 
-    document.getElementById('canvas').addEventListener("click",(event) =>{
-        map[Math.floor(event.offsetY/cellHeight)][Math.floor(event.offsetX/cellWidth)]=activeButton
-        drawMap()
+    document.getElementById('canvas').addEventListener("mousemove",(event) =>{
+        if(isClicking){
+            map[Math.floor(event.offsetY/cellHeight)][Math.floor(event.offsetX/cellWidth)]=activeButton
+            drawMap()
+        }
+    })
+
+    document.getElementById('canvas').addEventListener("mousedown", function (event) {
+        isClicking = true;
+    })
+
+    document.getElementById('canvas').addEventListener("mouseup", function (event) {
+        isClicking = false;
     })
 
     document.getElementById('wall').addEventListener("click", ()=>{
