@@ -1,59 +1,41 @@
-{{!-- <div id="form">
-  <h2>Sign up</h2>
-  <form action="/auth/signup" method="post">
-
-    <label> Username
-      <input type="text" name="username" placeholder="username" />
-    </label>
-
-     <label> Email
-      <input type="text" name="email" placeholder="username@mail.com" />
-    </label>
- 
-    <label> Password
-      <input type="password" name="password" placeholder="********" />
-    </label>
- 
-    <button type="submit">Create an account</button> --}}
-
-    <form class="form-signup" action="#" method="post">
-        <h3>Signup</h3>
-
-        <form action="/auth/signup" method="post">
-
-        <label class="label-signup" for="username">Username</label>
-        <input class="input-signup" type="text" placeholder="Username" id="username" name="username">
-
-        <label class="label-signup" for="email">Email</label>
-        <input class="input-signup" type="text" placeholder="Email" id="email" name="email">
-
-        <label class="label-signup" for="password">Password</label>
-        <input class="input-signup" type="password" placeholder="Password" id="password" name="password">
-
-        <label class="label-signup" for="color">Player Color</label>
-        <select id="color" name="color">
-          <option value="black">black</option>
-          <option value="silver">silver</option>
-          <option value="gray">gray</option>
-          <option value="white">white</option>
-          <option value="maroon">maroon</option>
-          <option value="red">red</option>
-          <option value="purple">purple</option>
-          <option value="fuchsia">fuchsia</option>
-          <option value="green">green</option>
-          <option value="lime">lime</option>
-          <option value="olive">olive</option>
-          <option value="yellow">yellow</option>
-          <option value="navy">navy</option>
-          <option value="blue">blue</option>
-          <option value="teal">teal</option>
-        </select>
-        <button type="submit" class="signup-btn">Create an account</button>
-    </form>
-
+<div>
+  <form class="form-signup" action="#" method="post">
+  <h3>Signup</h3>
+  <div class="parent">
     {{#if errorMessage}}
       <p class="error">{{errorMessage}}</p>
     {{/if}}
- 
-  </form>
+</div>
+
+  <form action="/auth/signup" method="post">
+
+    <label class="label-signup" for="username">Username</label>
+    <input class="input-signup" type="text" placeholder="Username" id="username" name="username">
+
+    <label class="label-signup" for="email">Email</label>
+    <input class="input-signup" type="text" placeholder="Email" id="email" name="email">
+
+    <label class="label-signup" for="password">Password</label>
+    <input class="input-signup" type="password" placeholder="Password" id="password" name="password">
+
+    <label class="label-signup" for="color">Player Color</label>
+    <select id="color" name="color">
+      <option value="black">black</option>
+      <option value="silver">silver</option>
+      <option value="gray">gray</option>
+      <option value="white">white</option>
+      <option value="maroon">maroon</option>
+      <option value="red">red</option>
+      <option value="purple">purple</option>
+      <option value="fuchsia">fuchsia</option>
+      <option value="green">green</option>
+      <option value="lime">lime</option>
+      <option value="olive">olive</option>
+      <option value="yellow">yellow</option>
+      <option value="navy">navy</option>
+      <option value="blue">blue</option>
+      <option value="teal">teal</option>
+    </select>
+  <button type="submit" class="signup-btn">Create an account</button>
+  </form> 
 </div>

@@ -259,16 +259,6 @@ header::after {
   transition: 1s;
 }
 
-#color{
-  color:black;
-  border-radius: 3px;
-  padding-left: 7px;
-}
-
-#color option{
-  color:black;
-}
-
 header:hover:before {
   top: 10px;
   left: 10px;
@@ -297,7 +287,7 @@ header:hover:after {
 }
 
 .form-signup {
-  height: 473px;
+  height: 520px;
   width: 400px;
   background-color: rgba(255, 255, 255, 0.13);
   position: absolute;
@@ -364,6 +354,18 @@ header:hover:after {
   cursor: pointer;
 }
 
+#color {
+  color: black;
+  border-radius: 3px;
+  padding-left: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+#color option {
+  color: black;
+}
+
 /* #title-size #i {
   font-size: 100px;
   animation: size 4s infinite 1s;
@@ -411,11 +413,12 @@ table.HOF-table thead {
   background-color: rgb(160, 16, 16);
 }
 
-/* .parent {
+.parent {
   position: relative;
   top: 0;
   left: 0;
 }
+/*
 .image1 {
   margin-top: 150px;
   top: 0;
@@ -428,12 +431,9 @@ table.HOF-table thead {
 
 .error {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  align-content: center;
-  margin: 300px;
+  color: rgb(160, 16, 16);
 }
 
 #start,
