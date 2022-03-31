@@ -13,7 +13,7 @@ export class Player {
     this.logInterval = null
     this.canShoot = true
     this.bullets = 10
-    this.color='red'
+    this.color=user?.color?user.color:'red'
 
     this.moveInterval = null
     this.moveRate = 30
@@ -28,7 +28,7 @@ export class Player {
       const x = this.position.x + Math.cos(direction* Math.PI / 180) * playerSize
       const y =	this.position.y + Math.sin(direction* Math.PI / 180) * playerSize
       const bulletData ={
-        playerIND: this.id,
+        playerIND: this.playerIND,
         id: this.game.nextBulletId,
         position: { x,y, direction },
         time: this.game.chronometer.currentTime,
