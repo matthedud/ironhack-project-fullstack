@@ -103,10 +103,10 @@ export class Game {
     const cellheight = this.dimention.canvasHeight / this.grid2D.length
     this.grid2D.forEach((line, lineInd) => {
       line.forEach((cell, cellInd) => {
-        this.drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight)
+        this.drawCellBIG(context, cell, cellInd, lineInd, cellWidth, cellheight)
       })
     })
-    this.player.drawBIG(this.player.position.x, this.player.position.y, cellWidth, cellheight)
+    this.player.drawBIG(context, this.player.position.x, this.player.position.y, cellWidth, cellheight)
     const ind = this.getHistoricInd()
     this.historic.forEach((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]
@@ -212,7 +212,7 @@ export class Game {
     this.gameInterval = setInterval(() => {
       if (!this.isServer) {
         this.clearCanvas(ctx)
-        // this.drawMazeBIG(context)
+        if (context) this.drawMazeBIG(context)
         this.drawMaze(ctx)
       }
       this.checkBulletHistory()
@@ -288,7 +288,6 @@ export class Game {
 
   async endGame() {
     this.pauseGame()
-    console.log({ player: this.player })
     const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
     try {
       if (!this.isServer) {
@@ -300,8 +299,6 @@ export class Game {
           playerMove: this.player.logs,
         }
         const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
-        console.log({ bullets })
-
         await this.sendGame({ historic, ranking, historicBullets: bullets })
       } else {
         await this.sendGame(ranking, this.id)

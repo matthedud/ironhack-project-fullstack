@@ -28,7 +28,7 @@ const canvas2 = document.createElement("canvas")
 canvas2.height = canvasHeight
 canvas2.width = canvasWidth
 const context = canvas2.getContext("2d")
-// parentEl2.appendChild(canvas2)
+if(parentEl2) parentEl2.appendChild(canvas2)
 
 
 let game = null
