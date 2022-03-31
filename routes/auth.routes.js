@@ -1,12 +1,12 @@
-import mongoose from "mongoose"
-import { Router } from "express"
+import mongoose from "mongoose";
+import { Router } from "express";
 
-import User from "../models/User.model.js"
+import User from "../models/User.model.js";
 
-import isLoggedOut from "../middleware/isLoggedOut.js"
-import isLoggedIn from "../middleware/isLoggedIn.js"
+import isLoggedOut from "../middleware/isLoggedOut.js";
+import isLoggedIn from "../middleware/isLoggedIn.js";
 
-import bcryptjs from "bcryptjs"
+import bcryptjs from "bcryptjs";
 
 const saltRounds = 10;
 const router = new Router();
@@ -30,7 +30,7 @@ router.post("/signup", isLoggedOut, async (req, res, next) => {
         res.render("auth/signup", {
           errorMessage: "Oups this username already exists :(",
         });
-        return
+        return;
       } else {
         const salt = await bcryptjs.genSalt(saltRounds);
         const hashedPassword = await bcryptjs.hash(password, salt);
@@ -38,7 +38,7 @@ router.post("/signup", isLoggedOut, async (req, res, next) => {
           username,
           email,
           password: hashedPassword,
-          color
+          color,
         });
         req.session.user = newUser;
         res.redirect("/user/userProfile");
@@ -90,10 +90,6 @@ router.post("/login", isLoggedOut, async (req, res, next) => {
     next(error);
   }
 });
-
-// router.get("/userProfile", (req, res) => {
-//   res.render("users/user-profile", { user: req.session.user });
-// });
 
 router.get("/logout", isLoggedIn, (req, res, next) => {
   req.session.destroy((err) => {
