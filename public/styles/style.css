@@ -285,6 +285,16 @@ header::after {
   transition: 1s;
 }
 
+#color{
+  color:black;
+  border-radius: 3px;
+  padding-left: 7px;
+}
+
+#color option{
+  color:black;
+}
+
 header:hover:before {
   top: 10px;
   left: 10px;
@@ -313,7 +323,7 @@ header:hover:after {
 }
 
 .form-signup {
-  height: 420px;
+  height: 473px;
   width: 400px;
   background-color: rgba(255, 255, 255, 0.13);
   position: absolute;
@@ -369,7 +379,7 @@ header:hover:after {
 }
 .login-btn,
 .signup-btn {
-  margin-top: 40px;
+  margin-top: 18px;
   width: 100%;
   background-color: #ffffff;
   color: #080710;

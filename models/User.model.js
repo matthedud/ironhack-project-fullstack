@@ -24,6 +24,10 @@ const userSchema = new Schema({
     type: [Schema.Types.ObjectId],
     ref:'Map',
     required: false,
+  },
+  color: {
+    type: String,
+    default: 'red'
   }
 });
 

@@ -16,7 +16,7 @@ router.get("/signup", isLoggedOut, (req, res) => res.render("auth/signup"));
 
 router.post("/signup", isLoggedOut, async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, color } = req.body;
 
     if (!username || !email || !password) {
       res.render("auth/signup", {
@@ -38,6 +38,7 @@ router.post("/signup", isLoggedOut, async (req, res, next) => {
           username,
           email,
           password: hashedPassword,
+          color
         });
         req.session.user = newUser;
         res.redirect("/user/userProfile");
