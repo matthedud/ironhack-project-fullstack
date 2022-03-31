@@ -12,16 +12,22 @@
  
     <button type="submit">Log in</button> --}}
 
+    {{!-- <div class="parent">
+      <img class="image1" src="/images/paradoxOne.png" />
+    </div> --}}
+
     <form class="form-login">
         <h3>Login</h3>
 
+        <form action="/auth/login" method="post">
+
         <label class="label-login" for="username">Username</label>
-        <input class="input-login" type="text" placeholder="Email" id="username" value="Anakin">
+        <input class="input-login" type="text" placeholder="Username" id="username" value="Anakin" name="username">
 
         <label class="label-login" for="password">Password</label>
-        <input class="input-login" type="password" placeholder="Password" id="password" value="skywalker">
+        <input class="input-login" type="password" placeholder="Password" id="password" value="skywalker" name="password">
 
-        <button class="login-btn">Log In</button>
+        <button class="login-btn" type="submit">Log In</button>
     </form>
  
     {{#if errorMessage}}

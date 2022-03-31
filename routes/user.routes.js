@@ -5,6 +5,7 @@ const Historic = require("../models/Historic.model");
 const Map = require("../models/Map.model");
 const User = require("../models/User.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const isLoggedOut = require("../middleware/isLoggedOut");
 
 router.get("/userProfile", isLoggedIn, async (req, res) => {
   const mapPlayed = await Historic.find({ user: req.session.user._id });
