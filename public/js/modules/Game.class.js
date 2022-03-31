@@ -48,7 +48,7 @@ export class Game {
       const coord = otherPlayer.playerMove[ind]
       if (coord) {
         if (this.isInView(Number(coord.x), Number(coord.y), this.player.position)) {
-          this.drawOtherPlayer(ctx, Number(coord.x) - xOffset, Number(coord.y) - yOffset)
+          this.drawOtherPlayer(ctx, Number(coord.x) - xOffset, Number(coord.y) - yOffset, otherPlayer)
         }
         this.checkVictory({ ...otherPlayer, position: coord })
       }
@@ -140,9 +140,9 @@ export class Game {
     )
   }
 
-  drawOtherPlayer(ctx, x, y) {
+  drawOtherPlayer(ctx, x, y, player) {
     const playerWidth = playerSize * this.dimention.cellWidth
-    ctx.fillStyle = colors.playerGost
+    ctx.fillStyle = player?.user?.color?player.user.color: colors.playerGost
     ctx.beginPath()
     ctx.arc(
       x * this.dimention.cellWidth,

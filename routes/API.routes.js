@@ -15,7 +15,7 @@ router.get("/game", async (req, res, next) => {
       const timeElapse = new Date() - new Date(map.debut)
       if(timeElapse<map.gameDuration){
         console.log('isTime');
-        const historics = await Historic.find({ map: map._id })
+        const historics = await Historic.find({ map: map._id }).populate('user')
         res.send({ map, historics, user })
         return
       }
