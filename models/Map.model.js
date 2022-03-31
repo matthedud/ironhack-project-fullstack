@@ -39,7 +39,7 @@ const mapSchema = new Schema({
   // lapse between two record in milliseconds in historic
   recordRate :{
     type:Number,
-    default:100,
+    default:50,
   }, 
   ranking:[rankingSchema], // ordered list of the winning players (first index is player one)
   historicBullets:[historicBulletsSchema],// record of all the bullets shot
