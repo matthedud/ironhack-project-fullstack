@@ -20,7 +20,7 @@ html {
 
   background-repeat: no-repeat;
   background-size: cover;
-  color: #fa544d;
+  color: rgb(160, 16, 16);
   width: 100%;
   height: 100%;
   padding: 0;
@@ -28,33 +28,8 @@ html {
 }
 
 main {
-  margin-top: 80px;
+  margin-top: 20px;
 }
-
-/* nav {
-  box-sizing: content-box;
-  display: flex;
-  justify-content: space-between;
-}
-
-nav a {
-  text-decoration: none;
-  color: whitesmoke;
-  display: block;
-  position: relative;
-  border-radius: 10px;
-}
-
-.nav-left {
-  font-size: 1.5rem;
-  display: flex;
-  align-items: stretch;
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-} */
 
 .parag {
   text-align: justify;
@@ -108,7 +83,7 @@ h3 {
 .game-groupe-top {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 100%;
 }
 
@@ -174,7 +149,7 @@ canvas {
 }
 
 .close {
-  position:absolute;
+  position: absolute;
   z-index: 1;
   width: 100%;
   height: 100%;
@@ -243,9 +218,8 @@ header {
   left: 50%;
   top: 12%;
   transform: translate(-50%, -50%);
-  display: block;
   color: #cf1b1b;
-  font-size: 100px;
+  font-size: 10px;
   letter-spacing: 8px;
   cursor: pointer;
 }
@@ -434,7 +408,7 @@ table.HOF-table th {
 }
 
 table.HOF-table thead {
-  background-color: #b31919;
+  background-color: rgb(160, 16, 16);
 }
 
 /* .parent {
@@ -460,4 +434,18 @@ table.HOF-table thead {
   align-items: center;
   align-content: center;
   margin: 300px;
+}
+
+#start,
+#end {
+  color: white;
+  border-style: none;
+  border-radius: 2px;
+  background-color: rgb(160, 16, 16);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(172, 56, 56, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  cursor: pointer;
+  padding: 0 40px;
+  margin-bottom: 7px;
 }
