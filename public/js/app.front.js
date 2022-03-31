@@ -51,9 +51,14 @@ document.addEventListener("click", (event) => {
 async function startGame(event) {
   event.preventDefault()
   startButton.disabled = true
-  const gameFetch = await gameAPI.getGame()
-  player = null
-  console.log("user", gameFetch?.user)
+  let gameFetch
+  if(event.target.value!==''){
+    gameFetch = await gameAPI.getGame(event.target.value)
+  }else{
+    gameFetch = await gameAPI.getGame()
+  }
+  let player
+  console.log('user', gameFetch?.user);
   if (gameFetch?.user?.username) {
     player = new Player({
       playerIND: gameFetch?.historics?.length,

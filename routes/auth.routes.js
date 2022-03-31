@@ -68,7 +68,7 @@ router.post("/login", isLoggedOut, async (req, res, next) => {
       const userNameExist = await User.findOne({ username: username });
       if (!userNameExist) {
         res.render("auth/login", {
-          errorMessage: "Oups this username doesn't exist :(",
+          errorMessage: "Oups this user doesn't exist :(",
         });
       } else {
         const correctPassword = await bcryptjs.compare(

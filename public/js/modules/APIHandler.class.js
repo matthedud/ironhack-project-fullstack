@@ -1,13 +1,22 @@
 
 
-export class APIHandler {
-    async getGame() {
+  export class APIHandler {
+    async getGame(id) {
       try {
-        const response = await axios({
-          method: "GET",
-          url: "/game",
-          baseURL: window.location.origin+'/API',
-        })
+        let response
+        if(id!=='' && id!==undefined){
+          response = await axios({
+            method: "GET",
+            url: "/game/"+id,
+            baseURL:  window.location.origin+'/API',
+          })
+        }else{
+          response = await axios({
+            method: "GET",
+            url: "/game",
+            baseURL:  window.location.origin+'/API',
+          })
+        }
         return response.data
       } catch (err) {console.log({err})}
     }
