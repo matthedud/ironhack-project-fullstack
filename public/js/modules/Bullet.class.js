@@ -1,13 +1,14 @@
+import {bulletVelocity, bulletSize, colors} from './Constants.js'
 
 
-class Bullet {
+export class Bullet {
 	constructor({playerIND, id, position, time}) {
 		this.position = { x: Number(position.x), y: Number(position.y), direction: Number(position.direction) }
 		this.playerIND = playerIND
 		this.id = id
 		this.time = time
 	}
-	draw(xOffset, yOffset) {
+	draw(ctx, xOffset, yOffset, cellWidth, cellheight) {
 		ctx.fillStyle = colors.bullet
 		ctx.beginPath()
 		ctx.arc((this.position.x - xOffset)*cellWidth,(this.position.y - yOffset)*cellheight, bulletSize, 0, 2 * Math.PI)

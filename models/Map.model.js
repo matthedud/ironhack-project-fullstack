@@ -1,6 +1,9 @@
-const { Schema, model } = require("mongoose")
-const rankingSchema = require("./Ranking.model")
-const historicBulletsSchema = require("./HistoricBullets.model")
+import mongoose from "mongoose"
+const Schema = mongoose.Schema
+const model = mongoose.model
+
+import rankingSchema from "./Ranking.model.js"
+import historicBulletsSchema from "./HistoricBullets.model.js"
 
 const startValue = 10
 const endValue = 11
@@ -137,4 +140,4 @@ function placeEnd(array) {
 
 const Map = model("Map", mapSchema)
 
-module.exports = Map
+export default  Map

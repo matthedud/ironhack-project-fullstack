@@ -1,6 +1,6 @@
 
-class APIHandler {
 
+export class APIHandler {
     async getGame() {
       try {
         const response = await axios({
@@ -13,8 +13,6 @@ class APIHandler {
     }
 
     async sendGame({ historic, ranking, historicBullets } ) {
-      console.log('URL:' , window.location.origin+'/API');
-      console.log('WINDOW:' , window.location.origin+'/API');
       try {
         const response = await axios({
           method: "POST",
@@ -38,5 +36,6 @@ class APIHandler {
       } catch (err) {console.log({err})}     
     }
   }
+
 
   

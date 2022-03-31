@@ -1,8 +1,10 @@
-const router = require("express").Router()
-const isLoggedIn = require("../middleware/isLoggedIn")
-const Map = require("../models/Map.model")
-const Historic = require("../models/Historic.model")
-const User = require("../models/User.model")
+import {Router} from "express"
+import isLoggedIn from "../middleware/isLoggedIn.js"
+import Map from "../models/Map.model.js"
+import Historic from "../models/Historic.model.js"
+import User from "../models/User.model.js"
+
+const router = new Router();
 
 router.get("/game", async (req, res, next) => {
   try {
@@ -30,7 +32,6 @@ router.get("/game", async (req, res, next) => {
 
 router.post("/game", async (req, res, next) => {
   const { historic, ranking, historicBullets } = req.body
-  console.log({historic});
   try {
     // await Historic.create(historic)
     const savedMap = await Map.findByIdAndUpdate(
@@ -57,4 +58,4 @@ router.post("/map", isLoggedIn, async (req, res, next) => {
   }
 })
 
-module.exports = router
+export default router;

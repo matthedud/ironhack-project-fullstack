@@ -1,4 +1,7 @@
-const { Schema } = require("mongoose");
+import mongoose from "mongoose"
+const Schema = mongoose.Schema
+const model = mongoose.model
+
 
 const rankingSchema = new Schema({
   name: {
@@ -15,5 +18,4 @@ const rankingSchema = new Schema({
     required: true,
   }
 })
-
-module.exports = rankingSchema;
+export default rankingSchema;

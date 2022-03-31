@@ -1,6 +1,8 @@
-const { Schema, model } = require("mongoose");
+import mongoose from "mongoose"
+const Schema = mongoose.Schema
+const model = mongoose.model
 
-const coordinateSchema = require('./Coordinate.model')
+import coordinateSchema from './Coordinate.model.js'
 
 const historicSchema = new Schema({
   user:{
@@ -22,4 +24,4 @@ const historicSchema = new Schema({
 
 const Historic = model("Historic", historicSchema);
 
-module.exports = Historic;
+export default  Historic;

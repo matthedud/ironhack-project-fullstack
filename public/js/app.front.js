@@ -1,4 +1,19 @@
-const clockEl = document.getElementById("clock")
+import { Game } from "./modules/Game.class.js"
+import { Player } from "./modules/Player.class.js"
+import { EndTImer } from "./modules/EndTImer.class.js"
+import { APIHandler } from "./modules/APIHandler.class.js"
+import { KeyBoard } from "./modules/Keyboard.class.js"
+import { Chronometer } from "./modules/Chronometer.class.js"
+
+//--------------------------DIMENTIONS-----------
+export const canvasHeight = window?.innerHeight ? Math.floor(window?.innerHeight * 0.85) : 500
+export const canvasWidth = window?.innerWidth ? Math.floor(window?.innerWidth * 0.9) : 500
+export const viewColumnNum = Math.floor((10 * canvasWidth) / canvasHeight)
+export const viewLineNum = 10
+export const cellWidth = Math.floor(canvasWidth / viewColumnNum)
+export const cellheight = Math.floor(canvasHeight / viewLineNum)
+//---------------------------------------------
+
 const clockEndEl = document.getElementById("clock-end-game")
 
 const parentEl = document.getElementById("game")
@@ -15,20 +30,30 @@ canvas2.width = canvasWidth
 const context = canvas2.getContext("2d")
 // parentEl2.appendChild(canvas2)
 
+
 let game = null
 let endTimer = null
+const gameAPI = new APIHandler()
+let player = null
+let keyboard = new KeyBoard()
+const clock = new Chronometer(document.getElementById("clock"))
 
 const startButton = document.getElementById("start")
 const endButton = document.getElementById("end")
 startButton.addEventListener("click", startGame)
 endButton.addEventListener("click", endGame)
 
+document.addEventListener("click", (event) => {
+  const direction = player?.pointToAngle(event.offsetX, event.offsetY)
+  player?.shoot(direction)
+})
+
 async function startGame(event) {
   event.preventDefault()
   startButton.disabled = true
   const gameFetch = await gameAPI.getGame()
-  let player
-  console.log('user', gameFetch?.user);
+  player = null
+  console.log("user", gameFetch?.user)
   if (gameFetch?.user?.username) {
     player = new Player({
       playerIND: gameFetch?.historics?.length,
@@ -52,13 +77,24 @@ async function startGame(event) {
       gameFetch.map.recordRate,
       gameFetch.map.historicBullets,
       false,
-      gameAPI.sendGame,
+      gameAPI.sendGame
     )
+    game.dimention = {
+      cellWidth,
+      cellheight,
+      viewColumnNum,
+      viewLineNum,
+      canvasHeight,
+      canvasWidth,
+    }
+    player.game = game
+    player.keyboard = keyboard
     const endTime = new Date(gameFetch.map.debut).getTime() + gameFetch.map.gameDuration
     endTimer = new EndTImer(endTime)
     endTimer.start(clockEndEl)
+    game.chronometer = clock
     game.placePlayer()
-    game.runGameLoop()
+    game.runGameLoop(ctx, context)
   }
 }
 
@@ -67,3 +103,30 @@ function endGame() {
     game.chronometer.timeLeft = 0
   }
 }
+
+
+  document.addEventListener("keyup", (event) => {
+    if (event.key === "ArrowRight") keyboard.right = false
+    if (event.key === "ArrowLeft") keyboard.left = false
+    if (event.key === "ArrowUp") keyboard.up = false
+    if (event.key === "ArrowDown") keyboard.down = false
+
+    if (event.key === "d") keyboard.right = false
+    if (event.key === "q") keyboard.left = false
+    if (event.key === "z") keyboard.up = false
+    if (event.key === "s") keyboard.down = false
+  })
+
+  document.addEventListener("keydown", (event) => {
+    if (game?.gameInterval) {
+      if (event.key === "ArrowRight") keyboard.right = true
+      if (event.key === "ArrowLeft") keyboard.left = true
+      if (event.key === "ArrowUp") keyboard.up = true
+      if (event.key === "ArrowDown") keyboard.down = true
+
+      if (event.key === "d") keyboard.right = true
+      if (event.key === "q") keyboard.left = true
+      if (event.key === "z") keyboard.up = true
+      if (event.key === "s") keyboard.down = true
+    }
+  })

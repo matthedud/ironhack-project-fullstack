@@ -1,21 +1,24 @@
+import {gameLength} from './Constants.js'
 
-class Chronometer {
-  constructor(timeLeft= gameLength) {
+
+export  class Chronometer {
+  constructor( clock=null, timeLeft = gameLength) {
     this.timeLeft = timeLeft;
     this.currentTime = 0;
     this.intervalId = null;
+    this.clock = clock
   }
 
-  start(clock) {
+  start() {
     console.log('start');
     this.intervalId = setInterval(() => {
       this.timeLeft--;
       this.currentTime++
-      if (clock) {
+      if (this.clock) {
         const minutes = this.computeTwoDigitNumber(this.getMinutes());
         const seconds = this.computeTwoDigitNumber(this.getSeconds());
         const milliSeconds = this.computeTwoDigitNumber(this.getMilliSeconds());
-        this.printTime(clock, minutes, seconds, milliSeconds);
+        this.printTime(minutes, seconds, milliSeconds);
       }
     }, 10);// precision au centieme de second
   }
@@ -39,15 +42,9 @@ class Chronometer {
     clearInterval(this.intervalId);
   }
 
-  printTime(clock, minutes, seconds, milliSeconds) {
-    clock.textContent = `${minutes}:${seconds}:${milliSeconds}`
+  printTime(minutes, seconds, milliSeconds) {
+    this.clock.textContent = `${minutes}:${seconds}:${milliSeconds}`
   }
   
-  split() {
-    const minutes = this.computeTwoDigitNumber(this.getMinutes());
-    const secondes = this.computeTwoDigitNumber(this.getSeconds());
-    const milliSeconds = this.computeTwoDigitNumber(this.getMilliSeconds());
-    return `${minutes}:${secondes}:${milliSeconds}`;
-  }
-}
 
+}

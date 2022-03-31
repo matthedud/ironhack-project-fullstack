@@ -1,5 +1,5 @@
 
-class EndTImer {
+export class EndTImer {
   constructor(end) {
     this.end = end;
     this.intervalId = null;

@@ -1,10 +1,11 @@
-const mongoose = require("mongoose");
-const { Router } = require("express");
-const router = new Router();
-const Historic = require("../models/Historic.model");
-const Map = require("../models/Map.model");
-const User = require("../models/User.model");
-const isLoggedIn = require("../middleware/isLoggedIn");
+import mongoose from "mongoose"
+import { Router } from "express"
+import Historic from "../models/Historic.model.js"
+import Map from "../models/Map.model.js"
+import User from "../models/User.model.js"
+import isLoggedIn from "../middleware/isLoggedIn.js"
+
+const router = new Router()
 
 router.get("/userProfile", isLoggedIn, async (req, res) => {
   const mapPlayed = await Historic.find({ user: req.session.user._id });
@@ -29,4 +30,4 @@ router.get("/userProfile", isLoggedIn, async (req, res) => {
 
 // sort --> map
 
-module.exports = router;
+export default router;
