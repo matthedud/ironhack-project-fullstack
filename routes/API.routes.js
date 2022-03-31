@@ -4,6 +4,7 @@ import Map from "../models/Map.model.js"
 import Historic from "../models/Historic.model.js"
 import User from "../models/User.model.js"
 import {runGame} from "../scripts/rungame.js"
+import schedule from "node-schedule"
 
 const router = new Router();
 
@@ -12,10 +13,8 @@ router.get("/game", async (req, res, next) => {
     const map = await Map.findOne({ current: true, isPublic: true })
     const user = req.session?.user
     if (map) {
-      console.log('isMap');
       const timeElapse = new Date() - new Date(map.debut)
       if(timeElapse<map.gameDuration){
-        console.log('isTime');
         const historics = await Historic.find({ map: map._id }).populate('user')
         res.send({ map, historics, user })
         return
@@ -27,12 +26,13 @@ router.get("/game", async (req, res, next) => {
     }
     const newGrid = await Map.createMap()
     const newMap = await Map.create({ cells: newGrid})
-    const checkDate = new Date(newMap.debut) + newMap.gameDuration + 1000*60*5
-    const job = schedule.scheduleJob(checkDate, async function () {
-        try{ runGame(newMap) }
+    const checkDate = new Date()
+    checkDate.setSeconds(new Date(newMap.debut) + newMap.gameDuration/1000 + 120)
+    schedule.scheduleJob(checkDate, async function () {
+        try{
+           runGame(newMap) }
         catch (err){ console.log(err); }
     })
-    job()
     res.send({map:newMap, historics:[], user})
   } catch (error) {
     console.error(error);
@@ -45,7 +45,6 @@ router.get("/game/:id", async (req, res, next) => {
     const map = await Map.findById(req.params.id)
     const user = req.session?.user;
     if (map) {
-      console.log('got map');
       const timeElapse = new Date() - new Date(map.debut)
       if (timeElapse < map.gameDuration) {
         const historics = await Historic.find({ map: map._id })
@@ -56,7 +55,6 @@ router.get("/game/:id", async (req, res, next) => {
         await map.save()
       }
     }
-      console.log('create Map');
       const newGrid = await Map.createMap()
     const newMap = await Map.create({ cells: newGrid})
     res.send({map:newMap, historics:[], user})
