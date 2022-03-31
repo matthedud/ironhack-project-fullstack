@@ -1,26 +1,20 @@
+import { Bullet } from "./Bullet.class.js"
+import { colors, floorValue, endValue, startValue, wallValue, playerSize } from "./Constants.js"
 
-//--------------------------DIMENTIONS-----------
-const canvasHeight = Math.floor(window.innerHeight*0.85)
-const canvasWidth = Math.floor(window.innerWidth*0.9)
-const viewColumnNum = Math.floor(10*canvasWidth/canvasHeight)
-const viewLineNum = 10
-const cellWidth = Math.floor(canvasWidth / viewColumnNum)
-const cellheight = Math.floor(canvasHeight / viewLineNum)
-//---------------------------------------------
-
-
-class Game {
+export class Game {
   constructor(
     id,
     grid2D = [],
     player = {},
     historic = [],
     recordRate = 100,
-    historicBulletServer = []
+    historicBulletServer = [],
+    isServer = false,
+    sendGame
   ) {
     this.id = id
     this.grid2D = grid2D
-    this.chronometer = new Chronometer()
+
     this.gameInterval = null
     this.frameRate = 30
     this.bullets = []
@@ -31,40 +25,43 @@ class Game {
     this.historic = historic
     this.ranking = []
     this.recordRate = recordRate
+    this.isServer = isServer
+    this.sendGame = sendGame
+    this.dimention = null
+    this.chronometer = null
   }
-
-  drawMaze() {
-    const xOffset = this.player.position.x - viewColumnNum / 2
-    const yOffset = this.player.position.y - viewLineNum / 2
-    for (let y = 0; y < viewLineNum + 1; y++) {
-      for (let x = 0; x < viewColumnNum + 1; x++) {
+  drawMaze(ctx) {
+    const xOffset = this.player.position.x - this.dimention.viewColumnNum / 2
+    const yOffset = this.player.position.y - this.dimention.viewLineNum / 2
+    for (let y = 0; y < this.dimention.viewLineNum + 1; y++) {
+      for (let x = 0; x < this.dimention.viewColumnNum + 1; x++) {
         const lineInd = Math.floor(y + yOffset)
         const cellInd = Math.floor(x + xOffset)
         const canvasIndX = x - (this.player.position.x % 1)
         const canvasIndY = y - (this.player.position.y % 1)
-        this.drawCell(cellInd, lineInd, canvasIndX, canvasIndY)
+        this.drawCell(ctx, cellInd, lineInd, canvasIndX, canvasIndY)
       }
     }
-    this.player.draw()
+    this.player.draw(ctx)
     const ind = this.getHistoricInd()
     this.historic.forEach((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]
       if (coord) {
         if (this.isInView(Number(coord.x), Number(coord.y), this.player.position)) {
-          this.drawOtherPlayer(Number(coord.x) - xOffset, Number(coord.y) - yOffset)
+          this.drawOtherPlayer(ctx, Number(coord.x) - xOffset, Number(coord.y) - yOffset)
         }
         this.checkVictory({ ...otherPlayer, position: coord })
       }
     })
     this.bullets.forEach((bullet) => {
       if (this.isInView(bullet.position.x, bullet.position.y, this.player.position)) {
-        bullet.draw(xOffset, yOffset)
+        bullet.draw(ctx, xOffset, yOffset, this.dimention.cellWidth, this.dimention.cellheight)
       }
     })
-    this.drawBulletCount()
+    this.drawBulletCount(ctx)
   }
 
-  drawCell(cellInd, lineInd, canvasIndX, canvasIndY) {
+  drawCell(ctx, cellInd, lineInd, canvasIndX, canvasIndY) {
     if (this.isWall(cellInd, lineInd)) {
       ctx.fillStyle = colors.wall
     } else {
@@ -80,22 +77,22 @@ class Game {
           break
       }
     }
-    const x = canvasIndX * cellWidth + canvasWidth / 2 - canvasWidth / 2
-    const y = canvasIndY * cellheight
+    const x = canvasIndX * this.dimention.cellWidth + this.dimention.canvasWidth / 2 - this.dimention.canvasWidth / 2
+    const y = canvasIndY * this.dimention.cellheight
     ctx.beginPath()
-    ctx.fillRect(x, y, cellWidth, cellheight)
+    ctx.fillRect(x, y, this.dimention.cellWidth, this.dimention.cellheight)
   }
 
-  drawBulletCount(){
+  drawBulletCount(ctx) {
     ctx.fillStyle = "white"
     ctx.font = "48px serif"
-		ctx.fillText(this.player.bullets, 10, 50)
+    ctx.fillText(this.player.bullets, 10, 50)
   }
 
   //-----------------------------------------------------
-  drawMazeBIG() {
-    const cellWidth = canvasWidth / this.grid2D[0].length
-    const cellheight = canvasHeight / this.grid2D.length
+  drawMazeBIG(context) {
+    const cellWidth = this.dimention.canvasWidth / this.grid2D[0].length
+    const cellheight = this.dimention.canvasHeight / this.grid2D.length
     this.grid2D.forEach((line, lineInd) => {
       line.forEach((cell, cellInd) => {
         this.drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight)
@@ -106,46 +103,54 @@ class Game {
     this.historic.forEach((otherPlayer) => {
       const coord = otherPlayer.playerMove[ind]
       if (coord) {
-        this.player.drawBIG(Number(coord.x), Number(coord.y), cellWidth, cellheight)
+        this.player.drawBIG(context, Number(coord.x), Number(coord.y), cellWidth, cellheight)
       }
     })
   }
-  drawCellBIG(cell, cellInd, lineInd, cellWidth, cellheight) {
-    switch (cell) {
-      case wallValue:
-        context.fillStyle = colors.wall
-        break
-      case floorValue:
-        context.fillStyle = colors.floor
-        break
-      case startValue:
-        context.fillStyle = colors.start
-        break
-      case endValue:
-        context.fillStyle = colors.end
-        break
+  drawCellBIG(context, cell, cellInd, lineInd, cellWidth, cellheight) {
+    if (context) {
+      switch (cell) {
+        case wallValue:
+          context.fillStyle = colors.wall
+          break
+        case floorValue:
+          context.fillStyle = colors.floor
+          break
+        case startValue:
+          context.fillStyle = colors.start
+          break
+        case endValue:
+          context.fillStyle = colors.end
+          break
+      }
+      const x = cellInd * cellWidth + this.dimention.canvasWidth / 2 - this.dimention.canvasWidth / 2
+      const y = lineInd * cellheight
+      context.beginPath()
+      context.fillRect(x, y, cellWidth, cellheight)
     }
-    const x = cellInd * cellWidth + canvasWidth / 2 - canvasWidth / 2
-    const y = lineInd * cellheight
-    context.beginPath()
-    context.fillRect(x, y, cellWidth, cellheight)
   }
   //-----------------------------------------------------
 
   isInView(x, y, playerPosition) {
     return (
-      x > playerPosition.x - viewColumnNum / 2 &&
-      x < playerPosition.x + viewColumnNum / 2 &&
-      y > playerPosition.y - viewLineNum / 2 &&
-      y < playerPosition.y + viewLineNum / 2
+      x > playerPosition.x - this.dimention.viewColumnNum / 2 &&
+      x < playerPosition.x + this.dimention.viewColumnNum / 2 &&
+      y > playerPosition.y - this.dimention.viewLineNum / 2 &&
+      y < playerPosition.y + this.dimention.viewLineNum / 2
     )
   }
 
-  drawOtherPlayer(x, y) {
-    const playerWidth = playerSize * cellWidth
+  drawOtherPlayer(ctx, x, y) {
+    const playerWidth = playerSize * this.dimention.cellWidth
     ctx.fillStyle = colors.playerGost
     ctx.beginPath()
-    ctx.arc(x * cellWidth, y * cellheight, playerWidth, 0, 2 * Math.PI)
+    ctx.arc(
+      x * this.dimention.cellWidth,
+      y * this.dimention.cellheight,
+      playerWidth,
+      0,
+      2 * Math.PI
+    )
     ctx.closePath()
     ctx.fill()
   }
@@ -179,24 +184,30 @@ class Game {
       )
     })
     if (deadPlayerInd > -1) {
-      const rankInd = this.ranking.findIndex(el=>el.playerIND===this.historic[deadPlayerInd].playerIND)
-      if(rankInd>-1)this.ranking.splice(rankInd, 1)
+      const rankInd = this.ranking.findIndex(
+        (el) => el.playerIND === this.historic[deadPlayerInd].playerIND
+      )
+      if (rankInd > -1) this.ranking.splice(rankInd, 1)
       this.historic.splice(deadPlayerInd, 1)
       return true
     }
     return false
   }
 
-  runGameLoop() {
-    this.chronometer.start(clockEl)
-    this.player.startLogs(this.recordRate)
-    this.player.startMove(this)
+  runGameLoop(ctx, context) {
+    this.chronometer.start()
+    if (!this.isServer) {
+      this.player.startLogs(this.recordRate)
+      this.player.startMove(this)
+    }
     this.gameInterval = setInterval(() => {
-      this.checkBulletHistory()
-      this.clearCanvas()
-      this.drawMazeBIG()
-      this.drawMaze()
-      this.player.newCoord()
+      if (!this.isServer) {
+        this.clearCanvas(ctx)
+        // this.drawMazeBIG(context)
+        this.drawMaze(ctx)
+      }
+        console.log("game running")
+        this.checkBulletHistory()
       this.checkEndGame()
     }, this.frameRate)
   }
@@ -223,14 +234,16 @@ class Game {
     }
   }
 
-  clearCanvas() {
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+  clearCanvas(ctx) {
+    ctx.clearRect(0, 0, this.dimention.canvasWidth, this.dimention.canvasHeight)
   }
 
   pauseGame() {
+    if (!this.isServer) {
+      this.player.stopLogs()
+      this.player.stopMove()
+    }
     this.chronometer.stop()
-    this.player.stopLogs()
-    this.player.stopMove()
     clearInterval(this.gameInterval)
     this.gameInterval = null
   }
@@ -257,25 +270,29 @@ class Game {
     }
   }
   checkEndGame() {
-    if (this.chronometer.timeLeft < 0) 
-      this.endGame()
+    if (this.chronometer.timeLeft < 0) this.endGame()
   }
 
-  async endGame(){
+  async endGame() {
     this.pauseGame()
-    const historic = {
-      playerIND: this.player.playerIND,
-      user: this.player.user,
-      playerName: this.player.name,
-      map: this.id,
-      playerMove: this.player.logs,
-    }
-    const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
-    try {
-        const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
-        await gameAPI.sendGame({ historic, ranking, historicBullets: bullets })
-    } catch (error) {
-      console.log({ error })
+    console.log("game ENd")
+    const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
+    if (!this.isServer) {
+      const historic = {
+        playerIND: this.player.playerIND,
+        user: this.player.user,
+        playerName: this.player.name,
+        map: this.id,
+        playerMove: this.player.logs,
+      }
+      const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
+      try {
+        await this.sendGame({ historic, ranking, historicBullets: bullets })
+      } catch (error) {
+        console.log({ error })
+      }
+    } else {
+      this.sendGame(ranking, this.id)
     }
   }
 }

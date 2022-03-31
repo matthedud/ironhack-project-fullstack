@@ -1,15 +1,22 @@
 
-class APIHandler {
-    constructor() {
-      this.BASE_URL =  window.location.origin+'/API'
-    }
-    async getGame() {
+
+  export class APIHandler {
+    async getGame(id) {
       try {
-        const response = await axios({
-          method: "GET",
-          url: "/game",
-          baseURL: this.BASE_URL,
-        })
+        let response
+        if(id!=='' && id!==undefined){
+          response = await axios({
+            method: "GET",
+            url: "/game/"+id,
+            baseURL:  window.location.origin+'/API',
+          })
+        }else{
+          response = await axios({
+            method: "GET",
+            url: "/game",
+            baseURL:  window.location.origin+'/API',
+          })
+        }
         return response.data
       } catch (err) {console.log({err})}
     }
@@ -19,7 +26,7 @@ class APIHandler {
         const response = await axios({
           method: "POST",
           url: "/game",
-          baseURL: this.BASE_URL,
+          baseURL: window.location.origin+'/API',
           data: { historic, ranking, historicBullets }
         })
         openModal(response.data)
@@ -31,11 +38,13 @@ class APIHandler {
         const response = await axios({
           method: "POST",
           url: "/map",
-          baseURL: this.BASE_URL,
+          baseURL: window.location.origin+'/API',
           data: { mapToSend }
         })
         window.location.href = '/game'+response.data
       } catch (err) {console.log({err})}     
     }
   }
+
+
   

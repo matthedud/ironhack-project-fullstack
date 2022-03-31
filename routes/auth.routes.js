@@ -1,14 +1,15 @@
-const mongoose = require("mongoose");
-const { Router } = require("express");
-const router = new Router();
+import mongoose from "mongoose"
+import { Router } from "express"
 
-const User = require("../models/User.model");
+import User from "../models/User.model.js"
 
-const isLoggedOut = require("../middleware/isLoggedOut");
-const isLoggedIn = require("../middleware/isLoggedIn");
+import isLoggedOut from "../middleware/isLoggedOut.js"
+import isLoggedIn from "../middleware/isLoggedIn.js"
 
-const bcryptjs = require("bcryptjs");
+import bcryptjs from "bcryptjs"
+
 const saltRounds = 10;
+const router = new Router();
 
 //////// SIGN UP /////////
 router.get("/signup", isLoggedOut, (req, res) => res.render("auth/signup"));
@@ -100,4 +101,4 @@ router.get("/logout", isLoggedIn, (req, res, next) => {
   });
 });
 
-module.exports = router;
+export default router;

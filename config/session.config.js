@@ -1,12 +1,10 @@
-const session = require("express-session");
+import session from "express-session"
 
-const MongoStore = require("connect-mongo");
-
-const mongoose = require("mongoose");
+import MongoStore from "connect-mongo"
 
 // since we are going to USE this middleware in the app.js,
 // let's export it and have it receive a parameter
-module.exports = (app) => {
+const run = (app) => {
   // <== app is just a placeholder here
   // but will become a real "app" in the app.js
   // when this file gets imported/required there
@@ -34,3 +32,5 @@ module.exports = (app) => {
     })
   );
 };
+
+export default run

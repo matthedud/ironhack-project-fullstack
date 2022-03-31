@@ -1,5 +1,5 @@
 
-class EndTImer {
+export class EndTImer {
   constructor(end) {
     this.end = end;
     this.intervalId = null;
@@ -36,3 +36,4 @@ class EndTImer {
     clock.textContent = `${minutes}:${seconds}`
   }
 }
+

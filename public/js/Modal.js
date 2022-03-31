@@ -21,8 +21,8 @@ function openModal(ranking) {
 }
 
 function closeModal() {
-  modal.style.display = "none"
-  window.location.href = "/game"
+  modal.style.display = "none";
+  window.location.reload()
 }
 
 // When the user clicks on <span> (x), close the modal

@@ -1,6 +1,8 @@
-const { Schema, model } = require("mongoose");
+import mongoose from "mongoose"
+const Schema = mongoose.Schema
+const model = mongoose.model
 
-const coordinateSchema = require('./Coordinate.model')
+import coordinateSchema  from './Coordinate.model.js'
 
 const historicBulletsSchema = new Schema({
   playerIND:{
@@ -11,4 +13,4 @@ const historicBulletsSchema = new Schema({
   position:coordinateSchema,
 });
 
-module.exports = historicBulletsSchema;
+export default  historicBulletsSchema;

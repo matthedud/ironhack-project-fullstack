@@ -1,23 +1,19 @@
-const playerSize = 0.15
-let moveSpeed = 0.1
+import {Bullet} from './Bullet.class.js'
+import {playerSize, moveSpeed} from './Constants.js'
 
-class Player {
+
+export class Player {
   constructor({playerIND, name, user}) {
     this.playerIND = playerIND
     this.user = user?.id
     this.name = name
     this.position = { x: 0, y: 0, direction: 0 }
-    this.keyboard = new KeyBoard()
+    this.keyboard = null
     this.logs = []
     this.logInterval = null
     this.canShoot = true
     this.bullets = 10
     this.color='red'
-
-    document.addEventListener("click", (event) => {
-      const direction = this.pointToAngle(event.offsetX, event.offsetY)
-      this.shoot(direction)
-    })
 
     this.moveInterval = null
     this.moveRate = 30
@@ -32,29 +28,29 @@ class Player {
       const y =	this.position.y + Math.sin(direction* Math.PI / 180) * playerSize
       const bulletData ={
         playerIND: this.id,
-        id: game.nextBulletId,
+        id: this.game.nextBulletId,
         position: { x,y, direction },
-        time: game.chronometer.currentTime,
+        time: this.game.chronometer.currentTime,
       }
       const newBullet = new Bullet(bulletData)
-      game.bullets.push(newBullet)
-      game.newHistoricBullet.push(bulletData)
-      game.nextBulletId++
+      this.game.bullets.push(newBullet)
+      this.game.newHistoricBullet.push(bulletData)
+      this.game.nextBulletId++
       this.bullets--
-      newBullet.move(game)
+      newBullet.move(this.game)
       this.canShoot = false
       setTimeout(() => (this.canShoot = true), this.reloadTime)
     }
   }
 
-  draw() {
+  draw(ctx) {
     // draw circle for player
-    const playerWidth = playerSize * cellWidth
+    const playerWidth = playerSize * this.game.dimention.cellWidth
     ctx.fillStyle = this.color
     ctx.beginPath()
     ctx.arc(
-      canvasWidth / 2 ,
-      canvasHeight / 2 ,
+      this.game.dimention.canvasWidth / 2 ,
+      this.game.dimention.canvasHeight / 2 ,
       playerWidth,
       0,
       2 * Math.PI
@@ -83,13 +79,13 @@ class Player {
     return { x: newx, y: newy }
   }
 
-  startMove(game) {
+  startMove() {
     this.moveInterval = setInterval(() => {
       const { x, y } = this.newCoord()
-      if (!game.isWall(x, y)) {
+      if (!this.game.isWall(x, y)) {
         this.position.x = x
         this.position.y = y
-        game.checkVictory(this)
+        this.game.checkVictory(this)
       }
     }, this.moveRate)
   }
@@ -104,13 +100,13 @@ class Player {
   }
 
   pointToAngle(x, y) {
-    let deltaX = x - canvasWidth / 2
-    let deltaY = canvasHeight / 2 - y
+    let deltaX = x - this.game.dimention.canvasWidth / 2
+    let deltaY = this.game.dimention.canvasHeight / 2 - y
     let result = Math.floor(Math.atan2(deltaY, deltaX) * (180 / Math.PI))
     return result < 0 ? -result : 360 - result
   }
 
-  drawBIG(x, y, cellWidth, cellheight) {
+  drawBIG(context, x, y, cellWidth, cellheight) {
     context.fillStyle = "red"
     context.strokeStyle = "green"
     context.beginPath()

@@ -1,9 +1,10 @@
-const router = require("express").Router();
-const express = require('express');
-const Ranking = require("../models/Historic.model")
-const Map = require("../models/Map.model")
-const Historic = require("../models/Historic.model")
-const isLoggedIn = require("../middleware/isLoggedIn")
+import {Router} from "express"
+import Ranking from "../models/Historic.model.js"
+import Map from "../models/Map.model.js"
+import Historic from "../models/Historic.model.js"
+import isLoggedIn from "../middleware/isLoggedIn.js"
+
+const router = new Router();
 
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -41,21 +42,8 @@ router.get("/game", async (req, res, next) => {
 });
 
 router.get("/game/:id", async (req, res, next) => {
-    try {
-        const map = await Map.findById(req.params.id)
-        
-        // if(map){
-        //     const historics = await Historic.find({map: map._id})
-        //     res.render("game", {map, historics})
-        // }else{
-        //     // const newGrid = Map.createMap()
-        //     const newMap = await Map.create()
-        //     res.render("game", {map:newMap, historics:[]})
-        // }
-    } catch (error) {
-        console.error(error)
-        next(error)
-    }
+    const id = req.params.id
+    res.render("game",{id})
 });
 
 router.post("/game", async (req, res, next) => {//END-GAME
@@ -69,4 +57,4 @@ router.post("/game", async (req, res, next) => {//END-GAME
     }
 });
 
-module.exports = router;
+export default router;
