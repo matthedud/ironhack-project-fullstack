@@ -10,7 +10,7 @@ function openModal() {
 
 function closeModal() {
   modal.style.display = "none";
-  window.location.href = "/game"
+  window.location.reload()
 }
 
 // When the user clicks on <span> (x), close the modal

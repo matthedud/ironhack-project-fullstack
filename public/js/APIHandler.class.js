@@ -3,13 +3,22 @@ class APIHandler {
     constructor() {
       this.BASE_URL =  window.location.origin+'/API'
     }
-    async getGame() {
+    async getGame(id) {
       try {
-        const response = await axios({
-          method: "GET",
-          url: "/game",
-          baseURL: this.BASE_URL,
-        })
+        let response
+        if(id!=='' && id!==undefined){
+          response = await axios({
+            method: "GET",
+            url: "/game/"+id,
+            baseURL: this.BASE_URL,
+          })
+        }else{
+          response = await axios({
+            method: "GET",
+            url: "/game",
+            baseURL: this.BASE_URL,
+          })
+        }
         return response.data
       } catch (err) {console.log({err})}
     }
