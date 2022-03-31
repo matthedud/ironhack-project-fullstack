@@ -6,21 +6,8 @@ import {Chronometer} from "../public/js/modules/Chronometer.class.js"
 import Map from '../models/Map.model.js'
 import Historic from '../models/Historic.model.js'
 
-const MONGO_URI = process.env.MONGODB_URI;
-
-mongoose
-  .connect('mongodb+srv://matthedud:FSBN5YY7U4DUv1qh@cluster0.yyotl.mongodb.net/Projec2?retryWrites=true&w=majority')
-  .then((x) => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
-  })
-  .catch((err) => {
-    console.error("Error connecting to mongo: ", err);
-  });
-
-
-async function runGame() {
+export async function runGame(mapFetch) {
     try{
-        const mapFetch = await Map.findOne({ current: true, isPublic: true })
         const historics = await Historic.find({ map: mapFetch._id })
         if(mapFetch){
             const player = new Player({ playerIND: "N", name: "Joe" })
@@ -48,21 +35,23 @@ async function runGame() {
 
 async function getRanking(ranking, id){
     try{
-      console.log('ranking', ranking);
       await Map.findByIdAndUpdate(
         id,
-        { ranking },
-        { new: true }
+        { ranking, isValidated:true },
       )
     } catch (err){
         console.log(err);
     }
-
 }
 
-const job = schedule.scheduleJob("* * 1 * *", function () {
-    runGame()
+const job = schedule.scheduleJob("* 30 * * *", async function () {
+    const nonValidatedMap = Map.find({isValidated:false})
+    for(const mapToValide of nonValidatedMap){
+      try{
+        runGame(mapToValide)
+      }
+      catch (err){
+        console.log(err);
+      }
+    }
   })
-  
-
-runGame()
