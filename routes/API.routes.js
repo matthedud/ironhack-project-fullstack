@@ -3,6 +3,7 @@ import isLoggedIn from "../middleware/isLoggedIn.js"
 import Map from "../models/Map.model.js"
 import Historic from "../models/Historic.model.js"
 import User from "../models/User.model.js"
+import {runGame} from "../scripts/rungame.js"
 
 const router = new Router();
 
@@ -26,6 +27,12 @@ router.get("/game", async (req, res, next) => {
     }
     const newGrid = await Map.createMap()
     const newMap = await Map.create({ cells: newGrid})
+    const checkDate = new Date(newMap.debut) + newMap.gameDuration + 1000*60*5
+    const job = schedule.scheduleJob(checkDate, async function () {
+        try{ runGame(newMap) }
+        catch (err){ console.log(err); }
+    })
+    job()
     res.send({map:newMap, historics:[], user})
   } catch (error) {
     console.error(error);

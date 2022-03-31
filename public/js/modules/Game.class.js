@@ -48,7 +48,12 @@ export class Game {
       const coord = otherPlayer.playerMove[ind]
       if (coord) {
         if (this.isInView(Number(coord.x), Number(coord.y), this.player.position)) {
-          this.drawOtherPlayer(ctx, Number(coord.x) - xOffset, Number(coord.y) - yOffset, otherPlayer)
+          this.drawOtherPlayer(
+            ctx,
+            Number(coord.x) - xOffset,
+            Number(coord.y) - yOffset,
+            otherPlayer
+          )
         }
         this.checkVictory({ ...otherPlayer, position: coord })
       }
@@ -77,7 +82,10 @@ export class Game {
           break
       }
     }
-    const x = canvasIndX * this.dimention.cellWidth + this.dimention.canvasWidth / 2 - this.dimention.canvasWidth / 2
+    const x =
+      canvasIndX * this.dimention.cellWidth +
+      this.dimention.canvasWidth / 2 -
+      this.dimention.canvasWidth / 2
     const y = canvasIndY * this.dimention.cellheight
     ctx.beginPath()
     ctx.fillRect(x, y, this.dimention.cellWidth, this.dimention.cellheight)
@@ -123,7 +131,8 @@ export class Game {
           context.fillStyle = colors.end
           break
       }
-      const x = cellInd * cellWidth + this.dimention.canvasWidth / 2 - this.dimention.canvasWidth / 2
+      const x =
+        cellInd * cellWidth + this.dimention.canvasWidth / 2 - this.dimention.canvasWidth / 2
       const y = lineInd * cellheight
       context.beginPath()
       context.fillRect(x, y, cellWidth, cellheight)
@@ -142,7 +151,7 @@ export class Game {
 
   drawOtherPlayer(ctx, x, y, player) {
     const playerWidth = playerSize * this.dimention.cellWidth
-    ctx.fillStyle = player?.user?.color?player.user.color: colors.playerGost
+    ctx.fillStyle = player?.user?.color ? player.user.color : colors.playerGost
     ctx.beginPath()
     ctx.arc(
       x * this.dimention.cellWidth,
@@ -206,7 +215,7 @@ export class Game {
         // this.drawMazeBIG(context)
         this.drawMaze(ctx)
       }
-        this.checkBulletHistory()
+      this.checkBulletHistory()
       this.checkEndGame()
     }, this.frameRate)
   }
@@ -224,7 +233,12 @@ export class Game {
         (el) => Number(el.playerIND) === Number(lastBullet.playerIND)
       )
       if (playerAlive) {
-        const newBullet = new Bullet({ ...lastBullet, id: lastBullet._id })
+        const newBullet = new Bullet({
+          position: lastBullet.position,
+          id: lastBullet._id,
+          playerIND: lastBullet.playerIND,
+          time:lastBullet.time
+        })
         this.bullets.push(newBullet)
         newBullet.move(this)
       }
@@ -274,25 +288,27 @@ export class Game {
 
   async endGame() {
     this.pauseGame()
-    console.log({player:this.player});
+    console.log({ player: this.player })
     const ranking = this.ranking.map((el) => ({ name: el.name, user: el.userID, time: el.time }))
-    if (!this.isServer) {
-      const historic = {
-        playerIND: this.player.playerIND,
-        user: this.player.user,
-        playerName: this.player.name,
-        map: this.id,
-        playerMove: this.player.logs,
-      }
-      const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
-      console.log({bullets});
-      try {
+    try {
+      if (!this.isServer) {
+        const historic = {
+          playerIND: this.player.playerIND,
+          user: this.player.user,
+          playerName: this.player.name,
+          map: this.id,
+          playerMove: this.player.logs,
+        }
+        const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
+        console.log({ bullets })
+
         await this.sendGame({ historic, ranking, historicBullets: bullets })
-      } catch (error) {
-        console.log({ error })
+      } else {
+        await this.sendGame(ranking, this.id)
       }
-    } else {
-      this.sendGame(ranking, this.id)
+    } catch (error) {
+      console.log({ error })
     }
+    console.log("game end")
   }
 }
