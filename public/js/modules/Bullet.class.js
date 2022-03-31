@@ -11,7 +11,7 @@ export class Bullet {
 	draw(ctx, xOffset, yOffset, cellWidth, cellheight) {
 		ctx.fillStyle = colors.bullet
 		ctx.beginPath()
-		ctx.arc((this.position.x - xOffset)*cellWidth,(this.position.y - yOffset)*cellheight, bulletSize, 0, 2 * Math.PI)
+		ctx.arc((this.position.x - xOffset)*cellWidth,(this.position.y - yOffset)*cellheight, bulletSize*3, 0, 2 * Math.PI)
 		ctx.closePath()
 		ctx.fill()
 		ctx.stroke()

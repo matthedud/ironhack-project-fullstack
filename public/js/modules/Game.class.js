@@ -206,7 +206,6 @@ export class Game {
         // this.drawMazeBIG(context)
         this.drawMaze(ctx)
       }
-        console.log("game running")
         this.checkBulletHistory()
       this.checkEndGame()
     }, this.frameRate)
@@ -286,6 +285,7 @@ export class Game {
         playerMove: this.player.logs,
       }
       const bullets = [...this.newHistoricBullet].sort((a, b) => b.time - a.time)
+      console.log({bullets});
       try {
         await this.sendGame({ historic, ranking, historicBullets: bullets })
       } catch (error) {
