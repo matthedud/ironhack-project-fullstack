@@ -34,18 +34,22 @@ router.get("/game/:id", async (req, res, next) => {
     const map = await Map.findById(req.params.id)
     const user = req.session?.user;
     if (map) {
+      console.log('got map');
       const timeElapse = new Date() - new Date(map.debut)
       if(timeElapse<map.gameDuration){
-        const historics = await Historic.find({ map: map._id })
+      console.log('time good');
+      const historics = await Historic.find({ map: map._id })
         res.send({ map, historics, user })
         return
       }
       else{
-        map.current = false
+      console.log('time no good');
+      map.current = false
         await map.save()
       }
     }
-    const newGrid = await Map.createMap()
+      console.log('create Map');
+      const newGrid = await Map.createMap()
     const newMap = await Map.create({ cells: newGrid})
     res.send({map:newMap, historics:[], user})
   } catch (error) {
@@ -58,8 +62,8 @@ router.post("/game", async (req, res, next) => {
   const {historic, ranking, historicBullets} = req.body
   try {
      await Historic.create( historic)
-     await Map.findByIdAndUpdate(historic.map, {ranking, historicBullets})
-     res.send('cool')
+     const savedMap = await Map.findByIdAndUpdate(historic.map, {ranking, historicBullets}, {new:true})
+     res.send(savedMap.ranking)
   } catch (error) {
     console.error(error);
     next(error);

@@ -1,8 +1,11 @@
-<h1>PARADOX</h1>
+{{!-- <h1>PARADOX</h1> --}}
 <div class="gamePage">
-    <div id="clock"> 00:00:00 </div>
+  <div class="game-groupe-top">
     <button id="start" {{#with id}}value="{{this}}"{{/with}}>start</button>
-    <button id="end">end</button>
+    <div id="clock"> 00:00:00 </div>
+    <div id="clock-end-game"> 00:00:00 </div>
+    {{!-- <button id="end">end</button> --}}
+  </div>
     <div id="game"></div>
     {{!-- <div id="gameBig"></div> --}}
 </div>
@@ -10,13 +13,17 @@
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
+    <h2>GAME OVER</h2>
+    <h4>Ranking so far:</h4>
+    <ol id="ranking-list">
+    </ol>
   </div>
 </div>
 
 <script src="/js/Modal.js"></script>
 <script src="/js/keyboard.js"></script>
 <script src="/js/Chronometer.class.js"></script>
+<script src="/js/EndTImer.class.js"></script>
 <script src="/js/Player.class.js"></script>
 <script src="/js/Bullet.class.js"></script>
 <script src="/js/GameClass.js"></script>
