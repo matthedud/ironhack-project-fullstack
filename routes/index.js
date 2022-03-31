@@ -1,9 +1,10 @@
-const router = require("express").Router();
-const express = require('express');
-const Ranking = require("../models/Historic.model")
-const Map = require("../models/Map.model")
-const Historic = require("../models/Historic.model")
-const isLoggedIn = require("../middleware/isLoggedIn")
+import {Router} from "express"
+import Ranking from "../models/Historic.model.js"
+import Map from "../models/Map.model.js"
+import Historic from "../models/Historic.model.js"
+import isLoggedIn from "../middleware/isLoggedIn.js"
+
+const router = new Router();
 
 router.get("/", (req, res, next) => {
   res.render("index");
@@ -69,4 +70,4 @@ router.post("/game", async (req, res, next) => {//END-GAME
     }
 });
 
-module.exports = router;
+export default router;

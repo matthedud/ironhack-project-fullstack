@@ -1,29 +1,45 @@
-require("dotenv/config");
-require("./db");
-const hbs = require("hbs");
+import "dotenv/config"
+import mongoose from "mongoose"
+import hbs from "hbs"
+import express from "express"
+import "./error-handling/index.js"
+import './db/index.js'
 
-const express = require("express");
-const app = express();
+import index from './routes/index.js'
+import authRouter from "./routes/auth.routes.js"
+import APIROuter from "./routes/API.routes.js"
+import userRouter from "./routes/user.routes.js"
 
-require("./config")(app);
-require("./config/session.config")(app);
+import conf from "./config/index.js"
+import sessionConf from  "./config/session.config.js"
+
+const app = express()
+conf(app)
+sessionConf(app)
 
 const projectName = "lab-express-basic-auth";
+// const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost/project2";
+
+// mongoose
+//   .connect(MONGO_URI)
+//   .then((x) => {
+//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
+//   })
+//   .catch((err) => {
+//     console.error("Error connecting to mongo: ", err);
+//   });
+
 const capitalized = (string) =>
   string[0].toUpperCase() + string.slice(1).toLowerCase();
 
 app.locals.title = `${capitalized(projectName)}- Generated with Ironlauncher`;
 
-const index = require("./routes/index");
-const authRouter = require("./routes/auth.routes");
-const APIROuter = require("./routes/API.routes");
-const userRouter = require("./routes/user.routes");
+
 app.use("/auth/", authRouter);
 app.use("/API/", APIROuter);
 app.use("/user/", userRouter);
 app.use("/", index);
 
-require("./error-handling")(app);
 
 const PORT = process.env.PORT || 3000;
 
@@ -31,4 +47,4 @@ app.listen(PORT, () => {
   console.log(`Server listening on port http://localhost:${PORT}`);
 });
 
-module.exports = app;
+export default app;

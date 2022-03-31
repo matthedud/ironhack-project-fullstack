@@ -1,6 +1,9 @@
-const { Schema, model } = require("mongoose");
+import mongoose from "mongoose"
+const Schema = mongoose.Schema
+const model = mongoose.model
 
-const coordonateSchema = require('./Coordinate.model')
+
+import coordonateSchema from './Coordinate.model.js'
 
 const playerSchema = new Schema({
   name:{
@@ -16,4 +19,4 @@ const playerSchema = new Schema({
 
 const Player = model("Player", playerSchema);
 
-module.exports = Player;
+export default Player;

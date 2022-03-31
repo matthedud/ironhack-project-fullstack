@@ -169,8 +169,8 @@ const maze = [
 	]}
 ]
 
-  require('../db/index.js');
-  const Map = require('../models/Map.model.js')
+  import '../db/index.js'
+  import Map from '../models/Map.model.js'
 
   const seedDB = async () => {
 	// maze.forEach(async (item)=>{
