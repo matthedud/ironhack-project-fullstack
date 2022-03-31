@@ -1,9 +1,11 @@
+
 import mongoose from "mongoose"
 import { Router } from "express"
 import Historic from "../models/Historic.model.js"
 import Map from "../models/Map.model.js"
 import User from "../models/User.model.js"
 import isLoggedIn from "../middleware/isLoggedIn.js"
+import isLoggedOut from "../middleware/isLoggedOut.js"
 
 const router = new Router()
 

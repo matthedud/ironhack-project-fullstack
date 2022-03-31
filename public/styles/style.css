@@ -1,7 +1,6 @@
 @font-face {
   font-family: "jaapokkisubtractregularRg";
-  src: url("/styles/src/jaapokkisubtract-regular-webfont.woff2") format("woff2"),
-    url("/styles/src/jaapokkisubtract-regular-webfont.woff") format("woff");
+  src: url("/styles/src/jaapokkisubtract-regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -28,14 +27,8 @@ html {
   margin: 0;
 }
 
-main{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#form {
-  margin: 1.1rem;
+main {
+  margin-top: 80px;
 }
 
 /* nav {
@@ -107,13 +100,12 @@ h3 {
 }
 
 .gamePage {
-  margin-left: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
 }
-.game-groupe-top{
+.game-groupe-top {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -386,4 +378,76 @@ header:hover:after {
   font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
+}
+
+/* #title-size #i {
+  font-size: 100px;
+  animation: size 4s infinite 1s;
+}
+@keyframes size {
+  0% {
+    font-size: 100px;
+  }
+  20% {
+    font-size: 80px;
+  }
+  40% {
+    font-size: 60px;
+  }
+  60% {
+    font-size: 40px;
+  }
+  80% {
+    font-size: 20px;
+  }
+  100% {
+    font-size: 0px;
+  }
+} */
+
+table.HOF-table {
+  width: 100%;
+  background-color: #000000;
+  border-collapse: collapse;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+  color: #ffffff;
+}
+
+table.HOF-table td,
+table.HOF-table th {
+  border-width: 2px;
+  border-color: #fafafa;
+  border-style: solid;
+  padding: 14px;
+}
+
+table.HOF-table thead {
+  background-color: #b31919;
+}
+
+/* .parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image1 {
+  margin-top: 150px;
+  top: 0;
+  left: 0;
+  border: none;
+  height: 350px;
+  width: 350px;
+  margin-left: 505px;
+} */
+
+.error {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin: 300px;
 }
