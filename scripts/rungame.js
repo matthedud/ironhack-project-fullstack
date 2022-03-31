@@ -1,5 +1,3 @@
-import mongoose from "mongoose"
-import schedule from "node-schedule"
 import {Game} from "../public/js/modules/Game.class.js"
 import {Player} from "../public/js/modules/Player.class.js"
 import {Chronometer} from "../public/js/modules/Chronometer.class.js"
@@ -37,21 +35,10 @@ async function getRanking(ranking, id){
     try{
       await Map.findByIdAndUpdate(
         id,
-        { ranking, isValidated:true },
+        { ranking },
       )
     } catch (err){
         console.log(err);
     }
 }
 
-const job = schedule.scheduleJob("* 30 * * *", async function () {
-    const nonValidatedMap = Map.find({isValidated:false})
-    for(const mapToValide of nonValidatedMap){
-      try{
-        runGame(mapToValide)
-      }
-      catch (err){
-        console.log(err);
-      }
-    }
-  })
