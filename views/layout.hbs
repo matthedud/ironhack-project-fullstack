@@ -39,10 +39,31 @@
 	</head>
 	<body>
 		<header>
+			<div>PARADOX</div>
+		</header>
+
+		
+    <input type="checkbox" id="active">
+    <label for="active" class="menu-btn"><span></span></label>
+    <label for="active" class="close"></label>
+    <div class="wrapper">
+      <ul>
+		<li><a href="/game">PLAY</a></li>
+		<li><a href="/instructions">INSTRUCTIONS</a></li>
+		<li><a href="/editor">CUSTOM</a></li>
+		<li><a href="/hof">HOF</a></li>
+		<li><a href="/user/userProfile">USER {{ user.username }}</a></li>
+		<li><a href="/auth/signup">REGISTER</a></li>	
+        <li><a href="/auth/login">LOG IN</a></li>	
+		<li><a href="/auth/logout">LOG OUT</a></li>	
+	  </ul>
+	</div>
+
+		{{!-- <header>
 			<nav>
 				<div class="nav-left">
 				<a href="/">HOME</a>
-        <a href="/editor">EDITOR</a>
+        		<a href="/editor">EDITOR</a>
 				<a href="/game">GAME</a>
 				<a href="/hof">HOF</a>
 				<a href="/instructions">INSTRUCTIONS</a>
@@ -54,7 +75,7 @@
 				<a href="/auth/logout">LOG OUT</a>
 				</div>
 			</nav>
-		</header>
+		</header> --}}
 		<main>
 			{{{body}}}
 		</main>

@@ -1,4 +1,4 @@
-<div id="form">
+{{!-- <div id="form">
   <h2>Log in</h2>
   <form action="/auth/login" method="post">
  
@@ -10,7 +10,19 @@
       <input type="password" name="password" placeholder="********" value="ironhack" />
     </label>
  
-    <button type="submit">Log in</button>
+    <button type="submit">Log in</button> --}}
+
+    <form class="form-login">
+        <h3>Login</h3>
+
+        <label class="label-login" for="username">Username</label>
+        <input class="input-login" type="text" placeholder="Email" id="username" value="Anakin">
+
+        <label class="label-login" for="password">Password</label>
+        <input class="input-login" type="password" placeholder="Password" id="password" value="skywalker">
+
+        <button class="login-btn">Log In</button>
+    </form>
  
     {{#if errorMessage}}
       <p class="error">{{errorMessage}}</p>
