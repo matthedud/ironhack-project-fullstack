@@ -9,18 +9,22 @@ router.get("/game", async (req, res, next) => {
     const map = await Map.findOne({ current: true, isPublic:true });
     const user = req.session?.user;
     if (map) {
+      console.log('got map');
       const timeElapse = new Date() - new Date(map.debut)
       if(timeElapse<map.gameDuration){
-        const historics = await Historic.find({ map: map._id })
+      console.log('time good');
+      const historics = await Historic.find({ map: map._id })
         res.send({ map, historics, user })
         return
       }
       else{
-        map.current = false
+      console.log('time no good');
+      map.current = false
         await map.save()
       }
     }
-    const newGrid = await Map.createMap()
+      console.log('create Map');
+      const newGrid = await Map.createMap()
     const newMap = await Map.create({ cells: newGrid})
     res.send({map:newMap, historics:[], user})
   } catch (error) {
