@@ -1,4 +1,6 @@
 import { colors, floorValue, endValue, startValue, wallValue} from "./modules/Constants.js"
+import { APIHandler } from "./modules/APIHandler.class.js"
+const gameAPI = new APIHandler()
 
 window.onload = () => {
     const canvas = document.getElementById('canvas')
