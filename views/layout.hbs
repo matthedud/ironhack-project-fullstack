@@ -7,41 +7,17 @@
   		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script type="module"></script>
 		<title>Paradox</title>
-		{{!-- <link
-			rel="apple-touch-icon"
-			sizes="180x180"
-			href="Image/ICON/favicon_package_v0.16/apple-touch-icon.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			href="Image/ICON/favicon_package_v0.16/favicon-32x32.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="16x16"
-			href="Image/ICON/favicon_package_v0.16/favicon-16x16.png"
-		/>
-		<link
-			rel="manifest"
-			href="Image/ICON/favicon_package_v0.16/site.webmanifest"
-		/>
-		<link
-			rel="mask-icon"
-			href="Image/ICON/favicon_package_v0.16/safari-pinned-tab.svg"
-			color="#5bbad5"
-		/> --}}
 		<meta name="msapplication-TileColor" content="#da532c" />
 		<meta name="theme-color" content="#ffffff" />
 		<link rel="stylesheet" href="/styles/style.css" />
 		<link rel="stylesheet" href="/styles/modal.css" />
 	</head>
 	<body>
+		<a href="/game">
 		<header id="title-size">
 			<div id="i" >PARADOX</div>
 		</header>
+		</a>
 
 		
     <input type="checkbox" id="active">
@@ -53,10 +29,14 @@
 		<li><a href="/instructions">INSTRUCTIONS</a></li>
 		<li><a href="/editor">CUSTOM</a></li>
 		<li><a href="/hof">HOF</a></li>
-		<li><a class="userUpperCase" href="/user/userProfile">{{ user.username }}</a></li>
-		<li><a href="/auth/signup">REGISTER</a></li>	
-        <li><a href="/auth/login">LOG IN</a></li>	
-		<li><a href="/auth/logout">LOG OUT</a></li>	
+		{{#if user}}
+			<li><a class="userUpperCase" href="/user/userProfile">{{ user.username }}</a></li>
+			<li><a href="/auth/logout">LOG OUT</a></li>	
+			{{else}}
+				<li><a href="/auth/signup">REGISTER</a></li>	
+				<li><a href="/auth/login">LOG IN</a></li>
+		{{/if}}
+		
 	  </ul>
 	</div>
 		<main>
