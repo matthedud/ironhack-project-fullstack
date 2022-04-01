@@ -1,14 +1,18 @@
 {{#with mapSize}}
     <p><span id="mapWidth">{{width}}</span> : <span id="mapHeight">{{height}}</span> </p>
-
-    <button id="wall">Wall</button>
-    <button id="floor">Floor</button>
-    <button id="start">Start</button>
-    <button id="end">End</button>
-    <div>
+    <p class="editorButtons">
+      <button id="wall">Wall</button>
+      <button id="floor">Floor</button>
+      <button id="startZone">Start</button>
+      <button id="endZone">End</button>
+    </p>
+    <div id="editorContainer">
      <canvas id="canvas" height="600" width="{{canvasWidth}}"></canvas>
     </div>
-    <button id="save">Save</button>
+    <p class="editorButtons">
+     <button id="save">Save</button>
+     <button id="reset">Reset</button>
+    </p>
 {{/with}}
 
 <script>
@@ -16,7 +20,6 @@ window.addEventListener('load', function () {
   document.querySelector('#title-size').style.fontSize = "18px"
   document.querySelector('#title-size').style.top = "1.7%"
   document.querySelector('main').style.marginTop = "0px"
-  //document.querySelector('#i').innerHTML = ""
 });
 </script>
 <script type="module" src="/js/MapEditor.js"></script>
