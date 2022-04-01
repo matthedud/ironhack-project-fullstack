@@ -1,7 +1,6 @@
 import {Router} from "express"
-import Ranking from "../models/Historic.model.js"
-import Map from "../models/Map.model.js"
 import Historic from "../models/Historic.model.js"
+import Map from "../models/Map.model.js"
 import isLoggedIn from "../middleware/isLoggedIn.js"
 
 const router = new Router();
@@ -12,8 +11,17 @@ router.get("/", (req, res, next) => {
 
 router.get("/hof", async (req, res, next) => {//Hall of Fame
     try {
-        const rankings = await Ranking.find()
-        res.render("hof", {rankings})
+        const mapFetch = await Map.find({isPublic:true}).sort({'debut': 'desc'})
+        const maps = []
+        for(const map of mapFetch){
+            const playedGame = await Historic.find({map:map._id}).count()
+            maps.push({
+                debut: new Date(map.debut).toLocaleString(),
+                playedGame,
+                ranking: map.ranking.map(el=>({name:el.name, time: el.time/100}))
+            })
+        }
+        res.render("hof", {maps})
     } catch (error) {
         console.error(error)
         next(error)
