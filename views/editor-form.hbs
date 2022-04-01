@@ -1,13 +1,11 @@
-<h1>Map editor setup</h1>
-<h2>Pick your map size (around 20?)</h2>
-<form action='/editor' method='post'>
-  <div>
-    <label for='width'>Width</label>
-    <input type='number' name='width' id='width' />
-  </div>
-  <div>
-    <label for='height'>Height</label>
-    <input type='number' name='height' id='height' />
-  </div>
-  <input type='submit' value='Create' />
+
+<form class="form-login" action='/editor' method='post'>
+<h3>Map Size</h3>
+    <label class="label-login" for='width'>Width</label>
+    <input class="input-login" type='number' name='width' id='width' />
+
+    <label class="label-login" for='height'>Height</label>
+    <input class="input-login" type='number' name='height' id='height' />
+
+  <input class="login-btn" type='submit' value='Create' />
 </form>
