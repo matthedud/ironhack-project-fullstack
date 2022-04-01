@@ -10,7 +10,30 @@
     <input id = "time" name = "time" type="number">
 </form> --}}
 
-<div>
+<div class="table-container">
+  <table class="HOF-table">
+    <thead>
+      <th>Date</th>
+      <th>Ranking</th>
+      <th>Played Game</th>
+    </thead>
+    <tbody>
+      {{#each maps}}
+        <tr>
+          <td class="table-cell-centered">{{debut}}</td>
+          <td><ol>
+            {{#each ranking}}
+              <li>{{name}} - {{time}}s</li>
+            {{/each}}
+          </ol></td>
+          <td class="table-cell-centered">{{playedGame}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+
+{{!-- <div>
   <table class="HOF-table">
   <thead>
     <tr>
@@ -96,4 +119,4 @@
 </table>
 </div>
 
-
+ --}}
