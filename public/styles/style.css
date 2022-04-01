@@ -219,7 +219,7 @@ header {
   top: 12%;
   transform: translate(-50%, -50%);
   color: #cf1b1b;
-  font-size: 10px;
+  font-size: 100px;
   letter-spacing: 8px;
   cursor: pointer;
 }

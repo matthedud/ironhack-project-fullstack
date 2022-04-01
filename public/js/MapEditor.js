@@ -1,3 +1,5 @@
+import { colors, floorValue, endValue, startValue, wallValue} from "./modules/Constants.js"
+
 window.onload = () => {
     const canvas = document.getElementById('canvas')
     const canvasHeight = canvas.height

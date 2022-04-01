@@ -11,4 +11,12 @@
     <button id="save">Save</button>
 {{/with}}
 
-<script src="/js/MapEditor.js"></script>
+<script>
+window.addEventListener('load', function () {
+  document.querySelector('#title-size').style.fontSize = "18px"
+  document.querySelector('#title-size').style.top = "1.7%"
+  document.querySelector('main').style.marginTop = "0px"
+  //document.querySelector('#i').innerHTML = ""
+});
+</script>
+<script type="module" src="/js/MapEditor.js"></script>
