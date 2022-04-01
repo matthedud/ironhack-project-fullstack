@@ -88,7 +88,7 @@ export class Game {
       this.dimention.canvasWidth / 2
     const y = canvasIndY * this.dimention.cellheight
     ctx.beginPath()
-    ctx.fillRect(x, y, this.dimention.cellWidth, this.dimention.cellheight)
+    ctx.fillRect(x-1, y-1, this.dimention.cellWidth+1, this.dimention.cellheight+1)
   }
 
   drawBulletCount(ctx) {
@@ -268,26 +268,30 @@ export class Game {
   }
 
   placePlayer() {
+    const startList = []
     for (let y = 0; y < this.grid2D.length; y++) {
       let x = this.grid2D[y].indexOf(10)
       if (x > -1) {
-        this.player.position = { y: y + 0.5, x: x + 0.5 }
+        startList.push({y, x})
       }
     }
+    const positionInd = Math.floor(Math.random()*startList.length)
+    const position = startList[positionInd]
+    this.player.position = { y: position.y + 0.5, x: position.x + 0.5 }
   }
   isEndZone(x, y) {
     try {
       return this.grid2D[Math.floor(y)][Math.floor(x)] === endValue
     } catch (err) {
-      console.log(err);
+      console.log(err)
       return false
     }
   }
   isStartZone(x, y) {
     try {
       return this.grid2D[Math.floor(y)][Math.floor(x)] === startValue
-    } catch (err){
-      console.log(err);
+    } catch (err) {
+      console.log(err)
       return false
     }
   }
@@ -328,6 +332,7 @@ export class Game {
     } catch (error) {
       console.log({ error })
     }
+    console.log("mapID", this.id)
     console.log("game end")
   }
 }
