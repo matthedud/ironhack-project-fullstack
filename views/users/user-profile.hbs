@@ -5,7 +5,6 @@
         <h4>PERSONAL INFO</h4>
         <li>Username: {{user.username}}</li>
         <li>Email : {{user.email}}</li>
-        <li>Password : *********</li>
         <br>
     </div>
     <div>
@@ -13,8 +12,9 @@
         <li>Number of games played: {{numberOfGames}}</li>
         <li>Number of map played: {{mapPlayedNumber}}</li>
     </div>
-    <div>
-      <button><a href="/game">PLAY</a></button>
-    </div>
   </div>
+     <div>
+      <button><a id="user-btn" href="/game">PLAY</a></button>
+      <button><a id="hof-btn1" href="/game">HOF</a></button>
+    </div>
 {{/if}}
