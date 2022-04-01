@@ -28,6 +28,65 @@ html {
   margin: 0;
 }
 
+/* title */
+
+header {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  transform: translate(-50%, -50%);
+  color: rgb(160, 16, 16);
+  font-size: 70px;
+
+  letter-spacing: 8px;
+  cursor: pointer;
+}
+
+header::before {
+  content: "PARADOX";
+  position: absolute;
+  color: transparent;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0,
+    transparent 2px,
+    white 2px,
+    white 4px
+  );
+  -webkit-background-clip: text;
+  top: 0px;
+  left: 0;
+  z-index: -1;
+  transition: 1s;
+}
+
+header::after {
+  content: "PARADOX";
+  position: absolute;
+  color: transparent;
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 2px,
+    white 2px,
+    white 4px
+  );
+  -webkit-background-clip: text;
+  top: 0px;
+  left: 0px;
+  transition: 1s;
+}
+
+header:hover:before {
+  top: 10px;
+  left: 10px;
+}
+
+header:hover:after {
+  top: -10px;
+  left: -10px;
+}
+
 /* INSTRUCTIONS */
 
 .parag {
@@ -79,7 +138,7 @@ br {
   border-style: none;
 }
 
-a {
+.red {
   font-size: 22px;
   padding: 10px 50px;
   text-decoration: none;
@@ -104,7 +163,9 @@ h2 {
 }
 
 h3 {
-  color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  font-size: 32px;
 }
 
 .hof {
@@ -156,23 +217,54 @@ h3 {
 .user {
   height: 350px;
   width: 350px;
-  background-color: rgba(255, 255, 255, 0.13);
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 55%;
+  top: 50%;
   left: 50%;
   border-radius: 10px;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: #000;
+  background-color: #3f0d12;
+  background-image: linear-gradient(315deg, #3f0d12 0%, #a71d31 74%);
   box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
   padding: 50px 40px;
+  color: white;
 }
 
-.personal-info {
-  top: 55%;
-  left: 50%;
-
+h4 {
+  display: flex;
+  justify-content: center;
 }
+
+#user-btn {
+  font-size: 20px;
+  border-radius: 19px;
+  background: #2A3C4E;
+  box-shadow:  -20px -20px 60px #243342,
+               20px 20px 60px #30455a;
+  position: absolute;
+  top: 43%;
+  left: 70%;
+  padding: 20px;
+  color: whitesmoke;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#hof-btn1 {
+  font-size: 20px;
+  border-radius: 19px;
+  background: #18212C;
+  box-shadow:  -21px -21px 42px #141c25,
+               21px 21px 42px #1c2633;
+  position: absolute;
+  top: 43%;
+  right: 70.5%;
+  padding: 20px;
+  color: whitesmoke;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 
 /* SIDE-BAR */
 
@@ -288,65 +380,6 @@ input[type="checkbox"] {
   text-align: center;
   width: 100%;
   color: #202020;
-}
-
-/* title */
-
-header {
-  position: absolute;
-  left: 50%;
-  top: 8%;
-  transform: translate(-50%, -50%);
-  color: rgb(160, 16, 16);
-  font-size: 70px;
-
-  letter-spacing: 8px;
-  cursor: pointer;
-}
-
-header::before {
-  content: "PARADOX";
-  position: absolute;
-  color: transparent;
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent 0,
-    transparent 2px,
-    white 2px,
-    white 4px
-  );
-  -webkit-background-clip: text;
-  top: 0px;
-  left: 0;
-  z-index: -1;
-  transition: 1s;
-}
-
-header::after {
-  content: "PARADOX";
-  position: absolute;
-  color: transparent;
-  background-image: repeating-linear-gradient(
-    135deg,
-    transparent 0,
-    transparent 2px,
-    white 2px,
-    white 4px
-  );
-  -webkit-background-clip: text;
-  top: 0px;
-  left: 0px;
-  transition: 1s;
-}
-
-header:hover:before {
-  top: 10px;
-  left: 10px;
-}
-
-header:hover:after {
-  top: -10px;
-  left: -10px;
 }
 
 /* login/signup */
