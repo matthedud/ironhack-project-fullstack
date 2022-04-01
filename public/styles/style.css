@@ -37,9 +37,7 @@ header {
   transform: translate(-50%, -50%);
   color: rgb(160, 16, 16);
   font-size: 70px;
-
   letter-spacing: 8px;
-  cursor: pointer;
 }
 
 header::before {
@@ -147,7 +145,7 @@ br {
 }
 
 .userUpperCase {
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 h1 {
@@ -187,6 +185,7 @@ h3 {
   flex-direction: row;
   justify-content: space-evenly;
   width: 100%;
+  margin: 10px 0;
 }
 #start {
   border-radius: 19px;
@@ -342,7 +341,7 @@ h4 {
 }
 .wrapper ul {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   height: 80%;
   transform: translate(-50%, -50%);
