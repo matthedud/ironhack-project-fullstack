@@ -23,8 +23,15 @@ window.onload = () => {
     document.getElementById('canvas').addEventListener("mousemove",(event) =>{
         if(isClicking){
             map[Math.floor(event.offsetY/cellHeight)][Math.floor(event.offsetX/cellWidth)]=activeButton
+            ctx.clearRect(0,0,canvasWidth,canvasHeight)
             drawMap()
         }
+    })
+
+    document.getElementById('canvas').addEventListener("click",(event) =>{
+        map[Math.floor(event.offsetY/cellHeight)][Math.floor(event.offsetX/cellWidth)]=activeButton
+        ctx.clearRect(0,0,canvasWidth,canvasHeight)
+        drawMap()
     })
 
     document.getElementById('canvas').addEventListener("mousedown", function (event) {
@@ -43,12 +50,22 @@ window.onload = () => {
         activeButton = floorValue
     })
 
-    document.getElementById('start').addEventListener("click", ()=>{
+    document.getElementById('startZone').addEventListener("click", ()=>{
         activeButton = startValue
     })
 
-    document.getElementById('end').addEventListener("click", ()=>{
+    document.getElementById('endZone').addEventListener("click", ()=>{
         activeButton = endValue
+    })
+
+    document.getElementById('reset').addEventListener("click", ()=>{
+        ctx.clearRect(0,0,canvasWidth,canvasHeight)
+        for(let i = 0; i < mapHeight; i++){
+            for(let j = 0; j < mapWidth ; j++){
+                map[i][j]=wallValue
+            }
+        }
+        drawMap()
     })
 
     document.getElementById('save').addEventListener("click", async ()=>{
@@ -61,7 +78,7 @@ window.onload = () => {
                 console.log({ error })
             }
         }else{
-            alert("You are only allowed to have ONE end zone and you need at least ONE start zone")
+            alert("You are only allowed to have one end zone and you need at least one start zone")
         }
     })
 

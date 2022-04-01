@@ -505,3 +505,7 @@ table.HOF-table thead {
   color: rgb(160, 16, 16);
   text-shadow: 2px 2px 2px #000000;
 }
+
+#editorContainer,.editorButtons{
+  text-align: center;
+}
