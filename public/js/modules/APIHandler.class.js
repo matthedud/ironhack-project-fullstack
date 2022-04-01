@@ -1,4 +1,4 @@
-
+import {openModal} from '../Modal.js'
 
   export class APIHandler {
     async getGame(id) {
