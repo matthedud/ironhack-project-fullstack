@@ -20,8 +20,7 @@ router.post("/signup", isLoggedOut, async (req, res, next) => {
 
     if (!username || !email || !password) {
       res.render("auth/signup", {
-        errorMessage:
-          "All fields are mandatory. Please provide your username, email and password.",
+        errorMessage: "Please provide your username, email and password.",
       });
       return;
     } else {
@@ -69,7 +68,7 @@ router.post("/login", isLoggedOut, async (req, res, next) => {
       const userNameExist = await User.findOne({ username: username });
       if (!userNameExist) {
         res.render("auth/login", {
-          errorMessage: "Oups this user doesn't exist :(",
+          errorMessage: "Oups! This user doesn't exist",
         });
       } else {
         const correctPassword = await bcryptjs.compare(
@@ -78,10 +77,10 @@ router.post("/login", isLoggedOut, async (req, res, next) => {
         );
         if (correctPassword) {
           req.session.user = userNameExist;
-          res.redirect("/user/userProfile");
+          res.redirect("/game");
         } else {
           res.render("auth/login", {
-            errorMessage: "Oups wrong password :(",
+            errorMessage: "Wrong password",
           });
         }
       }
@@ -94,7 +93,7 @@ router.post("/login", isLoggedOut, async (req, res, next) => {
 router.get("/logout", isLoggedIn, (req, res, next) => {
   req.session.destroy((err) => {
     if (err) next(err);
-    res.redirect("/");
+    res.redirect("/game");
   });
 });
 

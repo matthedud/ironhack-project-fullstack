@@ -9,15 +9,16 @@
   font-family: "jaapokkisubtractregularRg";
 }
 
+canvas {
+  border: solid;
+  border-radius: 10px;
+}
+
 body,
 html {
   /* background-color: rgb(36, 39, 41); */
-  /* background-color: #000000;
-  background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%); */
-
-  background-color: #2d3436;
-  background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
-
+  background-color: #000000;
+  background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%);
   background-repeat: no-repeat;
   background-size: cover;
   color: rgb(160, 16, 16);
@@ -27,25 +28,73 @@ html {
   margin: 0;
 }
 
-main {
-  margin-top: 20px;
-}
+/* INSTRUCTIONS */
 
 .parag {
   text-align: justify;
-  line-height: 40px;
+  line-height: 30px;
   font-size: 18px;
-  color: whitesmoke;
-  -webkit-text-stroke: 0.3px #fa544d;
+  color: white;
+}
+
+.red-instruction {
+  font-size: 30px;
+  line-height: 30px;
+  margin-top: 1px;
+  color: white;
+  text-align: center;
+}
+
+.container {
+  height: 510px;
+  width: 350px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 56%;
+  left: 50%;
+  border-radius: 10px;
+  background: #000;
+  background-color: #3f0d12;
+  background-image: linear-gradient(315deg, #3f0d12 0%, #a71d31 74%);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 40px;
+}
+
+br {
+  content: "";
+  margin: 2em;
+  display: block;
+  font-size: 24%;
+}
+
+.play {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+#button {
+  background-color: white;
+  border-radius: 10px;
+  border-style: none;
+}
+
+a {
+  font-size: 22px;
+  padding: 10px 50px;
+  text-decoration: none;
+  color: rgb(160, 16, 16);
+  border-radius: 10px;
+}
+
+.userUpperCase {
+  text-transform: capitalize;
 }
 
 h1 {
-  margin-left: 18px;
-  padding-top: 0.8rem;
-  padding-bottom: 0.8rem;
-  /* color: whitesmoke; */
-  /* text-shadow: 2px 2px #fa544d; */
-  /* -webkit-text-stroke: 0.5px #fa544d; */
+  margin-top: 120px;
+  display: flex;
+  justify-content: center;
 }
 
 h2 {
@@ -63,22 +112,14 @@ h3 {
   box-sizing: border-box;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  background-color: black;
-  border-radius: 10px;
-  width: 90%;
-  /* height: 580px; */
-  padding: 20px;
-  /* margin-left: 10px; */
-}
+/* GAME */
 
 .gamePage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
+  /* background-image: url('/images/paradoxZ.png'); */
 }
 .game-groupe-top {
   display: flex;
@@ -86,17 +127,59 @@ h3 {
   justify-content: space-evenly;
   width: 100%;
 }
-
-canvas {
-  border: solid;
+#start {
+  border-radius: 19px;
+  background: #2c3d4e;
+  box-shadow: -7px 7px 13px #253442, 7px -7px 13px #33465a;
+  position: absolute;
+  top: 30%;
+  left: 93.5%;
+  padding: 20px;
+  color: rgb(160, 16, 16);
+  cursor: pointer;
 }
 
-/* sidebar */
+#end {
+  border-radius: 19px;
+  background: #2c3d4e;
+  box-shadow: -7px 7px 13px #253442, 7px -7px 13px #33465a;
+  position: absolute;
+  top: 50%;
+  left: 94%;
+  padding: 20px;
+  color: rgb(160, 16, 16);
+  cursor: pointer;
+}
+
+/* USER PAGE */
+
+.user {
+  height: 350px;
+  width: 350px;
+  background-color: rgba(255, 255, 255, 0.13);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 55%;
+  left: 50%;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 40px;
+}
+
+.personal-info {
+  top: 55%;
+  left: 50%;
+
+}
+
+/* SIDE-BAR */
 
 .wrapper {
+  z-index: 1;
   position: fixed;
   top: 0;
-  /*left: -100%;*/
   right: -110%;
   height: 100%;
   width: 15%;
@@ -106,19 +189,16 @@ canvas {
   transition: all 0.6s ease-in-out;
   transform: translateX(0);
   margin: 0;
-  -webkit-box-shadow: -9px 5px 15px 5px #000000;
-  box-shadow: -9px 5px 15px 5px #000000;
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
 }
 
 #active:checked ~ .wrapper {
-  /*left: 0;*/
   right: 0;
 }
 .menu-btn {
   position: absolute;
   z-index: 2;
   right: 20px;
-  /*left: 20px; */
   top: 20px;
   height: 50px;
   width: 50px;
@@ -127,7 +207,6 @@ canvas {
   border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
-  /* color: #fff; */
   transition: all 0.3s ease-in-out;
 }
 .menu-btn span,
@@ -216,10 +295,11 @@ input[type="checkbox"] {
 header {
   position: absolute;
   left: 50%;
-  top: 12%;
+  top: 8%;
   transform: translate(-50%, -50%);
-  color: #cf1b1b;
-  font-size: 100px;
+  color: rgb(160, 16, 16);
+  font-size: 70px;
+
   letter-spacing: 8px;
   cursor: pointer;
 }
@@ -337,13 +417,33 @@ header:hover:after {
   padding-left: 10px;
   font-size: 14px;
   font-weight: 300;
+  cursor: pointer;
 }
+
+.color-label #color {
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  border-radius: 3px;
+  padding-left: 5px;
+  font-size: 14px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.player-color {
+  margin-top: 12px;
+}
+
 ::placeholder {
   color: #e5e5e5;
 }
+
 .login-btn,
 .signup-btn {
-  margin-top: 18px;
+  margin-top: 42px;
   width: 100%;
   background-color: #ffffff;
   color: #080710;
@@ -354,56 +454,26 @@ header:hover:after {
   cursor: pointer;
 }
 
-#color {
-  color: black;
-  border-radius: 3px;
-  padding-left: 8px;
-  margin-top: 10px;
-  cursor: pointer;
-}
+/* RANKING */
 
-#color option {
-  color: black;
-}
-
-/* #title-size #i {
-  font-size: 100px;
-  animation: size 4s infinite 1s;
-}
-@keyframes size {
-  0% {
-    font-size: 100px;
-  }
-  20% {
-    font-size: 80px;
-  }
-  40% {
-    font-size: 60px;
-  }
-  60% {
-    font-size: 40px;
-  }
-  80% {
-    font-size: 20px;
-  }
-  100% {
-    font-size: 0px;
-  }
+/* table {
+  border-radius: 10px;
+  padding: 30px;
 } */
 
 table.HOF-table {
   width: 100%;
-  background-color: #000000;
+  background-color: rgba(255, 255, 255, 0.13);
   border-collapse: collapse;
   border-width: 2px;
-  border-color: black;
+  border-radius: 10px;
   border-style: solid;
   color: #ffffff;
 }
 
 table.HOF-table td,
 table.HOF-table th {
-  border-width: 2px;
+  border-width: 1px;
   border-color: #fafafa;
   border-style: solid;
   padding: 14px;
@@ -432,20 +502,6 @@ table.HOF-table thead {
 .error {
   display: flex;
   justify-content: center;
-  align-items: center;
   color: rgb(160, 16, 16);
-}
-
-#start,
-#end {
-  color: white;
-  border-style: none;
-  border-radius: 2px;
-  background-color: rgb(160, 16, 16);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(172, 56, 56, 0.1);
-  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-  cursor: pointer;
-  padding: 0 40px;
-  margin-bottom: 7px;
+  text-shadow: 2px 2px 2px #000000;
 }

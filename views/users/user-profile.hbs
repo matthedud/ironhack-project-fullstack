@@ -1,17 +1,20 @@
 {{#if user}}
-  <h2>Welcome {{ user.username }} to your profile page!</h2>
-      <div>
-        <h3>PERSONAL INFO</h3>
+  <div class="user">
+      <h3>Welcome {{ user.username }}!</h3>
+      <div class="personal-info">
+        <h4>PERSONAL INFO</h4>
         <li>Username: {{user.username}}</li>
         <li>Email : {{user.email}}</li>
         <li>Password : *********</li>
         <br>
     </div>
     <div>
-      <h3>HISTORY</h3>
+      <h4>HISTORY</h4>
         <li>Number of games played: {{numberOfGames}}</li>
         <li>Number of map played: {{mapPlayedNumber}}</li>
     </div>
-{{else}}
-  <p>Still no logged in user, sorry!</p>
+    <div>
+      <button><a href="/game">PLAY</a></button>
+    </div>
+  </div>
 {{/if}}

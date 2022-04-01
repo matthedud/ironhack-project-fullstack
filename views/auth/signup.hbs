@@ -1,11 +1,6 @@
 <div>
   <form class="form-signup" action="#" method="post">
   <h3>Signup</h3>
-  <div class="parent">
-    {{#if errorMessage}}
-      <p class="error">{{errorMessage}}</p>
-    {{/if}}
-</div>
 
   <form action="/auth/signup" method="post">
 
@@ -18,24 +13,31 @@
     <label class="label-signup" for="password">Password</label>
     <input class="input-signup" type="password" placeholder="Password" id="password" name="password">
 
-    <label class="label-signup" for="color">Player Color</label>
-    <select id="color" name="color">
-      <option value="black">black</option>
-      <option value="silver">silver</option>
-      <option value="gray">gray</option>
-      <option value="white">white</option>
-      <option value="maroon">maroon</option>
-      <option value="red">red</option>
-      <option value="purple">purple</option>
-      <option value="fuchsia">fuchsia</option>
-      <option value="green">green</option>
-      <option value="lime">lime</option>
-      <option value="olive">olive</option>
-      <option value="yellow">yellow</option>
-      <option value="navy">navy</option>
-      <option value="blue">blue</option>
-      <option value="teal">teal</option>
-    </select>
+    <label class="color-label" for="color"><p class="player-color">Player Color</p>
+      <select id="color" name="color">
+      <option value="Red">Red</option>
+      <option value="black">Black</option>
+      <option value="silver">Silver</option>
+      <option value="gray">Gray</option>
+      <option value="white">White</option>
+      <option value="brown">Brown</option>
+      <option value="purple">Purple</option>
+      <option value="fuchsia">Fuchsia</option>
+      <option value="green">Green</option>
+      <option value="lime">Lime</option>
+      <option value="olive">Olive</option>
+      <option value="yellow">Yellow</option>
+      <option value="navy">Navy</option>
+      <option value="blue">Blue</option>
+      <option value="teal">Teal</option>
+    </select></label>
+   
   <button type="submit" class="signup-btn">Create an account</button>
+
+    <div class="parent">
+    {{#if errorMessage}}
+      <p class="error">{{errorMessage}}</p>
+    {{/if}}
+</div>
   </form> 
 </div>
