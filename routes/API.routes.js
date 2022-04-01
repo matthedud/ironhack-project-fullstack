@@ -64,17 +64,6 @@ router.get("/game/:id", async (req, res, next) => {
   }
 });
 
-router.post("/game", async (req, res, next) => {
-  const {historic, ranking, historicBullets} = req.body
-  try {
-     await Historic.create( historic)
-     const savedMap = await Map.findByIdAndUpdate(historic.map, {ranking, historicBullets}, {new:true})
-     res.send(savedMap.ranking)
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});   
 
 router.post("/game/:id", async (req, res, next) => {
   const {historic, ranking, historicBullets} = req.body
