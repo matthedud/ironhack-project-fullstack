@@ -21,6 +21,12 @@ export class Bullet {
 			this.position.x + Math.cos(this.position.direction* Math.PI / 180) * bulletVelocity
 		const newYposition =
 			this.position.y + Math.sin(this.position.direction* Math.PI / 180) * bulletVelocity
+		if(game.isStartZone(newXposition, newYposition) || game.isEndZone(newXposition, newYposition)  ){
+			const bulletIndex = game.bullets.findIndex(
+				(el) => (el.id = this.id)
+			)
+			game.bullets.splice(bulletIndex, 1)
+		}
         const player = game.isPlayer(newXposition, newYposition)
 		if (!player && !game.isWall(newXposition, newYposition)) {
 			this.position.x = newXposition
