@@ -4,6 +4,7 @@ import { EndTImer } from "./modules/EndTImer.class.js"
 import { APIHandler } from "./modules/APIHandler.class.js"
 import { KeyBoard } from "./modules/Keyboard.class.js"
 import { Chronometer } from "./modules/Chronometer.class.js"
+import { openGameModal, closeGameModal } from "./Modal.js"
 
 //--------------------------DIMENTIONS-----------
 export const canvasHeight = window?.innerHeight ? Math.floor(window?.innerHeight * 0.92) : 500
@@ -32,77 +33,84 @@ if(parentEl2) parentEl2.appendChild(canvas2)
 
 
 let game = null
+let gameFetch = null
 let endTimer = null
+export let player = null
 const gameAPI = new APIHandler()
-let player = null
 let keyboard = new KeyBoard()
 const clock = new Chronometer(document.getElementById("clock"))
 
 const startButton = document.getElementById("start")
 const endButton = document.getElementById("end")
-startButton.addEventListener("click", startGame)
+startButton.addEventListener("click", setupGame)
 endButton.addEventListener("click", endGame)
 
 
+const validateNameBtn = document.getElementById("name-validate")
+validateNameBtn.addEventListener("click", closeGameModal)
+// const cancelNameBtn = document.getElementById("name-cancel")
+// cancelNameBtn.addEventListener("click", closeGameModal)
 
-async function startGame(event) {
+
+
+
+async function setupGame(event) {
   event.preventDefault()
   startButton.disabled = true
-  let gameFetch
+
   if(event.target.value!==''){
     gameFetch = await gameAPI.getGame(event.target.value)
   }else{
     gameFetch = await gameAPI.getGame()
   }
-  let player
-  console.log('user', gameFetch?.user);
+  player = new Player({
+    playerIND: gameFetch?.historics?.length,
+  })
   if (gameFetch?.user?.username) {
-    player = new Player({
-      playerIND: gameFetch?.historics?.length,
-      name: gameFetch.user.username,
-      user: gameFetch.user,
-    })
-  } else {
-    const name = window.prompt("Enter Name", "Joe")
-    if (name) player = new Player({ playerIND: gameFetch?.historics?.length, name })
-    else {
-      player = null
-      startButton.disabled = false
-    }
+    player.name = gameFetch.user.username
+    player.user = gameFetch.user
+    startGame()
+  } else  openGameModal()
+}
+
+
+function setname(name){
+  player.name= name
+}
+
+export function startGame(){
+  console.log('player', player);
+  game = new Game(
+    gameFetch.map._id,
+    gameFetch.map.cells,
+    player,
+    gameFetch.historics,
+    gameFetch.map.recordRate,
+    gameFetch.map.historicBullets,
+    false,
+    gameAPI.sendGame
+  )
+  game.dimention = {
+    cellWidth,
+    cellheight,
+    viewColumnNum,
+    viewLineNum,
+    canvasHeight,
+    canvasWidth,
   }
-  if (player) {
-    game = new Game(
-      gameFetch.map._id,
-      gameFetch.map.cells,
-      player,
-      gameFetch.historics,
-      gameFetch.map.recordRate,
-      gameFetch.map.historicBullets,
-      false,
-      gameAPI.sendGame
-    )
-    game.dimention = {
-      cellWidth,
-      cellheight,
-      viewColumnNum,
-      viewLineNum,
-      canvasHeight,
-      canvasWidth,
-    }
-    player.game = game
-    player.keyboard = keyboard
-    const endTime = new Date(gameFetch.map.debut).getTime() + gameFetch.map.gameDuration
-    endTimer = new EndTImer(endTime)
-    document.addEventListener("click", (event) => {
-      console.log('here click');
-      const direction = player?.pointToAngle(event.offsetX, event.offsetY)
-      player?.shoot(direction)
-    })
-    endTimer.start(clockEndEl)
-    game.chronometer = clock
-    game.placePlayer()
-    game.runGameLoop(ctx, context)
-  }
+  player.game = game
+  player.keyboard = keyboard
+  const endTime = new Date(gameFetch.map.debut).getTime() + gameFetch.map.gameDuration
+  endTimer = new EndTImer(endTime)
+  document.addEventListener("click", (event) => {
+    console.log('here click');
+    const direction = player?.pointToAngle(event.offsetX, event.offsetY)
+    player?.shoot(direction)
+  })
+  endTimer.start(clockEndEl)
+  game.chronometer = clock
+  game.placePlayer()
+  game.runGameLoop(ctx, context)
 }
 
 function endGame() {

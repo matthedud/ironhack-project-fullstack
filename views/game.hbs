@@ -12,7 +12,7 @@
 
 <div id="myModal" class="modal">
   <div class="modal-content">
-    <span class="close-modal">&times;</span>
+    <span id="close-modal" class="close-modal">&times;</span>
     <h2>GAME OVER</h2>
     <div class="play-game-over">
     <button><a class="white" href="/game">PLAY AGAIN</a></button>
@@ -20,6 +20,18 @@
     {{!-- <h4>RANKING SO FAR</h4>
     <ol id="ranking-list">
     </ol> --}}
+  </div>
+</div>
+
+<div id="nameModal" class="modal">
+  <div class="modal-content">
+    <span id="close-name-modal" class="close-modal">&times;</span>
+    <h2>Type Name</h2>
+    <div class="name-form">
+      <input id="name-input" type="text" value="Joe">
+      <button id="name-validate">Good</button>
+      {{!-- <button id="name-cancel">Cancel</button> --}}
+    </div>
   </div>
 </div>
 
@@ -32,4 +44,4 @@ window.addEventListener('load', function () {
   //document.querySelector('#i').innerHTML = ""
 });
 </script>
-<script src="/js/Modal.js"></script>
+<script type="module" src="/js/Modal.js"></script>
