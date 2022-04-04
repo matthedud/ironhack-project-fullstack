@@ -126,10 +126,10 @@ function endGame() {
     if (event.key === "ArrowUp") keyboard.up = false
     if (event.key === "ArrowDown") keyboard.down = false
 
-    if (event.key === "d") keyboard.right = false
-    if (event.key === "q") keyboard.left = false
-    if (event.key === "z") keyboard.up = false
-    if (event.key === "s") keyboard.down = false
+    if (event.key.toUpperCase() === "D") keyboard.right = false
+    if (event.key.toUpperCase() === "Q") keyboard.left = false
+    if (event.key.toUpperCase() === "Z") keyboard.up = false
+    if (event.key.toUpperCase() === "S") keyboard.down = false
   })
 
   document.addEventListener("keydown", (event) => {
@@ -139,9 +139,9 @@ function endGame() {
       if (event.key === "ArrowUp") keyboard.up = true
       if (event.key === "ArrowDown") keyboard.down = true
 
-      if (event.key === "d") keyboard.right = true
-      if (event.key === "q") keyboard.left = true
-      if (event.key === "z") keyboard.up = true
-      if (event.key === "s") keyboard.down = true
+      if (event.key.toUpperCase() === "D") keyboard.right = true
+      if (event.key.toUpperCase() === "Q") keyboard.left = true
+      if (event.key.toUpperCase() === "Z") keyboard.up = true
+      if (event.key.toUpperCase() === "S") keyboard.down = true
     }
   })
